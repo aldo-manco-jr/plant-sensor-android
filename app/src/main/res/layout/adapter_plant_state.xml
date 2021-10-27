@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_profile_circle"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="0dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/layoutUserData_comment"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toRightOf="@id/image_profile_circle"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/plant_name_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:textColor="@color/black"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        style="@style/autoscroll"/>
+
+                    <TextView
+                        android:id="@+id/plant_type_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        style="@style/autoscroll"/>
+
+                    <TextView
+                        android:id="@+id/temperature_soil_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Unknown Location"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        style="@style/autoscroll"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
