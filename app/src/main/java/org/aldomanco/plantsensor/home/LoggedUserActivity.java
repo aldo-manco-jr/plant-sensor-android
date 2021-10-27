@@ -38,7 +38,6 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     private static String token;
     private static String usernameLoggedUser;
-    private static String idLoggedUser;
 
     private PlantStateFragment plantStateFragment = null;
     private WeatherFragment weatherFragment = null;
@@ -104,8 +103,8 @@ public class LoggedUserActivity extends AppCompatActivity {
             plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
 
             changeFragment(plantStateFragment);
-        } catch (Exception e) {
-        }
+
+        } catch (Exception e) { }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navbarListener =

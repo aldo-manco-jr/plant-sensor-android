@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 
@@ -32,7 +30,20 @@ public class PlantStateFragment extends Fragment {
 
     private static PlantStateFragment plantStateFragment;
 
-    public static PlantStateFragment getPeopleListFragment() {
+    private PlantModel plant;
+
+    private PlantStateModel relativeMoistureSoil;
+    private PlantStateModel relativeMoistureAir;
+    private PlantStateModel temperatureSoil;
+    private PlantStateModel temperatureAir;
+    private PlantStateModel lightIntensity;
+
+    private List<PlantStateModel> listPlantState;
+
+    //private final String basicUrlImage = "http://res.cloudinary.com/dfn8llckr/image/upload/v";
+    private final String basicUrlImage = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Lol_circle.png";
+
+    public static PlantStateFragment getPlantStateFragment() {
         return plantStateFragment;
     }
 
@@ -62,25 +73,6 @@ public class PlantStateFragment extends Fragment {
         getPlantStateList();
     }
 
-    /*Emitter.Listener updateUsersList = new Emitter.Listener() {
-
-        @Override
-        public void call(final Object... args) {
-            if (LoggedUserActivity.getLoggedUserActivity() != null) {
-                LoggedUserActivity.getLoggedUserActivity().runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        // quando un follow viene aggiunto/rimosso la socket avvisa del necessario aggiornmento
-                        //ProfileFragment.getProfileFragment().getAllUsersFragment().newGetAllUsers();
-                        //ProfileFragment.getProfileFragment().getProfileFollowingFragment(username).newGetAllUsers();
-                        //ProfileFragment.getProfileFragment().getProfileFollowersFragment(username).newGetAllUsers();
-                    }
-                });
-            }
-        }
-    };*/
-
     /**
      * Consente di recuperare tutti i post:
      * - streams: lista dei post dell'utente e dei suoi following
@@ -89,104 +81,32 @@ public class PlantStateFragment extends Fragment {
      */
     public void getPlantStateList() {
 
-        PlantStateModel p1 = new PlantStateModel(
+        plant = new PlantModel(
                 1,
                 "plant1",
                 "type1",
                 "isernia",
                 "italy",
                 "aldo",
-                3,
-                35,
-                12.3,
-                13.4,
-                35
-        );
-
-        PlantStateModel p2 = new PlantStateModel(
                 2,
-                "plant2",
-                "type2",
-                "isernia",
-                "italy",
-                "aldo",
-                4,
-                45,
-                13.3,
-                13.5,
-                31
+                30,
+                2.3,
+                4.3,
+                5
         );
 
-        PlantStateModel p3 = new PlantStateModel(
-                2,
-                "plant3",
-                "type3",
-                "isernia",
-                "italy",
-                "aldo",
-                4,
-                45,
-                13.43,
-                13.5,
-                31
-        );
+        temperatureAir = new PlantStateModel("Air Temperature", this.basicUrlImage, plant.getTemperatureAir(), "desc");
+        temperatureSoil = new PlantStateModel("Soil Temperature", this.basicUrlImage, plant.getTemperatureSoil(), "desc");
+        relativeMoistureAir = new PlantStateModel("Air Moisture", this.basicUrlImage, plant.getRelativeMoistureAir(), "desc");
+        relativeMoistureSoil = new PlantStateModel("Soil Moisture", this.basicUrlImage, plant.getRelativeMoistureSoil(), "desc");
+        lightIntensity = new PlantStateModel("Light Intensity", this.basicUrlImage, plant.getLightIntensity(), "desc");
 
-        PlantStateModel p4 = new PlantStateModel(
-                1,
-                "plant1",
-                "type1",
-                "isernia",
-                "italy",
-                "aldo",
-                3,
-                35,
-                12.3,
-                13.4,
-                35
-        );
-
-        PlantStateModel p5 = new PlantStateModel(
-                2,
-                "plant2",
-                "type2",
-                "isernia",
-                "italy",
-                "aldo",
-                4,
-                45,
-                13.3,
-                13.5,
-                31
-        );
-
-        PlantStateModel p6 = new PlantStateModel(
-                2,
-                "plant3",
-                "type3",
-                "isernia",
-                "italy",
-                "aldo",
-                4,
-                45,
-                13.43,
-                13.5,
-                31
-        );
-
-        List<PlantStateModel> listPlantState = new ArrayList<>();
-        listPlantState.add(p1);
-        listPlantState.add(p2);
-        listPlantState.add(p3);
-        listPlantState.add(p4);
-        listPlantState.add(p5);
-        listPlantState.add(p6);
-        listPlantState.add(p6);
-
-        for (PlantStateModel tmp:
-             listPlantState) {
-
-            Toast.makeText(getActivity(), tmp.getPlantName(), Toast.LENGTH_LONG).show();
-        }
+        listPlantState = new ArrayList<>();
+        listPlantState.add(temperatureAir);
+        listPlantState.add(temperatureSoil);
+        listPlantState.add(relativeMoistureAir);
+        listPlantState.add(relativeMoistureSoil);
+        listPlantState.add(lightIntensity);
 
         initializeRecyclerView(listPlantState);
 
@@ -210,15 +130,11 @@ public class PlantStateFragment extends Fragment {
         }*/
     }
 
-
-    /**
-     * Viene collegata la recycler view con l'adapter
-     */
     private void initializeRecyclerView(List<PlantStateModel> listPlantState) {
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_plant_state);
 
-        if (adapter == null){
+        if (adapter == null) {
             adapter = new PlantStateAdapter(listPlantState);
         }
 

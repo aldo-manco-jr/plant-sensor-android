@@ -3,9 +3,6 @@ package org.aldomanco.plantsensor.plant_state;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +23,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.PlantStateItemHolder> {
 
     private List<PlantStateModel> listPlantState;
-
-    //private final String basicUrlImage = "http://res.cloudinary.com/dfn8llckr/image/upload/v";
-    private final String basicUrlImage = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Lol_circle.png";
 
     public PlantStateAdapter(List<PlantStateModel> listPlantState) {
         this.listPlantState = listPlantState;
@@ -53,29 +47,14 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
 
         PlantStateModel plantState = listPlantState.get(position);
 
-        String urlIconPlantState = this.basicUrlImage;
-
-        Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), position+"", Toast.LENGTH_LONG).show();
-
         Glide.with(LoggedUserActivity.getLoggedUserActivity())
                 .asBitmap()
-                .load(urlIconPlantState)
+                .load(plantState.getIconStatePath())
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(holder.iconPlantState);
 
-        if (plantState.getPlantName() != null && plantState.getPlantType() != null) {
-            holder.plantNameText.setText(plantState.getPlantName());
-            holder.plantTypeText.setText(plantState.getPlantType());
-        }else {
-            holder.plantNameText.setText("Plant");
-            holder.plantTypeText.setText("Plant Type");
-        }
-
-        //holder.relativeMoistureSoilText.setText(listPlantState.get(position).getRelativeMoistureSoil());
-        //holder.relativeMoistureAirText.setText(listPlantState.get(position).getRelativeMoistureAir());
-        holder.temperatureSoilText.setText(String.valueOf(listPlantState.get(position).getTemperatureSoil()));
-        //holder.temperatureAirText.setText((int) listPlantState.get(position).getTemperatureAir());
-        //holder.lightIntensityText.setText(listPlantState.get(position).getLightIntensity());
+        holder.namePlantState.setText(plantState.getNameState());
+        holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,29 +75,18 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
 
         CircleImageView iconPlantState;
 
-        TextView plantNameText;
-        TextView plantTypeText;
-
-        TextView relativeMoistureSoilText;
-        TextView relativeMoistureAirText;
-        TextView temperatureSoilText;
-        TextView temperatureAirText;
-        TextView lightIntensityText;
+        TextView namePlantState;
+        TextView valuePlantState;
 
         public PlantStateItemHolder(@NonNull View itemView) {
             super(itemView);
 
             layoutItem = itemView.findViewById(R.id.layout_item_comment);
+
             iconPlantState = itemView.findViewById(R.id.image_profile_circle);
 
-            plantNameText = itemView.findViewById(R.id.plant_name_id);
-            plantTypeText = itemView.findViewById(R.id.plant_type_id);
-
-            //relativeMoistureSoilText = itemView.findViewById(R.id.email_comment_text);
-            //relativeMoistureAirText = itemView.findViewById(R.id.email_comment_text);
-            temperatureSoilText = itemView.findViewById(R.id.temperature_soil_id);
-            //temperatureAirText = itemView.findViewById(R.id.email_comment_text);
-            //lightIntensityText = itemView.findViewById(R.id.email_comment_text);
+            namePlantState = itemView.findViewById(R.id.name_plant_state_id);
+            valuePlantState = itemView.findViewById(R.id.value_plant_state_id);
         }
     }
 

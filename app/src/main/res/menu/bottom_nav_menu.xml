@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/navigation_plant_state"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_plant"
         android:title="@string/title_plant_state" />
 
     <item
         android:id="@+id/navigation_weather_state"
-        android:icon="@drawable/ic_person_pin_black_24dp"
+        android:icon="@drawable/ic_weather"
         android:title="@string/title_weather_state" />
 
     <item
         android:id="@+id/navigation_watering_state"
-        android:icon="@drawable/ic_group_black_24dp"
+        android:icon="@drawable/ic_watering"
         android:title="@string/title_watering_state" />
 
     <item
         android:id="@+id/navigation_health_state"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_health"
         android:title="@string/title_health_state" />
 
 </menu>

@@ -48,7 +48,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/plant_name_id"
+                        android:id="@+id/name_plant_state_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Username"
@@ -58,7 +58,7 @@
                         style="@style/autoscroll"/>
 
                     <TextView
-                        android:id="@+id/plant_type_id"
+                        android:id="@+id/value_plant_state_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Email"

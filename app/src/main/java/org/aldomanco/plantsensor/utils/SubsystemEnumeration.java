@@ -4,6 +4,5 @@ public enum SubsystemEnumeration {
     plantState,
     weatherState,
     wateringState,
-    healthState,
-    settings
+    healthState
 }
