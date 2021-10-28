@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intentFirstActivity == null){
             // non era stata effettuata alcuna scelta, quindi l'utente non era connesso
-            intentFirstActivity = new Intent(this, LoggedUserActivity.class);
+            intentFirstActivity = new Intent(this, AuthActivity.class);
         }
 
         intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
