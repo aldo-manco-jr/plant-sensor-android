@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.SetPlantInfoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_plant_name_id_initial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/textview_plant_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_plant_type_id_initial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/textview_plant_type"
+                android:inputType="none"
+                android:longClickable="true"
+                android:text="@string/textview_plant_type"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_plant_location_id_initial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/textview_plant_location"
+                android:inputType="text"
+                android:text="@string/textview_plant_location"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_set_plant_info_initial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#CEF1C9"
+            android:text="Button" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

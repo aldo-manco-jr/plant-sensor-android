@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.home.SetPlantInfoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intentFirstActivity == null){
             // non era stata effettuata alcuna scelta, quindi l'utente non era connesso
-            intentFirstActivity = new Intent(this, LoggedUserActivity.class);
+            intentFirstActivity = new Intent(this, SetPlantInfoActivity.class);
         }
 
         intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

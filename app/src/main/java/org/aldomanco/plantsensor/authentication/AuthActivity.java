@@ -231,7 +231,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnTouchListe
                     // nascondi password
                     editText.setTransformationMethod(new PasswordTransformationMethod());
                     editText.setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.password_drawable_left,
+                            R.drawable.ic_password_new,
                             0,
                             R.drawable.eye_open_drawable_right,
                             0
@@ -240,7 +240,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnTouchListe
                     // mostra password
                     editText.setTransformationMethod(null);
                     editText.setCompoundDrawablesWithIntrinsicBounds(
-                            R.drawable.password_drawable_left,
+                            R.drawable.ic_password_new,
                             0,
                             R.drawable.eye_closed_drawable_right,
                             0
