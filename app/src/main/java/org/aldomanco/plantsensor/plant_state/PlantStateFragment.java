@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import org.aldomanco.plantsensor.R;
 
@@ -39,6 +43,11 @@ public class PlantStateFragment extends Fragment {
     private PlantStateModel lightIntensity;
 
     private List<PlantStateModel> listPlantState;
+    String[] arrayPlantTypes;
+    ArrayAdapter<String> adapterPlantTypes;
+
+    AutoCompleteTextView spinnerPlantType;
+    EditText editTextPlantName;
 
     //private final String basicUrlImage = "http://res.cloudinary.com/dfn8llckr/image/upload/v";
     private final String basicUrlImage = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Lol_circle.png";
@@ -70,6 +79,12 @@ public class PlantStateFragment extends Fragment {
         this.view = view;
         plantStateFragment = this;
 
+        editTextPlantName = view.findViewById(R.id.edittext_plant_name_id);
+        spinnerPlantType = view.findViewById(R.id.spinner_plant_type_id);
+        arrayPlantTypes = getResources().getStringArray(R.array.plantTypes);
+        adapterPlantTypes = new ArrayAdapter<>(requireContext(), R.layout.menu_plant_types, arrayPlantTypes);
+        spinnerPlantType.setAdapter(adapterPlantTypes);
+
         getPlantStateList();
     }
 
@@ -84,7 +99,7 @@ public class PlantStateFragment extends Fragment {
         plant = new PlantModel(
                 1,
                 "plant1",
-                "type1",
+                "D",
                 "isernia",
                 "italy",
                 "aldo",
@@ -94,6 +109,8 @@ public class PlantStateFragment extends Fragment {
                 4.3,
                 5
         );
+
+        initializePlantInfo(plant.getPlantName(), plant.getPlantType());
 
         temperatureAir = new PlantStateModel("Air Temperature", this.basicUrlImage, plant.getTemperatureAir(), "desc");
         temperatureSoil = new PlantStateModel("Soil Temperature", this.basicUrlImage, plant.getTemperatureSoil(), "desc");
@@ -130,6 +147,33 @@ public class PlantStateFragment extends Fragment {
         }*/
     }
 
+    private void initializePlantInfo(String plantName, String plantType){
+
+        editTextPlantName.setText(plantName);
+
+        int indexPlantType = -1;
+
+        switch (plantType){
+            case "A":
+                indexPlantType = 0;
+                break;
+            case "B":
+                indexPlantType = 1;
+                break;
+            case "C":
+                indexPlantType = 2;
+                break;
+            case "D":
+                indexPlantType = 3;
+                break;
+            default:
+                break;
+        }
+
+        spinnerPlantType.setListSelection(indexPlantType);
+        spinnerPlantType.setText(plantType);
+    }
+
     private void initializeRecyclerView(List<PlantStateModel> listPlantState) {
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_plant_state);
@@ -140,5 +184,13 @@ public class PlantStateFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        arrayPlantTypes = getResources().getStringArray(R.array.plantTypes);
+        adapterPlantTypes = new ArrayAdapter<>(requireContext(), R.layout.menu_plant_types, arrayPlantTypes);
+        spinnerPlantType.setAdapter(adapterPlantTypes);
     }
 }

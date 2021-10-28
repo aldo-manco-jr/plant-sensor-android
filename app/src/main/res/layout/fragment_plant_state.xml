@@ -12,24 +12,63 @@
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title_plant_state_list"
+            android:id="@+id/textview_plant_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_plant_state_list"
-            android:textSize="36sp"
+            android:text="@string/textview_plant_name"
+            android:textSize="18sp"
             android:textAlignment="textStart"
             style="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="5dp"/>
 
+        <EditText
+            android:id="@+id/edittext_plant_name_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:text="Name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textview_plant_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview_plant_type"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_plant_type_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/textview_plant_type"
+                android:inputType="none"
+                android:longClickable="true"
+                android:text="@string/textview_plant_type"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_plant_state"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="@id/title_plant_state_list"
             android:layout_marginTop="10dp"
-            />
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/textview_plant_type" />
 
     </LinearLayout>
 

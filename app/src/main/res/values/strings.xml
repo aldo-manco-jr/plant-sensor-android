@@ -22,6 +22,9 @@
     <string name="title_weather_state_list">Weather State List</string>
     <string name="title_health_state_list">Health State List</string>
 
+    <string name="textview_plant_name">Plant Name</string>
+    <string name="textview_plant_type">Plant Type</string>
+
     <string name="auth_login">Already registered? Log in now.</string>
     <string name="auth_signup">Not registered yet? Sign up now.</string>
     <string name="password_changed">Password is changed</string>
@@ -56,5 +59,10 @@
         " consenso.\n"
         "Grazie"</string>
 
-    <string name="new_messages_added">New messages received, scroll to the top to see them</string>
+    <string-array name="plantTypes">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
 </resources>
