@@ -59,61 +59,86 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
-                android:id="@+id/spinner_plant_location_id_initial"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_plant_location_id_initial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/textview_plant_location"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="@color/black"
+                    app:startIconDrawable="@drawable/ic_plant_type_autocomplete"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/button_drawable_right_maps_initial"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="84dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/ic_maps_google" />
+
+            <ImageView
+                android:id="@+id/button_drawable_right_gps_initial"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="48dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/ic_gps" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="20dp">
+
+            <com.scwang.wave.MultiWaveHeader
+                android:id="@+id/waveHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/textview_plant_location"
-                android:inputType="text"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:layout_marginTop="10dp"
-                android:textColorHint="@color/black"
-                app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
+                android:layout_marginBottom="0dp"
+                android:scaleY="-1"
+                app:mwhCloseColor="#CEF1C9"
+                app:mwhColorAlpha="0.45"
+                app:mwhGradientAngle="45"
+                app:mwhProgress="1"
+                app:mwhStartColor="#CEF1C9"
+                app:mwhVelocity="3"
+                app:mwhWaveHeight="60dp"
+                app:mwhWaves="MultiWave" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="20dp">
-
-        <com.scwang.wave.MultiWaveHeader
-            android:id="@+id/waveHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:scaleY="-1"
-            app:mwhCloseColor="#CEF1C9"
-            app:mwhColorAlpha="0.45"
-            app:mwhGradientAngle="45"
-            app:mwhProgress="1"
-            app:mwhStartColor="#CEF1C9"
-            app:mwhVelocity="3"
-            app:mwhWaveHeight="60dp"
-            app:mwhWaves="MultiWave" />
-
-        <Button
-            android:id="@+id/button_set_plant_info_initial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="130dp"
-            android:layout_marginEnd="70dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/round_button"
-            android:text="Button"
-            android:textColor="@color/black" />
+            <Button
+                android:id="@+id/button_set_plant_info_initial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="130dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/round_button"
+                android:text="@string/set_plant_info"
+                android:textColor="@color/black" />
 
 
-    </FrameLayout>
+        </FrameLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

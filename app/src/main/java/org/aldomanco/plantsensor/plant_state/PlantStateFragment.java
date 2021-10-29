@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import org.aldomanco.plantsensor.R;
+import org.aldomanco.plantsensor.home.LoggedUserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,19 +97,7 @@ public class PlantStateFragment extends Fragment {
      */
     public void getPlantStateList() {
 
-        plant = new PlantModel(
-                1,
-                "plant1",
-                "D",
-                "isernia",
-                "italy",
-                "aldo",
-                2,
-                30,
-                2.3,
-                4.3,
-                5
-        );
+        plant = LoggedUserActivity.getPlant();
 
         initializePlantInfo(plant.getPlantName(), plant.getPlantType());
 

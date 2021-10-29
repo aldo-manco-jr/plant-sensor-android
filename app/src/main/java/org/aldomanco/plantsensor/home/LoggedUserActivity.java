@@ -24,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.health_state.HealthFragment;
+import org.aldomanco.plantsensor.plant_state.PlantModel;
 import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
 import org.aldomanco.plantsensor.receivers.ConnectionLostReceiver;
 import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
@@ -54,6 +55,8 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     private ConnectionLostReceiver connectionLostReceiver = new ConnectionLostReceiver();
 
+    private static PlantModel plant;
+
     /*private static StreamsService streamsService;
     private static UsersService usersService;
     private static ImagesService imagesService;
@@ -67,9 +70,27 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         loggedUserActivity = this;
 
+        plant = new PlantModel(
+                1,
+                "plant1",
+                "D",
+                "isernia",
+                "italy",
+                "aldo",
+                2,
+                30,
+                2.3,
+                4.3,
+                5
+        );
+
         BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
 
         navbarLoggedUser.setOnNavigationItemSelectedListener(navbarListener);
+
+        plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
+        changeFragment(plantStateFragment);
+        navbarLoggedUser.setSelectedItemId(0);
 
         try {
             token = getIntent().getExtras().getString("authToken");
@@ -100,10 +121,6 @@ public class LoggedUserActivity extends AppCompatActivity {
             sharedPreferences = getSharedPreferences(getString(R.string.sharedpreferences_authentication), Context.MODE_PRIVATE);
 //            streamsService = streamsService = ServiceGenerator.createService(StreamsService.class, getToken());
 //            usersService = ServiceGenerator.createService(UsersService.class, getToken());
-            plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
-            weatherFragment = (WeatherFragment) createNewInstanceIfNecessary(weatherFragment, SubsystemEnumeration.weatherState);
-
-            changeFragment(plantStateFragment);
 
         } catch (Exception e) { }
     }
@@ -152,9 +169,9 @@ public class LoggedUserActivity extends AppCompatActivity {
                     fragment = PlantStateFragment.newInstance();
                 } else if (identifier == SubsystemEnumeration.weatherState) {
                     fragment = WeatherFragment.newInstance();
-                } /*else if (identifier == SubsystemEnumeration.wateringState) {
+                } else if (identifier == SubsystemEnumeration.wateringState) {
                     fragment = WateringFragment.newInstance();
-                } else if (identifier == SubsystemEnumeration.healthState) {
+                } /*else if (identifier == SubsystemEnumeration.healthState) {
                     fragment = HealthFragment.newInstance();
                 }*/
             } catch (Exception ignored) {
@@ -257,5 +274,9 @@ public class LoggedUserActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         this.unregisterReceiver(connectionLostReceiver);
+    }
+
+    public static PlantModel getPlant() {
+        return plant;
     }
 }

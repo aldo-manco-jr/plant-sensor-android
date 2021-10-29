@@ -2,11 +2,14 @@ package org.aldomanco.plantsensor.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,6 +17,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.plant_state.PlantModel;
 import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+import org.aldomanco.plantsensor.weather_state.ManualMapsActivity;
+import org.aldomanco.plantsensor.weather_state.MapsActivity;
 
 import java.util.List;
 
@@ -29,6 +34,12 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
     String plantLocationCountry;
 
     Button buttonSetPlantInfo;
+    ImageView buttonSetAutomaticLocation;
+    ImageView buttonSetManualLocation;
+    Intent intentOpenMap;
+
+    String city;
+    String country;
 
     PlantModel plant;
 
@@ -46,9 +57,15 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         editTextPlantName = findViewById(R.id.edittext_plant_name_id_initial);
         spinnerPlantType = findViewById(R.id.spinner_plant_type_id_initial);
         spinnerPlantLocation = findViewById(R.id.spinner_plant_location_id_initial);
-        buttonSetPlantInfo = findViewById(R.id.button_set_plant_info_initial);
 
+        buttonSetPlantInfo = findViewById(R.id.button_set_plant_info_initial);
         buttonSetPlantInfo.setOnClickListener(this);
+
+        buttonSetAutomaticLocation = findViewById(R.id.button_drawable_right_gps_initial);
+        buttonSetAutomaticLocation.setOnClickListener(this);
+
+        buttonSetManualLocation = findViewById(R.id.button_drawable_right_maps_initial);
+        buttonSetManualLocation.setOnClickListener(this);
 
         arrayPlantTypes = getResources().getStringArray(R.array.plantTypes);
         adapterPlantTypes = new ArrayAdapter<>(this, R.layout.menu_plant_types, arrayPlantTypes);
@@ -59,11 +76,11 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
 
         plant = new PlantModel(
-                2,
-                "plant2",
-                "B",
-                "Roma",
-                "Italy",
+                1,
+                "plant1",
+                "D",
+                "isernia",
+                "italy",
                 "aldo",
                 2,
                 30,
@@ -155,9 +172,20 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
         switch (view.getId()){
             case R.id.button_set_plant_info_initial:
-                Toast.makeText(this, editTextPlantName.getText().toString().trim(),Toast.LENGTH_LONG).show();
-                Toast.makeText(this, spinnerPlantType.getText().toString().trim(),Toast.LENGTH_LONG).show();
-                Toast.makeText(this, spinnerPlantLocation.getText().toString().trim(),Toast.LENGTH_LONG).show();
+                LoggedUserActivity.getPlant().setPlantName(editTextPlantName.getText().toString().trim());
+                LoggedUserActivity.getPlant().setPlantType(spinnerPlantType.getText().toString().trim());
+                LoggedUserActivity.getPlant().setPlantLocationCity(spinnerPlantLocation.getText().toString().trim().split(",")[0]);
+                LoggedUserActivity.getPlant().setPlantLocationCountry(spinnerPlantLocation.getText().toString().trim().split(" ")[1]);
+                break;
+            case R.id.button_drawable_right_gps_initial:
+                intentOpenMap = new Intent(this, MapsActivity.class);
+                startActivityForResult(intentOpenMap, 1);
+                break;
+            case R.id.button_drawable_right_maps_initial:
+                intentOpenMap = new Intent(this, ManualMapsActivity.class);
+                startActivityForResult(intentOpenMap, 1);
+                break;
+            default:
                 break;
         }
     }
@@ -173,5 +201,24 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         arrayPlantLocations = getResources().getStringArray(R.array.plantLocation);
         adapterPlantLocations = new ArrayAdapter<>(this, R.layout.menu_plant_types, arrayPlantLocations);
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+
+                    city = data.getStringExtra("city");
+                    country = data.getStringExtra("country");
+
+                    spinnerPlantLocation.setText(city + ", " + country);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

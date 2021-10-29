@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_plant_state"
-        android:icon="@drawable/ic_plant"
+        android:icon="@drawable/ic_typeplant"
         android:title="@string/title_plant_state" />
 
     <item
@@ -13,12 +13,12 @@
 
     <item
         android:id="@+id/navigation_watering_state"
-        android:icon="@drawable/ic_watering"
+        android:icon="@drawable/ic_water"
         android:title="@string/title_watering_state" />
 
     <item
         android:id="@+id/navigation_health_state"
-        android:icon="@drawable/ic_health"
+        android:icon="@drawable/ic_forplants"
         android:title="@string/title_health_state" />
 
 </menu>

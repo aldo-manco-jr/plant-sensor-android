@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ManualMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
@@ -48,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (location != null) {
             LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.clear();
 
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy - HH:mm:ss");
@@ -61,6 +62,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            mMap.addMarker(new MarkerOptions().position(userLocation).title(nameStreet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
         }
     }
 
@@ -82,57 +86,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                centerOnMap(location);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-            @Override
-            public void onProviderEnabled(String provider) { }
-
-            @Override
-            public void onProviderDisabled(String provider) { }
-        };
-
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
-            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            centerOnMap(lastKnownLocation);
-
-            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-            try {
-                List<Address> listAddresses = geocoder.getFromLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), 1);
-                city = listAddresses.get(0).getLocality();
-                country = listAddresses.get(0).getCountryName();
-
-                if (listAddresses.get(0) != null) {
-                    if (!listAddresses.get(0).getLocality().isEmpty()) {
-                        nameStreet = "@" + city + ", " + country;
-                    } else {
-                        nameStreet = "@" + country;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            resultIntent = new Intent();
-            resultIntent.putExtra("city", city);
-            resultIntent.putExtra("country", country);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        }
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -140,6 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
+        mMap.setOnMapLongClickListener(this);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
@@ -158,37 +119,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) { }
         };
 
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
             Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             centerOnMap(lastKnownLocation);
-
-            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-            try {
-                List<Address> listAddresses = geocoder.getFromLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), 1);
-                city = listAddresses.get(0).getLocality();
-                country = listAddresses.get(0).getCountryName();
-
-                if (listAddresses.get(0) != null) {
-                    if (!listAddresses.get(0).getLocality().isEmpty()) {
-                        nameStreet = "@" + city + ", " + country;
-                    } else {
-                        nameStreet = "@" + country;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            resultIntent = new Intent();
-            resultIntent.putExtra("city", city);
-            resultIntent.putExtra("country", country);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
         }
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+        try {
+            List<Address> listAddresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            city = listAddresses.get(0).getLocality();
+            country = listAddresses.get(0).getCountryName();
+
+            if (listAddresses.get(0) != null) {
+                if (!listAddresses.get(0).getLocality().isEmpty()) {
+                    nameStreet = "@" + city + ", " + country;
+                } else {
+                    nameStreet = "@" + country;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latLng).title(nameStreet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+
+        //ProfileFragment.getProfileFragment().setUserLocation(city, country);
+        resultIntent = new Intent();
+        resultIntent.putExtra("city", city);
+        resultIntent.putExtra("country", country);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 }

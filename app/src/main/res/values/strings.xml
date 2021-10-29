@@ -62,6 +62,7 @@
     <string name="set_location">Set Location</string>
 
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="set_plant_info">Set Plant Info</string>
 
     <string-array name="plantTypes">
         <item>A</item>

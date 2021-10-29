@@ -27,6 +27,10 @@
             android:name=".weather_state.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".weather_state.ManualMapsActivity"
+            android:exported="true"
+            android:label="Manual Maps Activity" />
 
         <activity
             android:name=".home.SetPlantInfoActivity"
