@@ -23,6 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.PlantStateItemHolder> {
 
     private List<PlantStateModel> listPlantState;
+    private String imagePlantStatePath;
 
     public PlantStateAdapter(List<PlantStateModel> listPlantState) {
         this.listPlantState = listPlantState;
@@ -50,6 +51,7 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
         Glide.with(LoggedUserActivity.getLoggedUserActivity())
                 .asBitmap()
                 .load(plantState.getIconStatePath())
+                .placeholder(plantState.getIconStatePath())
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(holder.iconPlantState);
 

@@ -14,7 +14,8 @@ import org.aldomanco.plantsensor.R;
 
 public class ConnectionProblemsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button tryAgainButton;
+    private Button buttonTryAgain;
+    private Button buttonExit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,9 +23,11 @@ public class ConnectionProblemsActivity extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_connection_problems);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        tryAgainButton = findViewById(R.id.try_connect_again);
+        buttonTryAgain = findViewById(R.id.try_connect_again);
+        buttonExit = findViewById(R.id.button_exit);
 
-        tryAgainButton.setOnClickListener(this);
+        buttonTryAgain.setOnClickListener(this);
+        buttonExit.setOnClickListener(this);
     }
 
     /**
@@ -33,16 +36,27 @@ public class ConnectionProblemsActivity extends AppCompatActivity implements Vie
      */
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.try_connect_again) {
-            Intent intentFirstActivity = new Intent(this, MainActivity.class);
 
-            intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intentFirstActivity);
+        switch (view.getId()){
 
-            Intent intent = new Intent(this, ConnectionProblemsActivity.class);
-            stopService(intent);
+            case R.id.try_connect_again:
 
-            ActivityCompat.finishAffinity(this);
+                Intent intentFirstActivity = new Intent(this, MainActivity.class);
+
+                intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentFirstActivity);
+
+                Intent intent = new Intent(this, ConnectionProblemsActivity.class);
+                stopService(intent);
+
+                ActivityCompat.finishAffinity(this);
+                break;
+
+            case R.id.button_exit:
+                finish();
+                break;
+            default:
+                break;
         }
     }
 }

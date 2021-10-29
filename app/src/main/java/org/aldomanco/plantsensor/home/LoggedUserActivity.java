@@ -101,6 +101,7 @@ public class LoggedUserActivity extends AppCompatActivity {
 //            streamsService = streamsService = ServiceGenerator.createService(StreamsService.class, getToken());
 //            usersService = ServiceGenerator.createService(UsersService.class, getToken());
             plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
+            weatherFragment = (WeatherFragment) createNewInstanceIfNecessary(weatherFragment, SubsystemEnumeration.weatherState);
 
             changeFragment(plantStateFragment);
 
@@ -149,9 +150,9 @@ public class LoggedUserActivity extends AppCompatActivity {
             try {
                 if (identifier == SubsystemEnumeration.plantState) {
                     fragment = PlantStateFragment.newInstance();
-                } /*else if (identifier == SubsystemEnumeration.weatherState) {
+                } else if (identifier == SubsystemEnumeration.weatherState) {
                     fragment = WeatherFragment.newInstance();
-                } else if (identifier == SubsystemEnumeration.wateringState) {
+                } /*else if (identifier == SubsystemEnumeration.wateringState) {
                     fragment = WateringFragment.newInstance();
                 } else if (identifier == SubsystemEnumeration.healthState) {
                     fragment = HealthFragment.newInstance();

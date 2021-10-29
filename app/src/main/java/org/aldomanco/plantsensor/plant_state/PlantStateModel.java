@@ -3,18 +3,18 @@ package org.aldomanco.plantsensor.plant_state;
 public class PlantStateModel {
 
     private String nameState;
-    private String iconStatePath;
+    private int iconStatePath;
     private double valueState;
     private String infoState;
 
-    public PlantStateModel(String nameState, String iconStatePath, int valueState, String infoState) {
+    public PlantStateModel(String nameState, int iconStatePath, int valueState, String infoState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
         this.valueState = valueState;
         this.infoState = infoState;
     }
 
-    public PlantStateModel(String nameState, String iconStatePath, double valueState, String infoState) {
+    public PlantStateModel(String nameState, int iconStatePath, double valueState, String infoState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
         this.valueState = valueState;
@@ -25,7 +25,7 @@ public class PlantStateModel {
         return nameState;
     }
 
-    public String getIconStatePath() {
+    public int getIconStatePath() {
         return iconStatePath;
     }
 
@@ -39,5 +39,9 @@ public class PlantStateModel {
 
     public void setValueState(int valueState) {
         this.valueState = valueState;
+    }
+
+    public void setIconStatePath(int iconStatePath) {
+        this.iconStatePath = iconStatePath;
     }
 }

@@ -112,11 +112,11 @@ public class PlantStateFragment extends Fragment {
 
         initializePlantInfo(plant.getPlantName(), plant.getPlantType());
 
-        temperatureAir = new PlantStateModel("Air Temperature", this.basicUrlImage, plant.getTemperatureAir(), "desc");
-        temperatureSoil = new PlantStateModel("Soil Temperature", this.basicUrlImage, plant.getTemperatureSoil(), "desc");
-        relativeMoistureAir = new PlantStateModel("Air Moisture", this.basicUrlImage, plant.getRelativeMoistureAir(), "desc");
-        relativeMoistureSoil = new PlantStateModel("Soil Moisture", this.basicUrlImage, plant.getRelativeMoistureSoil(), "desc");
-        lightIntensity = new PlantStateModel("Light Intensity", this.basicUrlImage, plant.getLightIntensity(), "desc");
+        temperatureAir = new PlantStateModel("Air Temperature", R.drawable.temperatura, plant.getTemperatureAir(), "desc");
+        temperatureSoil = new PlantStateModel("Soil Temperature", R.drawable.temperatura_suolo, plant.getTemperatureSoil(), "desc");
+        relativeMoistureAir = new PlantStateModel("Air Moisture", R.drawable.umidita, plant.getRelativeMoistureAir(), "desc");
+        relativeMoistureSoil = new PlantStateModel("Soil Moisture", R.drawable.umidita_suolo, plant.getRelativeMoistureSoil(), "desc");
+        lightIntensity = new PlantStateModel("Light Intensity", R.drawable.luminosita, plant.getLightIntensity(), "desc");
 
         listPlantState = new ArrayList<>();
         listPlantState.add(temperatureAir);

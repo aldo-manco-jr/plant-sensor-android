@@ -59,6 +59,9 @@
         " con il corretto funzionamento dell'app si bisogna di un vostro "
         " consenso.\n"
         "Grazie"</string>
+    <string name="set_location">Set Location</string>
+
+    <string name="title_activity_maps">MapsActivity</string>
 
     <string-array name="plantTypes">
         <item>A</item>
@@ -66,7 +69,6 @@
         <item>C</item>
         <item>D</item>
     </string-array>
-
     <string-array name="plantLocation">
         <item>Isernia, Italy</item>
         <item>Roma, Italy</item>

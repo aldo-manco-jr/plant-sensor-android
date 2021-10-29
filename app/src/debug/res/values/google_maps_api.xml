@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=3D:CE:42:B1:19:DA:80:F0:B4:C0:CF:1F:2B:8B:4D:C4:E7:73:E2:ED%3Borg.aldomanco.plantsensor.weather_state
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    org.aldomanco.plantsensor.weather_state
+
+    SHA-1 certificate fingerprint:
+    3D:CE:42:B1:19:DA:80:F0:B4:C0:CF:1F:2B:8B:4D:C4:E7:73:E2:ED
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyC64VIEFm1FqYWM_X0nZZIbI-ZFD3bMt7I</string>
+</resources>

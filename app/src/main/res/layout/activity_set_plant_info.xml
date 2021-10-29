@@ -14,6 +14,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/identity3" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -22,6 +30,10 @@
                 android:id="@+id/edittext_plant_name_id_initial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textColorHint="@color/black"
                 android:hint="@string/textview_plant_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -38,8 +50,9 @@
                 android:layout_weight="1"
                 android:hint="@string/textview_plant_type"
                 android:inputType="none"
+                android:textSize="18dp"
+                android:layout_marginTop="10dp"
                 android:longClickable="true"
-                android:text="@string/textview_plant_type"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
@@ -58,19 +71,49 @@
                 android:layout_weight="1"
                 android:hint="@string/textview_plant_location"
                 android:inputType="text"
-                android:text="@string/textview_plant_location"
                 android:textColor="@color/black"
+                android:textSize="18dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/black"
                 app:startIconDrawable="@drawable/ic_plant_type_autocomplete" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="20dp">
+
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:scaleY="-1"
+            app:mwhCloseColor="#CEF1C9"
+            app:mwhColorAlpha="0.45"
+            app:mwhGradientAngle="45"
+            app:mwhProgress="1"
+            app:mwhStartColor="#CEF1C9"
+            app:mwhVelocity="3"
+            app:mwhWaveHeight="60dp"
+            app:mwhWaves="MultiWave" />
+
         <Button
             android:id="@+id/button_set_plant_info_initial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#CEF1C9"
-            android:text="Button" />
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="130dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/round_button"
+            android:text="Button"
+            android:textColor="@color/black" />
+
+
+    </FrameLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
