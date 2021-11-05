@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_plant"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,10 +18,11 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_profile_circle"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/round"
                 android:src="@drawable/manual" />
@@ -34,8 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Manual Watering"
-                android:textSize="21sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Switch
@@ -45,6 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:textColorHighlight="#000000"
                 android:textColorHint="#000000"
@@ -63,9 +65,10 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_profile_circle2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/round"
@@ -79,7 +82,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="Automatic Watering"
-                android:textSize="21sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Switch
@@ -103,6 +106,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_watering"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:orientation="vertical" />

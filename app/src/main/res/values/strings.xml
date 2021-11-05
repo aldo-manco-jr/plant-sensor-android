@@ -65,10 +65,13 @@
     <string name="set_plant_info">Set Plant Info</string>
 
     <string-array name="plantTypes">
-        <item>A</item>
-        <item>B</item>
-        <item>C</item>
-        <item>D</item>
+        <item>Fiori Primaverili</item>
+        <item>Fiori Autunnali</item>
+        <item>Pianta Alimurgica</item>
+        <item>Pianta Grassa</item>
+        <item>Pianta Rampicante</item>
+        <item>Pianta Sempreverde</item>
+        <item>Pianta Tropicale</item>
     </string-array>
     <string-array name="plantLocation">
         <item>Isernia, Italy</item>

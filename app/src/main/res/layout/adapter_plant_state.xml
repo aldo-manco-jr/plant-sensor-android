@@ -30,8 +30,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_profile_circle"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginTop="0dp"
                     android:src="@mipmap/ic_launcher"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:text="Sensor"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +85,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ProgressBar
-                        android:id="@+id/progress_bar"
+                        android:id="@+id/progress_bar_plant_state_value_id"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

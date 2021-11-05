@@ -3,6 +3,7 @@ package org.aldomanco.plantsensor.watering_state;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,57 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
         holder.namePlantState.setText(plantState.getNameState());
         holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
 
+        if (plantState.getValueState() instanceof Double) {
+            //holder.progressBarPlantState.setMin(((Double) plantState.getMinValueState()).intValue());
+            //holder.progressBarPlantState.setMax(((Double) plantState.getMaxValueState()).intValue());
+            //holder.progressBarPlantState.setProgress(((Double) plantState.getValueState()).intValue());
+
+            if (((Double)plantState.getValueState())>((Double) plantState.getStartingGreenValueState())
+                    && ((Double)plantState.getValueState())<((Double) plantState.getEndingGreenValueState())){
+
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
+
+            }else if ((((Double)plantState.getValueState())>((Double) plantState.getStartingYellowValueState())
+                    && ((Double)plantState.getValueState())<((Double) plantState.getStartingGreenValueState()))
+                    || (((Double)plantState.getValueState())>((Double) plantState.getEndingGreenValueState())
+                    && ((Double)plantState.getValueState())<((Double) plantState.getEndingYellowValueState()))){
+
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
+
+            }else {
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
+            }
+
+        } else if (plantState.getValueState() instanceof String) {
+            //holder.progressBarPlantState.setVisibility(View.INVISIBLE);
+        } else {
+            //holder.progressBarPlantState.setMin((Integer) plantState.getMinValueState());
+            //holder.progressBarPlantState.setMax((Integer) plantState.getMaxValueState());
+            //holder.progressBarPlantState.setProgress((Integer) plantState.getValueState());
+
+            if (((Integer)plantState.getValueState())>((Integer) plantState.getStartingGreenValueState())
+                    || ((Integer)plantState.getValueState())<((Integer) plantState.getEndingGreenValueState())){
+
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
+
+            }else if ((((Integer)plantState.getValueState())>((Integer) plantState.getStartingYellowValueState())
+                    && ((Integer)plantState.getValueState())<((Integer) plantState.getStartingGreenValueState()))
+                    || (((Integer)plantState.getValueState())>((Integer) plantState.getEndingGreenValueState())
+                    && ((Integer)plantState.getValueState())<((Integer) plantState.getEndingYellowValueState()))){
+
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
+
+            }else {
+                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
+            }
+        }
+
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +134,7 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
 
         TextView namePlantState;
         TextView valuePlantState;
+        //ProgressBar progressBarPlantState;
 
         public SmallPlantStateItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +145,7 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
 
             namePlantState = itemView.findViewById(R.id.name_plant_state_id);
             valuePlantState = itemView.findViewById(R.id.value_plant_state_id);
+            //progressBarPlantState = itemView.findViewById(R.id.progress_bar);
         }
     }
 

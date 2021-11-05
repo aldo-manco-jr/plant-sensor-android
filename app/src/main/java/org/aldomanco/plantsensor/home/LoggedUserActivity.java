@@ -77,11 +77,11 @@ public class LoggedUserActivity extends AppCompatActivity {
                 "Isernia",
                 "Italy",
                 "Aldo",
-                2,
-                30,
-                2.3,
+                20,
+                5,
+                -21,
                 4.3,
-                5
+                50
         );
 
         BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
