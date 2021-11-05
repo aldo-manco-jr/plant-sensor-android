@@ -4,20 +4,27 @@ public class PlantStateModel {
 
     private String nameState;
     private int iconStatePath;
-    private double valueState;
+    private Object valueState;
     private String infoState;
 
     public PlantStateModel(String nameState, int iconStatePath, int valueState, String infoState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
-        this.valueState = valueState;
+        this.valueState = (int) valueState;
         this.infoState = infoState;
     }
 
     public PlantStateModel(String nameState, int iconStatePath, double valueState, String infoState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
-        this.valueState = valueState;
+        this.valueState = (double) valueState;
+        this.infoState = infoState;
+    }
+
+    public PlantStateModel(String nameState, int iconStatePath, String valueState, String infoState) {
+        this.nameState = nameState;
+        this.iconStatePath = iconStatePath;
+        this.valueState = (String) valueState;
         this.infoState = infoState;
     }
 
@@ -33,7 +40,7 @@ public class PlantStateModel {
         return infoState;
     }
 
-    public double getValueState() {
+    public Object getValueState() {
         return valueState;
     }
 

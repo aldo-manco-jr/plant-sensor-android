@@ -1,10 +1,9 @@
-package org.aldomanco.plantsensor.plant_state;
+package org.aldomanco.plantsensor.watering_state;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,28 +14,30 @@ import com.bumptech.glide.request.target.Target;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.plant_state.PlantStateAdapter;
+import org.aldomanco.plantsensor.plant_state.PlantStateModel;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.PlantStateItemHolder> {
+public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantStateAdapter.SmallPlantStateItemHolder> {
 
     private List<PlantStateModel> listPlantState;
     private String imagePlantStatePath;
 
-    public PlantStateAdapter(List<PlantStateModel> listPlantState) {
+    public SmallPlantStateAdapter(List<PlantStateModel> listPlantState) {
         this.listPlantState = listPlantState;
     }
 
     @NonNull
     @Override
-    public PlantStateItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SmallPlantStateAdapter.SmallPlantStateItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_plant_state, parent, false);
+                .inflate(R.layout.adapter_small_plant_state, parent, false);
 
-        PlantStateItemHolder viewHolder = new PlantStateItemHolder(itemView);
+        SmallPlantStateAdapter.SmallPlantStateItemHolder viewHolder = new SmallPlantStateAdapter.SmallPlantStateItemHolder(itemView);
 
         return viewHolder;
     }
@@ -46,7 +47,7 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
      * processato e aggiunto alla lista.
      */
     @Override
-    public void onBindViewHolder(@NonNull final PlantStateItemHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final SmallPlantStateAdapter.SmallPlantStateItemHolder holder, final int position) {
 
         PlantStateModel plantState = listPlantState.get(position);
 
@@ -73,7 +74,7 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
         return listPlantState.size();
     }
 
-    public class PlantStateItemHolder extends RecyclerView.ViewHolder {
+    public class SmallPlantStateItemHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout layoutItem;
 
@@ -82,7 +83,7 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
         TextView namePlantState;
         TextView valuePlantState;
 
-        public PlantStateItemHolder(@NonNull View itemView) {
+        public SmallPlantStateItemHolder(@NonNull View itemView) {
             super(itemView);
 
             layoutItem = itemView.findViewById(R.id.layout_item_comment);

@@ -72,11 +72,11 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         plant = new PlantModel(
                 1,
-                "plant1",
+                "Plant Name",
                 "D",
-                "isernia",
-                "italy",
-                "aldo",
+                "Isernia",
+                "Italy",
+                "Aldo",
                 2,
                 30,
                 2.3,
@@ -171,11 +171,10 @@ public class LoggedUserActivity extends AppCompatActivity {
                     fragment = WeatherFragment.newInstance();
                 } else if (identifier == SubsystemEnumeration.wateringState) {
                     fragment = WateringFragment.newInstance();
-                } /*else if (identifier == SubsystemEnumeration.healthState) {
+                } else if (identifier == SubsystemEnumeration.healthState) {
                     fragment = HealthFragment.newInstance();
-                }*/
-            } catch (Exception ignored) {
-            }
+                }
+            } catch (Exception ignored) { }
         }
 
         return fragment;

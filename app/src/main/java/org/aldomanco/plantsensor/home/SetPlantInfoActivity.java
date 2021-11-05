@@ -77,11 +77,11 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
         plant = new PlantModel(
                 1,
-                "plant1",
+                "Plant Name",
                 "D",
-                "isernia",
-                "italy",
-                "aldo",
+                "Isernia",
+                "Italy",
+                "Aldo",
                 2,
                 30,
                 2.3,
@@ -172,10 +172,10 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
         switch (view.getId()){
             case R.id.button_set_plant_info_initial:
-                LoggedUserActivity.getPlant().setPlantName(editTextPlantName.getText().toString().trim());
-                LoggedUserActivity.getPlant().setPlantType(spinnerPlantType.getText().toString().trim());
-                LoggedUserActivity.getPlant().setPlantLocationCity(spinnerPlantLocation.getText().toString().trim().split(",")[0]);
-                LoggedUserActivity.getPlant().setPlantLocationCountry(spinnerPlantLocation.getText().toString().trim().split(" ")[1]);
+                plant.setPlantName(editTextPlantName.getText().toString().trim());
+                plant.setPlantType(spinnerPlantType.getText().toString().trim());
+                plant.setPlantLocationCity(spinnerPlantLocation.getText().toString().trim().split(",")[0]);
+                plant.setPlantLocationCountry(spinnerPlantLocation.getText().toString().trim().split(" ")[1]);
                 break;
             case R.id.button_drawable_right_gps_initial:
                 intentOpenMap = new Intent(this, MapsActivity.class);

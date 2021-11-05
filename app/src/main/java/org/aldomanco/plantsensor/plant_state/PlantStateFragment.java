@@ -89,12 +89,6 @@ public class PlantStateFragment extends Fragment {
         getPlantStateList();
     }
 
-    /**
-     * Consente di recuperare tutti i post:
-     * - streams: lista dei post dell'utente e dei suoi following
-     * - favorites: sono i post a cui l'utente ha espresso la preferenza
-     * Viene mandata una richiesta http per recuperati i dal server.
-     */
     public void getPlantStateList() {
 
         plant = LoggedUserActivity.getPlant();

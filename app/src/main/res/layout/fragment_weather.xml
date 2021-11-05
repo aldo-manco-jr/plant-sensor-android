@@ -10,6 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:scaleY="1"
+            app:mwhCloseColor="#CEF1C9"
+            app:mwhColorAlpha="0.45"
+            app:mwhGradientAngle="45"
+            app:mwhProgress="1"
+            app:mwhStartColor="#CEF1C9"
+            app:mwhVelocity="1.5"
+            app:mwhWaveHeight="50dp"
+            app:mwhWaves="PairWave"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,14 +44,15 @@
                     android:layout_weight="1"
                     android:background="@color/color_plant"
                     android:dropDownSelector="@color/black"
-                    android:longClickable="true"
-                    android:popupBackground="@color/black"
                     android:hint="@string/textview_plant_location"
+                    android:longClickable="true"
+                    android:popupBackground="@color/white"
+                    android:shadowColor="#FFFFFF"
                     android:textColor="@color/black"
-                    android:textColorHighlight="#000000"
+                    android:textColorHighlight="@color/black"
                     android:textColorHint="@color/black"
-                    android:textColorLink="#000000"
-                    android:textCursorDrawable="@color/black"
+                    android:textColorLink="@color/white"
+                    android:textCursorDrawable="@color/white"
                     android:textSize="16dp"
                     android:visibility="visible" />
 
@@ -44,11 +61,15 @@
 
             <Button
                 android:id="@+id/button_set_location_weather_section"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/color_plant"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_button"
+                android:text="SET LOCATION"
                 android:textColor="@color/black"
-                android:text="@string/set_location" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>
 

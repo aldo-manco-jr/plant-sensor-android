@@ -15,6 +15,15 @@ public class PlantModel {
     private double temperatureAir;
     private int lightIntensity;
 
+    private String forecastWeatherState;
+    private double forecastPrecipitationAmount;
+    private int forecastPrecipitationProbability;
+    private int forecastHumidityAir;
+    private double forecastTemperatureAir;
+    private int forecastWindSpeed;
+    private int forecastPressureAir;
+    private int forecastIndexPollution;
+
     public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity) {
         this.plantId = plantId;
         this.plantName = plantName;
@@ -27,6 +36,28 @@ public class PlantModel {
         this.temperatureSoil = temperatureSoil;
         this.temperatureAir = temperatureAir;
         this.lightIntensity = lightIntensity;
+    }
+
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, int forecastPrecipitationProbability, int forecastHumidityAir, double forecastTemperatureAir, int forecastWindSpeed, int forecastPressureAir, int forecastIndexPollution) {
+        this.plantId = plantId;
+        this.plantName = plantName;
+        this.plantType = plantType;
+        this.plantLocationCity = plantLocationCity;
+        this.plantLocationCountry = plantLocationCountry;
+        this.plantOwnerUsername = plantOwnerUsername;
+        this.relativeMoistureSoil = relativeMoistureSoil;
+        this.relativeMoistureAir = relativeMoistureAir;
+        this.temperatureSoil = temperatureSoil;
+        this.temperatureAir = temperatureAir;
+        this.lightIntensity = lightIntensity;
+        this.forecastWeatherState = forecastWeatherState;
+        this.forecastPrecipitationAmount = forecastPrecipitationAmount;
+        this.forecastPrecipitationProbability = forecastPrecipitationProbability;
+        this.forecastHumidityAir = forecastHumidityAir;
+        this.forecastTemperatureAir = forecastTemperatureAir;
+        this.forecastWindSpeed = forecastWindSpeed;
+        this.forecastPressureAir = forecastPressureAir;
+        this.forecastIndexPollution = forecastIndexPollution;
     }
 
     public int getPlantId() {
@@ -115,5 +146,69 @@ public class PlantModel {
 
     public void setLightIntensity(int lightIntensity) {
         this.lightIntensity = lightIntensity;
+    }
+
+    public String getForecastWeatherState() {
+        return forecastWeatherState;
+    }
+
+    public void setForecastWeatherState(String forecastWeatherState) {
+        this.forecastWeatherState = forecastWeatherState;
+    }
+
+    public double getForecastPrecipitationAmount() {
+        return forecastPrecipitationAmount;
+    }
+
+    public void setForecastPrecipitationAmount(double forecastPrecipitationAmount) {
+        this.forecastPrecipitationAmount = forecastPrecipitationAmount;
+    }
+
+    public int getForecastPrecipitationProbability() {
+        return forecastPrecipitationProbability;
+    }
+
+    public void setForecastPrecipitationProbability(int forecastPrecipitationProbability) {
+        this.forecastPrecipitationProbability = forecastPrecipitationProbability;
+    }
+
+    public int getForecastHumidityAir() {
+        return forecastHumidityAir;
+    }
+
+    public void setForecastHumidityAir(int forecastHumidityAir) {
+        this.forecastHumidityAir = forecastHumidityAir;
+    }
+
+    public double getForecastTemperatureAir() {
+        return forecastTemperatureAir;
+    }
+
+    public void setForecastTemperatureAir(double forecastTemperatureAir) {
+        this.forecastTemperatureAir = forecastTemperatureAir;
+    }
+
+    public int getForecastWindSpeed() {
+        return forecastWindSpeed;
+    }
+
+    public void setForecastWindSpeed(int forecastWindSpeed) {
+        this.forecastWindSpeed = forecastWindSpeed;
+    }
+
+    public int getForecastPressureAir() {
+        return forecastPressureAir;
+    }
+
+    public void setForecastPressureAir(int forecastPressureAir) {
+        this.forecastPressureAir = forecastPressureAir;
+    }
+
+    public int getForecastIndexPollution() {
+        return forecastIndexPollution;
+    }
+
+    public void setForecastIndexPollution(int forecastIndexPollution) {
+        this.forecastIndexPollution = forecastIndexPollution;
     }
 }

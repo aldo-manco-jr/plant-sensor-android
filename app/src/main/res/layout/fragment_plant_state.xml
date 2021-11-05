@@ -21,9 +21,10 @@
                 android:id="@+id/image_profile_circle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/round"
-                android:src="@drawable/name"
+                android:src="@drawable/name_plant"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +44,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"/>
 
                 <EditText
@@ -55,7 +57,8 @@
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
                     android:text="Name"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"/>
 
 
             </LinearLayout>
@@ -72,9 +75,10 @@
              android:id="@+id/image_profile_circle2"
              android:layout_width="80dp"
              android:layout_height="80dp"
-             android:layout_marginTop="5dp"
+             android:layout_marginStart="5dp"
+             android:layout_marginTop="10dp"
              android:background="@drawable/round"
-             android:src="@drawable/type"
+             android:src="@drawable/type_plant"
              app:layout_constraintLeft_toLeftOf="parent"
              app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,14 +98,16 @@
                         style="@style/Base.TextAppearance.AppCompat.Title"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="5dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginStart="10dp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:textColorHint="@color/black"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp">
+                        android:paddingRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:paddingBottom="5dp">
 
                         <AutoCompleteTextView
                             android:id="@+id/spinner_plant_type_id"
@@ -113,6 +119,7 @@
                             android:inputType="none"
                             android:longClickable="true"
                             android:textSize="16dp"
+                            android:layout_marginLeft="5dp"
                             android:popupBackground="@color/black"
                             android:text="@string/textview_plant_type"
                             android:textColor="@color/black"
