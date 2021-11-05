@@ -73,10 +73,10 @@ public class LoggedUserActivity extends AppCompatActivity {
         plant = new PlantModel(
                 1,
                 "Plant Name",
-                "D",
+                "Fiori Primaverili",
                 "Isernia",
                 "Italy",
-                "Aldo",
+                "Federica",
                 20,
                 5,
                 -21,

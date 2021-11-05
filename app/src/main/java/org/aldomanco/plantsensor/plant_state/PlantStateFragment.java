@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
@@ -137,17 +138,26 @@ public class PlantStateFragment extends Fragment {
         int indexPlantType = -1;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 indexPlantType = 0;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 indexPlantType = 1;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 indexPlantType = 2;
                 break;
-            case "D":
+            case "Pianta Grassa":
                 indexPlantType = 3;
+                break;
+            case "Pianta Rampicante":
+                indexPlantType = 4;
+                break;
+            case "Pianta Sempreverde":
+                indexPlantType = 5;
+                break;
+            case "Pianta Tropicale":
+                indexPlantType = 6;
                 break;
             default:
                 break;
@@ -166,25 +176,43 @@ public class PlantStateFragment extends Fragment {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
                 endingGreenValueState = 25;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = -30;
                 endingYellowValueState = 30;
                 startingGreenValueState = -10;
                 endingGreenValueState = 15;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
                 endingGreenValueState = 25;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
@@ -206,25 +234,43 @@ public class PlantStateFragment extends Fragment {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
                 endingGreenValueState = 25;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = -30;
                 endingYellowValueState = 30;
                 startingGreenValueState = -10;
                 endingGreenValueState = 15;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
                 endingGreenValueState = 25;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = -25;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = -20;
                 endingYellowValueState = 40;
                 startingGreenValueState = 0;
@@ -246,25 +292,43 @@ public class PlantStateFragment extends Fragment {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -286,25 +350,43 @@ public class PlantStateFragment extends Fragment {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -326,25 +408,43 @@ public class PlantStateFragment extends Fragment {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
