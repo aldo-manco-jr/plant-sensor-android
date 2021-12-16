@@ -57,7 +57,7 @@
                         style="@style/autoscroll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="INDEX OF HEALT"
+                        android:text="INDEX OF HEALTH"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -210,7 +210,7 @@
            android:background="@drawable/false_menu"
            android:textStyle="bold"/>
 
-       <androidx.cardview.widget.CardView
+       <!--<androidx.cardview.widget.CardView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginTop="8dp"
@@ -294,8 +294,15 @@
 
            </androidx.constraintlayout.widget.ConstraintLayout>
 
-       </androidx.cardview.widget.CardView>
+       </androidx.cardview.widget.CardView>-->
 
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recyclerview_health_danger"
+           android:layout_width="match_parent"
+           android:background="@color/white"
+           android:layout_height="match_parent"
+           android:layout_marginTop="15dp"
+           android:orientation="vertical" />
 
        <TextView
            android:id="@+id/textWarning"
@@ -308,91 +315,13 @@
            android:background="@drawable/false_menu"
            android:textStyle="bold"/>
 
-       <androidx.cardview.widget.CardView
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recyclerview_health_warning"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="8dp"
-           android:orientation="vertical"
-           app:cardBackgroundColor="@color/white"
-           app:cardCornerRadius="8dp"
-           app:cardElevation="2dp"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent">
-
-           <androidx.constraintlayout.widget.ConstraintLayout
-               android:id="@+id/layout_item_comment4"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   tools:ignore="MissingConstraints">
-
-                   <de.hdodenhof.circleimageview.CircleImageView
-                       android:id="@+id/image_profile_circle4"
-                       android:layout_width="58dp"
-                       android:layout_height="58dp"
-                       android:paddingStart="10dp"
-                       android:layout_gravity="center"
-                       android:src="@mipmap/ic_launcher"
-                       app:layout_constraintLeft_toLeftOf="parent"
-                       app:layout_constraintTop_toTopOf="parent" />
-
-                   <LinearLayout
-                       android:id="@+id/verticalLayout4"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:paddingStart="10dp"
-                       android:layout_gravity="center"
-                       android:orientation="vertical"
-                       tools:ignore="MissingConstraints">
-
-
-                       <androidx.constraintlayout.widget.ConstraintLayout
-                           android:id="@+id/horizontalLayout4"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="horizontal"
-                           android:layout_marginBottom="5dp">
-
-                           <TextView
-                               android:id="@+id/name_plant_state_id4"
-                               style="@style/autoscroll"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:text="Sensor"
-                               android:textColor="@color/black"
-                               android:textSize="20sp"
-                               android:paddingStart="15dp"
-                               app:layout_constraintBottom_toBottomOf="parent"
-                               app:layout_constraintStart_toStartOf="parent"
-                               app:layout_constraintTop_toTopOf="parent" />
-
-                           <TextView
-                               android:id="@+id/percentual_warning"
-                               style="@style/autoscroll"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Percentual"
-                               android:textColor="@color/black"
-                               android:textSize="18dp"
-                               android:paddingEnd="15dp"
-                               app:layout_constraintEnd_toEndOf="parent"
-                               app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-                       </androidx.constraintlayout.widget.ConstraintLayout>
-
-                   </LinearLayout>
-
-               </LinearLayout>
-
-           </androidx.constraintlayout.widget.ConstraintLayout>
-
-       </androidx.cardview.widget.CardView>
+           android:background="@color/white"
+           android:layout_height="match_parent"
+           android:layout_marginTop="15dp"
+           android:orientation="vertical" />
 
        <TextView
            android:id="@+id/textNormal"
@@ -405,91 +334,13 @@
            android:background="@drawable/false_menu"
            android:textStyle="bold"/>
 
-       <androidx.cardview.widget.CardView
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recyclerview_health_normal"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="8dp"
-           android:orientation="vertical"
-           app:cardBackgroundColor="@color/white"
-           app:cardCornerRadius="8dp"
-           app:cardElevation="2dp"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent">
-
-           <androidx.constraintlayout.widget.ConstraintLayout
-               android:id="@+id/layout_item_comment5"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   tools:ignore="MissingConstraints">
-
-                   <de.hdodenhof.circleimageview.CircleImageView
-                       android:id="@+id/image_profile_circle5"
-                       android:layout_width="58dp"
-                       android:layout_height="58dp"
-                       android:paddingStart="10dp"
-                       android:layout_gravity="center"
-                       android:src="@mipmap/ic_launcher"
-                       app:layout_constraintLeft_toLeftOf="parent"
-                       app:layout_constraintTop_toTopOf="parent" />
-
-                   <LinearLayout
-                       android:id="@+id/verticalLayout5"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:paddingStart="10dp"
-                       android:layout_gravity="center"
-                       android:orientation="vertical"
-                       tools:ignore="MissingConstraints">
-
-
-                       <androidx.constraintlayout.widget.ConstraintLayout
-                           android:id="@+id/horizontalLayout5"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="horizontal"
-                           android:layout_marginBottom="5dp">
-
-                           <TextView
-                               android:id="@+id/name_plant_state_id5"
-                               style="@style/autoscroll"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:text="Sensor"
-                               android:textColor="@color/black"
-                               android:textSize="20sp"
-                               android:paddingStart="15dp"
-                               app:layout_constraintBottom_toBottomOf="parent"
-                               app:layout_constraintStart_toStartOf="parent"
-                               app:layout_constraintTop_toTopOf="parent" />
-
-                           <TextView
-                               android:id="@+id/percentual_normal"
-                               style="@style/autoscroll"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Percentual"
-                               android:textColor="@color/black"
-                               android:textSize="18dp"
-                               android:paddingEnd="15dp"
-                               app:layout_constraintEnd_toEndOf="parent"
-                               app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-                       </androidx.constraintlayout.widget.ConstraintLayout>
-
-                   </LinearLayout>
-
-               </LinearLayout>
-
-           </androidx.constraintlayout.widget.ConstraintLayout>
-
-       </androidx.cardview.widget.CardView>
+           android:background="@color/white"
+           android:layout_height="match_parent"
+           android:layout_marginTop="15dp"
+           android:orientation="vertical" />
 
 
    </LinearLayout>

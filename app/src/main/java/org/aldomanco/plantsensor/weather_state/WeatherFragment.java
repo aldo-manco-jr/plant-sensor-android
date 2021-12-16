@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
 import org.aldomanco.plantsensor.plant_state.PlantModel;
+import org.aldomanco.plantsensor.plant_state.PlantStateAdapter;
+import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
+import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +36,16 @@ import org.aldomanco.plantsensor.plant_state.PlantModel;
  * create an instance of this fragment.
  */
 public class WeatherFragment extends Fragment implements View.OnClickListener {
+
+    private View view;
+
+    private static WeatherFragment weatherFragment;
+
+    private PlantStateAdapter adapter;
+
+    private PlantModel plant;
+
+    private List<PlantStateModel> listWeatherState;
 
     AutoCompleteTextView spinnerPlantLocation;
 
@@ -38,8 +56,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     String city;
     String country;
-
-    PlantModel plant;
 
     String[] arrayPlantLocations;
     ArrayAdapter<String> adapterPlantLocations;
@@ -67,6 +83,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        this.view = view;
+        weatherFragment = this;
+
         buttonAutomaticSelectionLocation = view.findViewById(R.id.button_automatic_selection_location);
         buttonAutomaticSelectionLocation.setOnClickListener(this);
 
@@ -81,6 +100,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         arrayPlantLocations = getResources().getStringArray(R.array.plantLocation);
         adapterPlantLocations = new ArrayAdapter<>(LoggedUserActivity.getLoggedUserActivity(), R.layout.menu_plant_location, arrayPlantLocations);
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
+
+        getWeatherStateList();
     }
 
     @Override
@@ -130,6 +151,53 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    public void getWeatherStateList() {
+
+        plant = LoggedUserActivity.getPlant();
+
+        listWeatherState = new ArrayList<>();
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
+
+        initializeRecyclerView(listWeatherState);
+
+            /*Call<GetAllUsersResponse> httpRequest = LoggedUserActivity.getUsersService().getAllUsers();
+
+            httpRequest.enqueue(new Callback<GetAllUsersResponse>() {
+                @Override
+                public void onResponse(Call<GetAllUsersResponse> call, Response<GetAllUsersResponse> response) {
+                    if (response.isSuccessful()) {
+                        assert response.body() != null : "body() non doveva essere null";
+
+                        initializeRecyclerView(response.body().getAllUsers());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetAllUsersResponse> call, Throwable t) {
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }*/
+    }
+
+    private void initializeRecyclerView(List<PlantStateModel> listPlantState) {
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_weather_state);
+
+        if (adapter == null) {
+            adapter = new PlantStateAdapter(listWeatherState);
+        }
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override

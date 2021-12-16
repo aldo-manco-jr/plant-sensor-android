@@ -26,6 +26,7 @@ import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.health_state.HealthFragment;
 import org.aldomanco.plantsensor.plant_state.PlantModel;
 import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
+import org.aldomanco.plantsensor.plant_state.PlantStateModel;
 import org.aldomanco.plantsensor.receivers.ConnectionLostReceiver;
 import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
 import org.aldomanco.plantsensor.watering_state.WateringFragment;
@@ -57,6 +58,21 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     private static PlantModel plant;
 
+    private PlantStateModel relativeMoistureSoil;
+    private PlantStateModel relativeMoistureAir;
+    private PlantStateModel temperatureSoil;
+    private PlantStateModel temperatureAir;
+    private PlantStateModel lightIntensity;
+
+    private PlantStateModel forecastWeatherState;
+    private PlantStateModel forecastPrecipitationAmount;
+    private PlantStateModel forecastPrecipitationProbability;
+    private PlantStateModel forecastHumidityAir;
+    private PlantStateModel forecastTemperatureAir;
+    private PlantStateModel forecastWindSpeed;
+    private PlantStateModel forecastPressureAir;
+    private PlantStateModel forecastIndexPollution;
+
     /*private static StreamsService streamsService;
     private static UsersService usersService;
     private static ImagesService imagesService;
@@ -83,6 +99,20 @@ public class LoggedUserActivity extends AppCompatActivity {
                 4.3,
                 50
         );
+
+        initializeTemperatureAir(plant.getPlantType());
+        initializeTemperatureSoil(plant.getPlantType());
+        initializeRelativeMoistureAir(plant.getPlantType());
+        initializeRelativeMoistureSoil(plant.getPlantType());
+        initializeLightIntensity(plant.getPlantType());
+
+        initializeForecastPrecipitationAmount(plant.getPlantType());
+        initializeForecastPrecipitationProbability(plant.getPlantType());
+        initializeForecastRelativeMoistureAir(plant.getPlantType());
+        initializeForecastPressureAir(plant.getPlantType());
+        initializeForecastIndexPollution(plant.getPlantType());
+        initializeForecastTemperatureAir(plant.getPlantType());
+        initializeForecastWindSpeed(plant.getPlantType());
 
         BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
 
@@ -277,5 +307,629 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     public static PlantModel getPlant() {
         return plant;
+    }
+
+    public PlantStateModel getRelativeMoistureSoil() {
+        return relativeMoistureSoil;
+    }
+
+    public PlantStateModel getRelativeMoistureAir() {
+        return relativeMoistureAir;
+    }
+
+    public PlantStateModel getTemperatureSoil() {
+        return temperatureSoil;
+    }
+
+    public PlantStateModel getTemperatureAir() {
+        return temperatureAir;
+    }
+
+    public PlantStateModel getLightIntensity() {
+        return lightIntensity;
+    }
+
+    public PlantStateModel getForecastWeatherState() {
+        return forecastWeatherState;
+    }
+
+    public PlantStateModel getForecastPrecipitationAmount() {
+        return forecastPrecipitationAmount;
+    }
+
+    public PlantStateModel getForecastPrecipitationProbability() {
+        return forecastPrecipitationProbability;
+    }
+
+    public PlantStateModel getForecastHumidityAir() {
+        return forecastHumidityAir;
+    }
+
+    public PlantStateModel getForecastTemperatureAir() {
+        return forecastTemperatureAir;
+    }
+
+    public PlantStateModel getForecastWindSpeed() {
+        return forecastWindSpeed;
+    }
+
+    public PlantStateModel getForecastPressureAir() {
+        return forecastPressureAir;
+    }
+
+    public PlantStateModel getForecastIndexPollution() {
+        return forecastIndexPollution;
+    }
+
+    private void initializeTemperatureAir(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        temperatureAir = new PlantStateModel("Air Temperature", R.drawable.temperatura, plant.getTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeTemperatureSoil(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = -25;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        temperatureSoil = new PlantStateModel("Soil Temperature", R.drawable.temperatura_suolo, plant.getTemperatureSoil(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeRelativeMoistureAir(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        relativeMoistureAir = new PlantStateModel("Air Moisture", R.drawable.umidita, plant.getRelativeMoistureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeRelativeMoistureSoil(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        relativeMoistureSoil = new PlantStateModel("Soil Moisture", R.drawable.umidita_suolo, plant.getRelativeMoistureSoil(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeLightIntensity(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        lightIntensity = new PlantStateModel("Light Intensity", R.drawable.luminosita, plant.getLightIntensity(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    // -----------------
+
+    private void initializeForecastPrecipitationAmount(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "B":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "C":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "D":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        forecastPrecipitationAmount = new PlantStateModel("Precipitation Amount", R.drawable.luminosita, plant.getForecastPrecipitationAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastPrecipitationProbability(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "B":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "C":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "D":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        forecastPrecipitationProbability = new PlantStateModel("Precipitation Probability", R.drawable.luminosita, plant.getForecastPrecipitationProbability(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastRelativeMoistureAir(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastHumidityAir = new PlantStateModel("Humidity Air", R.drawable.luminosita, plant.getForecastHumidityAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastTemperatureAir(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastTemperatureAir = new PlantStateModel("Temperature Air", R.drawable.luminosita, plant.getForecastTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastWindSpeed(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastWindSpeed = new PlantStateModel("Wind Speed", R.drawable.luminosita, plant.getForecastWindSpeed(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastPressureAir(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.luminosita, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void initializeForecastIndexPollution(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastIndexPollution = new PlantStateModel("Index Pollution", R.drawable.luminosita, plant.getForecastIndexPollution(), "desc", 1, 10, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 }
