@@ -1,9 +1,11 @@
 package org.aldomanco.plantsensor.health_state;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
@@ -38,11 +41,16 @@ public class HealthFragment extends Fragment {
     RecyclerView recyclerViewWarningSmallPlantState;
     RecyclerView recyclerViewNormalSmallPlantState;
 
+    private List<PlantStateModel> listSmallPlantState;
+
     private List<PlantStateModel> listDangerSmallPlantState;
     private List<PlantStateModel> listWarningSmallPlantState;
     private List<PlantStateModel> listNormalSmallPlantState;
 
     PlantModel plant;
+
+    ImageButton infoIndexOfHealth;
+    ImageButton infoPhMeters;
 
     public HealthFragment() { }
 
@@ -69,31 +77,98 @@ public class HealthFragment extends Fragment {
         this.view = view;
         healthFragment = this;
 
+        infoIndexOfHealth = view.findViewById(R.id.info_index_of_health);
+        infoPhMeters = view.findViewById(R.id.info_ph_meters);
+
+        infoIndexOfHealth.setOnClickListener(listenerInfoIndexOfHealth);
+        infoPhMeters.setOnClickListener(listenerInfoPhMeters);
+
         plant = LoggedUserActivity.getPlant();
 
+        getSmallPlantStateList();
+
+        getNormalSmallPlantStateList();
         getDangerSmallPlantStateList();
         getWarningSmallPlantStateList();
-        getNormalSmallPlantStateList();
+    }
+
+    View.OnClickListener listenerInfoIndexOfHealth = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                    .setIcon(R.drawable.ic_baseline_privacy_tip_24)
+                    .setTitle("Index Of Health")
+                    .setMessage("index of health")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .show();
+        }
+    };
+
+    View.OnClickListener listenerInfoPhMeters = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                    .setIcon(R.drawable.ic_baseline_privacy_tip_24)
+                    .setTitle("PH Meters")
+                    .setMessage("ph meters")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .show();
+        }
+    };
+
+    public void getSmallPlantStateList() {
+
+        listSmallPlantState = new ArrayList<>();
+
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureAir());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
+
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
     }
 
     public void getDangerSmallPlantStateList() {
 
         listDangerSmallPlantState = new ArrayList<>();
 
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureAir());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
+        for (PlantStateModel plantState : listSmallPlantState) {
 
-      /*  listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-        listDangerSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
-*/
+            if (plantState.getValueState() instanceof Double) {
+
+                if (((Double)plantState.getValueState())>((Double) plantState.getEndingYellowValueState())
+                        || ((Double)plantState.getValueState())<((Double) plantState.getStartingYellowValueState())){
+
+                    listDangerSmallPlantState.add(plantState);
+                }
+
+            }else {
+
+                if (((Integer)plantState.getValueState())>((Integer) plantState.getEndingYellowValueState())
+                        || ((Integer)plantState.getValueState())<((Integer) plantState.getStartingYellowValueState())){
+
+                    listDangerSmallPlantState.add(plantState);
+                }
+            }
+        }
+
         initializeDangerRecyclerView(listDangerSmallPlantState);
     }
 
@@ -101,20 +176,30 @@ public class HealthFragment extends Fragment {
 
         listWarningSmallPlantState = new ArrayList<>();
 
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureAir());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
+        for (PlantStateModel plantState : listSmallPlantState) {
 
-        /*listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-        listWarningSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
-*/
+            if (plantState.getValueState() instanceof Double) {
+
+                if ((((Double)plantState.getValueState())>((Double) plantState.getStartingYellowValueState())
+                        && ((Double)plantState.getValueState())<((Double) plantState.getStartingGreenValueState()))
+                        || (((Double)plantState.getValueState())>((Double) plantState.getEndingGreenValueState())
+                        && ((Double)plantState.getValueState())<((Double) plantState.getEndingYellowValueState()))){
+
+                    listWarningSmallPlantState.add(plantState);
+                }
+
+            }else {
+
+                if ((((Integer)plantState.getValueState())>((Integer) plantState.getStartingYellowValueState())
+                        && ((Integer)plantState.getValueState())<((Integer) plantState.getStartingGreenValueState()))
+                        || (((Integer)plantState.getValueState())>((Integer) plantState.getEndingGreenValueState())
+                        && ((Integer)plantState.getValueState())<((Integer) plantState.getEndingYellowValueState()))){
+
+                    listWarningSmallPlantState.add(plantState);
+                }
+            }
+        }
+
         initializeWarningRecyclerView(listWarningSmallPlantState);
     }
 
@@ -122,24 +207,30 @@ public class HealthFragment extends Fragment {
 
         listNormalSmallPlantState = new ArrayList<>();
 
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureAir());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
+        for (PlantStateModel plantState : listSmallPlantState) {
 
-       /* listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-        listNormalSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
-*/
+            if (plantState.getValueState() instanceof Double) {
+
+                if (((Double)plantState.getValueState())>((Double) plantState.getStartingGreenValueState())
+                        || ((Double)plantState.getValueState())<((Double) plantState.getEndingGreenValueState())){
+
+                    listNormalSmallPlantState.add(plantState);
+                }
+
+            }else {
+
+                if (((Integer)plantState.getValueState())>((Integer) plantState.getStartingGreenValueState())
+                        || ((Integer)plantState.getValueState())<((Integer) plantState.getEndingGreenValueState())){
+
+                    listNormalSmallPlantState.add(plantState);
+                }
+            }
+        }
+
         initializeNormalRecyclerView(listNormalSmallPlantState);
     }
 
-    private void initializeDangerRecyclerView(List<PlantStateModel> listPlantState) {
+    private void initializeDangerRecyclerView(List<PlantStateModel> listDangerSmallPlantState) {
 
         recyclerViewDangerSmallPlantState = view.findViewById(R.id.recyclerview_health_danger);
 
@@ -151,7 +242,7 @@ public class HealthFragment extends Fragment {
         recyclerViewDangerSmallPlantState.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void initializeWarningRecyclerView(List<PlantStateModel> listPlantState) {
+    private void initializeWarningRecyclerView(List<PlantStateModel> listWarningSmallPlantState) {
 
         recyclerViewWarningSmallPlantState = view.findViewById(R.id.recyclerview_health_warning);
 
@@ -163,7 +254,7 @@ public class HealthFragment extends Fragment {
         recyclerViewWarningSmallPlantState.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void initializeNormalRecyclerView(List<PlantStateModel> listPlantState) {
+    private void initializeNormalRecyclerView(List<PlantStateModel> listNormalSmallPlantState) {
 
         recyclerViewNormalSmallPlantState = view.findViewById(R.id.recyclerview_health_normal);
 

@@ -1,15 +1,19 @@
 package org.aldomanco.plantsensor.plant_state;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -109,6 +113,23 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
             }
         }
 
+        holder.infoPlantStateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                        .setIcon(R.drawable.ic_baseline_privacy_tip_24)
+                        .setTitle(plantState.getNameState())
+                        .setMessage(plantState.getInfoState())
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +153,8 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
         TextView valuePlantState;
         ProgressBar progressBarPlantState;
 
+        ImageButton infoPlantStateButton;
+
         public PlantStateItemHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -142,6 +165,7 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
             namePlantState = itemView.findViewById(R.id.name_plant_state_id);
             valuePlantState = itemView.findViewById(R.id.value_plant_state_id);
             progressBarPlantState = itemView.findViewById(R.id.progress_bar_plant_state_value_id);
+            infoPlantStateButton = itemView.findViewById(R.id.info_plant_state_button);
         }
     }
 
