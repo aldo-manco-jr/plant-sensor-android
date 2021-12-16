@@ -690,7 +690,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastPrecipitationAmount = new PlantStateModel("Precipitation Amount", R.drawable.luminosita, plant.getForecastPrecipitationAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastPrecipitationAmount = new PlantStateModel("Precipitation Amount", R.drawable.pioggia, plant.getForecastPrecipitationAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastPrecipitationProbability(String plantType) {
@@ -730,7 +730,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastPrecipitationProbability = new PlantStateModel("Precipitation Probability", R.drawable.luminosita, plant.getForecastPrecipitationProbability(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastPrecipitationProbability = new PlantStateModel("Precipitation Probability", R.drawable.precipitazione, plant.getForecastPrecipitationProbability(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastRelativeMoistureAir(String plantType) {
@@ -770,7 +770,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastHumidityAir = new PlantStateModel("Humidity Air", R.drawable.luminosita, plant.getForecastHumidityAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastHumidityAir = new PlantStateModel("Humidity Air", R.drawable.umidita, plant.getForecastHumidityAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastTemperatureAir(String plantType) {
@@ -810,7 +810,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastTemperatureAir = new PlantStateModel("Temperature Air", R.drawable.luminosita, plant.getForecastTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastTemperatureAir = new PlantStateModel("Temperature Air", R.drawable.temperatura_2, plant.getForecastTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastWindSpeed(String plantType) {
@@ -850,7 +850,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastWindSpeed = new PlantStateModel("Wind Speed", R.drawable.luminosita, plant.getForecastWindSpeed(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastWindSpeed = new PlantStateModel("Wind Speed", R.drawable.vento, plant.getForecastWindSpeed(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastPressureAir(String plantType) {
@@ -890,7 +890,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.luminosita, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.pressione, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
     private void initializeForecastIndexPollution(String plantType) {
@@ -930,6 +930,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastIndexPollution = new PlantStateModel("Index Pollution", R.drawable.luminosita, plant.getForecastIndexPollution(), "desc", 1, 10, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastIndexPollution = new PlantStateModel("Index Pollution", R.drawable.qualita_aria, plant.getForecastIndexPollution(), "desc", 1, 10, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+
     }
 }

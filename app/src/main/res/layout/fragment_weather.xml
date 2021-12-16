@@ -13,7 +13,7 @@
         <com.scwang.wave.MultiWaveHeader
             android:id="@+id/waveHeader"
             android:layout_width="wrap_content"
-            android:layout_height="170dp"
+            android:layout_height="148dp"
             android:scaleY="1"
             app:mwhCloseColor="#CEF1C9"
             app:mwhColorAlpha="0.45"
