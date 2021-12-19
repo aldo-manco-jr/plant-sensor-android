@@ -1,9 +1,13 @@
 package org.aldomanco.plantsensor.watering_state;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Shader;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +21,18 @@ import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.models.OpenWeatherMapJSON;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
+import org.aldomanco.plantsensor.services.ServiceGenerator;
+import org.aldomanco.plantsensor.services.WeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +53,11 @@ public class WateringFragment extends Fragment {
     private List<PlantStateModel> listSmallPlantState;
 
     PlantModel plant;
+
+    private SharedPreferences sharedPreferences;
+    private String city;
+
+    private static WeatherService weatherService;
 
     public WateringFragment() { }
 
@@ -118,32 +134,12 @@ public class WateringFragment extends Fragment {
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("city", Context.MODE_PRIVATE);
+        city = sharedPreferences.getString("city", null);
 
-        initializeRecyclerView(listSmallPlantState);
-
-            /*Call<GetAllUsersResponse> httpRequest = LoggedUserActivity.getUsersService().getAllUsers();
-
-            httpRequest.enqueue(new Callback<GetAllUsersResponse>() {
-                @Override
-                public void onResponse(Call<GetAllUsersResponse> call, Response<GetAllUsersResponse> response) {
-                    if (response.isSuccessful()) {
-                        assert response.body() != null : "body() non doveva essere null";
-
-                        initializeRecyclerView(response.body().getAllUsers());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<GetAllUsersResponse> call, Throwable t) {
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-        }*/
+        if (city != null) {
+            getOpenWeatherMapData(city);
+        }
     }
 
     private void initializeRecyclerView(List<PlantStateModel> listPlantState) {
@@ -156,5 +152,91 @@ public class WateringFragment extends Fragment {
 
         recyclerViewSmallPlantState.setAdapter(adapterSmallPlantState);
         recyclerViewSmallPlantState.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void getOpenWeatherMapData(String locationCity) {
+
+        Call<OpenWeatherMapJSON> httpRequest = getWeatherService().getWeatherData(locationCity);
+
+        httpRequest.enqueue(new Callback<OpenWeatherMapJSON>() {
+            @Override
+            public void onResponse(Call<OpenWeatherMapJSON> call, final Response<OpenWeatherMapJSON> response) {
+
+                if (response.isSuccessful()) {
+                    assert response.body() != null : "body() non doveva essere null";
+
+                    OpenWeatherMapJSON openWeatherMapJSON = response.body();
+
+                    LoggedUserActivity.getPlant().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
+                    LoggedUserActivity.getPlant().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
+                    LoggedUserActivity.getPlant().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
+                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getPlant().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
+
+                    LoggedUserActivity.getLoggedUserActivity().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
+                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
+
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+
+                    initializeRecyclerView(listSmallPlantState);
+
+                } else if(response.code()==404){
+                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                            .setIcon(android.R.drawable.stat_notify_error)
+                            .setTitle("Invalid Location")
+                            .setMessage("Please enter an existing city name, the one entered not exists.")
+                            .setPositiveButton("OK", null).show();
+
+                }else if(response.code()==500){
+                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                            .setIcon(android.R.drawable.stat_notify_error)
+                            .setTitle("Server Error")
+                            .setMessage("Internal server error.")
+                            .setPositiveButton("OK", null).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OpenWeatherMapJSON> call, Throwable t) {
+                // errore a livello di rete
+
+                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
+                LoggedUserActivity.getPlant().setForecastPressureAir(0);
+                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
+                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
+                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
+
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+
+                initializeRecyclerView(listSmallPlantState);
+
+                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                        .setIcon(android.R.drawable.stat_notify_error)
+                        .setTitle("Server Error")
+                        .setMessage(t.getMessage())
+                        .setPositiveButton("OK", null)
+                        .show();
+            }
+        });
+    }
+
+    public static WeatherService getWeatherService() {
+
+        if (weatherService == null) {
+            weatherService = ServiceGenerator.createService(WeatherService.class);
+        }
+
+        return weatherService;
     }
 }
