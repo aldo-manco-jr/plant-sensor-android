@@ -11,17 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
-import org.aldomanco.plantsensor.plant_state.PlantModel;
-import org.aldomanco.plantsensor.plant_state.PlantStateAdapter;
-import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
-import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+import org.aldomanco.plantsensor.models.PlantModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,12 +119,10 @@ public class WateringFragment extends Fragment {
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
 
         initializeRecyclerView(listSmallPlantState);
 

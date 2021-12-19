@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.models.PlantModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 
 import java.util.ArrayList;
 import java.util.List;

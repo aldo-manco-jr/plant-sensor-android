@@ -1,4 +1,4 @@
-package org.aldomanco.plantsensor.plant_state;
+package org.aldomanco.plantsensor.models;
 
 public class PlantStateModel {
 
@@ -66,6 +66,14 @@ public class PlantStateModel {
     }
 
     public void setValueState(int valueState) {
+        this.valueState = valueState;
+    }
+
+    public void setValueState(double valueState) {
+        this.valueState = valueState;
+    }
+
+    public void setValueState(String valueState) {
         this.valueState = valueState;
     }
 

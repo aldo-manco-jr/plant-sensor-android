@@ -24,9 +24,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.health_state.HealthFragment;
-import org.aldomanco.plantsensor.plant_state.PlantModel;
+import org.aldomanco.plantsensor.models.PlantModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
-import org.aldomanco.plantsensor.plant_state.PlantStateModel;
 import org.aldomanco.plantsensor.receivers.ConnectionLostReceiver;
 import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
 import org.aldomanco.plantsensor.watering_state.WateringFragment;
@@ -66,17 +66,10 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     private PlantStateModel forecastWeatherState;
     private PlantStateModel forecastPrecipitationAmount;
-    private PlantStateModel forecastPrecipitationProbability;
     private PlantStateModel forecastHumidityAir;
     private PlantStateModel forecastTemperatureAir;
     private PlantStateModel forecastWindSpeed;
     private PlantStateModel forecastPressureAir;
-    private PlantStateModel forecastIndexPollution;
-
-    /*private static StreamsService streamsService;
-    private static UsersService usersService;
-    private static ImagesService imagesService;
-    private static NotificationsService notificationsService;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +90,13 @@ public class LoggedUserActivity extends AppCompatActivity {
                 5,
                 -21,
                 4.3,
-                50
+                50,
+                "",
+                0,
+                0,
+                0,
+                0,
+                0
         );
 
         initializeTemperatureAir(plant.getPlantType());
@@ -107,10 +106,8 @@ public class LoggedUserActivity extends AppCompatActivity {
         initializeLightIntensity(plant.getPlantType());
 
         initializeForecastPrecipitationAmount(plant.getPlantType());
-        initializeForecastPrecipitationProbability(plant.getPlantType());
         initializeForecastRelativeMoistureAir(plant.getPlantType());
         initializeForecastPressureAir(plant.getPlantType());
-        initializeForecastIndexPollution(plant.getPlantType());
         initializeForecastTemperatureAir(plant.getPlantType());
         initializeForecastWindSpeed(plant.getPlantType());
 
@@ -149,8 +146,6 @@ public class LoggedUserActivity extends AppCompatActivity {
             }
 
             sharedPreferences = getSharedPreferences(getString(R.string.sharedpreferences_authentication), Context.MODE_PRIVATE);
-//            streamsService = streamsService = ServiceGenerator.createService(StreamsService.class, getToken());
-//            usersService = ServiceGenerator.createService(UsersService.class, getToken());
 
         } catch (Exception e) { }
     }
@@ -210,49 +205,9 @@ public class LoggedUserActivity extends AppCompatActivity {
         return fragment;
     }
 
-    /*public static StreamsService getStreamsService() {
-        return streamsService;
-    }
-
-    public static NotificationsService getNotificationsService() {
-
-        if (notificationsService == null) {
-            notificationsService = ServiceGenerator.createService(NotificationsService.class, getToken());
-        }
-        return notificationsService;
-    }*/
-
-    public static String getToken() {
-        return token;
-    }
-
     public static String getUsernameLoggedUser() {
         return usernameLoggedUser;
     }
-
-    /*@Override
-    public void onBackPressed() {
-        tellFragments();
-    }
-
-    private void tellFragments() {
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for (Fragment fragment : fragments) {
-            if (fragment instanceof PlantStateFragment)
-                ((PlantStateFragment) fragment).onBackPressed();
-            else if (fragment instanceof WeatherFragment) {
-                ((WeatherFragment) fragment).onBackPressed();
-            } else if (fragment instanceof WateringFragment) {
-                ((WateringFragment) fragment).onBackPressed();
-            } else if (fragment instanceof HealthFragment) {
-                ((HealthFragment) fragment).onBackPressed();
-            }
-        }
-    }*/
-
-    //TODO NON VA BENE QUESTO METODO
-    // le socket vengono ripetute tante volte quante sono le volte in cui il frmmento è STATO creato
-    //TODO è sbagliata, i frammenti continuano a esistere da qualche parte
 
     public void changeFragment(Fragment selectedFragment) {
 
@@ -260,25 +215,6 @@ public class LoggedUserActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.logged_user_fragment, selectedFragment).commit();
         } catch (Exception ignored) { }
-
-        /*Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.logged_user_fragment);
-
-        if (oldFragment != newFragment) {
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transactionsManager = fragmentManager.beginTransaction();
-
-            if (oldFragment != null) {
-                transactionsManager
-                        .replace(R.id.logged_user_fragment, newFragment)
-                        //.remove(oldFragment)
-                        .commit();
-            } else {
-                transactionsManager
-                        .replace(R.id.logged_user_fragment, newFragment)
-                        .commit();
-            }
-        }*/
     }
 
     public static LoggedUserActivity getLoggedUserActivity() {
@@ -309,6 +245,26 @@ public class LoggedUserActivity extends AppCompatActivity {
         return plant;
     }
 
+    public void setForecastPrecipitationAmount(double forecastPrecipitationAmount) {
+        this.forecastPrecipitationAmount.setValueState(forecastPrecipitationAmount);
+    }
+
+    public void setForecastHumidityAir(double forecastHumidityAir) {
+        this.forecastHumidityAir.setValueState(forecastHumidityAir);
+    }
+
+    public void setForecastTemperatureAir(double forecastTemperatureAir) {
+        this.forecastTemperatureAir.setValueState(forecastTemperatureAir);
+    }
+
+    public void setForecastWindSpeed(double forecastWindSpeed) {
+        this.forecastWindSpeed.setValueState(forecastWindSpeed);
+    }
+
+    public void setForecastPressureAir(int forecastPressureAir) {
+        this.forecastPressureAir.setValueState(forecastPressureAir);
+    }
+
     public PlantStateModel getRelativeMoistureSoil() {
         return relativeMoistureSoil;
     }
@@ -337,10 +293,6 @@ public class LoggedUserActivity extends AppCompatActivity {
         return forecastPrecipitationAmount;
     }
 
-    public PlantStateModel getForecastPrecipitationProbability() {
-        return forecastPrecipitationProbability;
-    }
-
     public PlantStateModel getForecastHumidityAir() {
         return forecastHumidityAir;
     }
@@ -355,10 +307,6 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     public PlantStateModel getForecastPressureAir() {
         return forecastPressureAir;
-    }
-
-    public PlantStateModel getForecastIndexPollution() {
-        return forecastIndexPollution;
     }
 
     private void initializeTemperatureAir(String plantType) {
@@ -693,46 +641,6 @@ public class LoggedUserActivity extends AppCompatActivity {
         forecastPrecipitationAmount = new PlantStateModel("Precipitation Amount", R.drawable.pioggia, plant.getForecastPrecipitationAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
-    private void initializeForecastPrecipitationProbability(String plantType) {
-
-        double startingYellowValueState = 0;
-        double endingYellowValueState = 0;
-
-        double startingGreenValueState = 0;
-        double endingGreenValueState = 0;
-
-        switch (plantType) {
-            case "A":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
-                break;
-            case "B":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
-                break;
-            case "C":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
-                break;
-            case "D":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
-                break;
-            default:
-                break;
-        }
-
-        forecastPrecipitationProbability = new PlantStateModel("Precipitation Probability", R.drawable.precipitazione, plant.getForecastPrecipitationProbability(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
-    }
-
     private void initializeForecastRelativeMoistureAir(String plantType) {
 
         double startingYellowValueState = 0;
@@ -891,46 +799,5 @@ public class LoggedUserActivity extends AppCompatActivity {
         }
 
         forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.pressione, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
-    }
-
-    private void initializeForecastIndexPollution(String plantType) {
-
-        double startingYellowValueState = 0;
-        double endingYellowValueState = 0;
-
-        double startingGreenValueState = 0;
-        double endingGreenValueState = 0;
-
-        switch (plantType) {
-            case "A":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
-                break;
-            case "B":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
-                break;
-            case "C":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
-                break;
-            case "D":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
-                break;
-            default:
-                break;
-        }
-
-        forecastIndexPollution = new PlantStateModel("Index Pollution", R.drawable.qualita_aria, plant.getForecastIndexPollution(), "desc", 1, 10, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
-
     }
 }

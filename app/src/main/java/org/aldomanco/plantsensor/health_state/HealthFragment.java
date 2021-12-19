@@ -17,10 +17,9 @@ import android.widget.ImageButton;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
-import org.aldomanco.plantsensor.plant_state.PlantModel;
-import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+import org.aldomanco.plantsensor.models.PlantModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.watering_state.SmallPlantStateAdapter;
-import org.aldomanco.plantsensor.watering_state.WateringFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,8 @@ public class HealthFragment extends Fragment {
     ImageButton infoIndexOfHealth;
     ImageButton infoPhMeters;
 
-    public HealthFragment() { }
+    public HealthFragment() {
+    }
 
     public static HealthFragment newInstance() {
         HealthFragment fragment = new HealthFragment();
@@ -137,12 +137,10 @@ public class HealthFragment extends Fragment {
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationProbability());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-        listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastIndexPollution());
     }
 
     public void getDangerSmallPlantStateList() {
@@ -151,21 +149,10 @@ public class HealthFragment extends Fragment {
 
         for (PlantStateModel plantState : listSmallPlantState) {
 
-            if (plantState.getValueState() instanceof Double) {
+            if (((double) plantState.getValueState()) > ((double) plantState.getEndingYellowValueState())
+                    || ((double) plantState.getValueState()) < ((double) plantState.getStartingYellowValueState())) {
 
-                if (((Double)plantState.getValueState())>((Double) plantState.getEndingYellowValueState())
-                        || ((Double)plantState.getValueState())<((Double) plantState.getStartingYellowValueState())){
-
-                    listDangerSmallPlantState.add(plantState);
-                }
-
-            }else {
-
-                if (((Integer)plantState.getValueState())>((Integer) plantState.getEndingYellowValueState())
-                        || ((Integer)plantState.getValueState())<((Integer) plantState.getStartingYellowValueState())){
-
-                    listDangerSmallPlantState.add(plantState);
-                }
+                listDangerSmallPlantState.add(plantState);
             }
         }
 
@@ -178,25 +165,12 @@ public class HealthFragment extends Fragment {
 
         for (PlantStateModel plantState : listSmallPlantState) {
 
-            if (plantState.getValueState() instanceof Double) {
+            if ((((double) plantState.getValueState()) > ((double) plantState.getStartingYellowValueState())
+                    && ((double) plantState.getValueState()) < ((double) plantState.getStartingGreenValueState()))
+                    || (((double) plantState.getValueState()) > ((double) plantState.getEndingGreenValueState())
+                    && ((double) plantState.getValueState()) < ((double) plantState.getEndingYellowValueState()))) {
 
-                if ((((Double)plantState.getValueState())>((Double) plantState.getStartingYellowValueState())
-                        && ((Double)plantState.getValueState())<((Double) plantState.getStartingGreenValueState()))
-                        || (((Double)plantState.getValueState())>((Double) plantState.getEndingGreenValueState())
-                        && ((Double)plantState.getValueState())<((Double) plantState.getEndingYellowValueState()))){
-
-                    listWarningSmallPlantState.add(plantState);
-                }
-
-            }else {
-
-                if ((((Integer)plantState.getValueState())>((Integer) plantState.getStartingYellowValueState())
-                        && ((Integer)plantState.getValueState())<((Integer) plantState.getStartingGreenValueState()))
-                        || (((Integer)plantState.getValueState())>((Integer) plantState.getEndingGreenValueState())
-                        && ((Integer)plantState.getValueState())<((Integer) plantState.getEndingYellowValueState()))){
-
-                    listWarningSmallPlantState.add(plantState);
-                }
+                listWarningSmallPlantState.add(plantState);
             }
         }
 
@@ -209,21 +183,10 @@ public class HealthFragment extends Fragment {
 
         for (PlantStateModel plantState : listSmallPlantState) {
 
-            if (plantState.getValueState() instanceof Double) {
+            if (((double) plantState.getValueState()) > ((double) plantState.getStartingGreenValueState())
+                    || ((double) plantState.getValueState()) < ((double) plantState.getEndingGreenValueState())) {
 
-                if (((Double)plantState.getValueState())>((Double) plantState.getStartingGreenValueState())
-                        || ((Double)plantState.getValueState())<((Double) plantState.getEndingGreenValueState())){
-
-                    listNormalSmallPlantState.add(plantState);
-                }
-
-            }else {
-
-                if (((Integer)plantState.getValueState())>((Integer) plantState.getStartingGreenValueState())
-                        || ((Integer)plantState.getValueState())<((Integer) plantState.getEndingGreenValueState())){
-
-                    listNormalSmallPlantState.add(plantState);
-                }
+                listNormalSmallPlantState.add(plantState);
             }
         }
 

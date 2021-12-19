@@ -3,7 +3,6 @@ package org.aldomanco.plantsensor.watering_state;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +14,7 @@ import com.bumptech.glide.request.target.Target;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
-import org.aldomanco.plantsensor.plant_state.PlantStateAdapter;
-import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 
 import java.util.List;
 
@@ -88,29 +86,6 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
 
         } else if (plantState.getValueState() instanceof String) {
             //holder.progressBarPlantState.setVisibility(View.INVISIBLE);
-        } else {
-            //holder.progressBarPlantState.setMin((Integer) plantState.getMinValueState());
-            //holder.progressBarPlantState.setMax((Integer) plantState.getMaxValueState());
-            //holder.progressBarPlantState.setProgress((Integer) plantState.getValueState());
-
-            if (((Integer)plantState.getValueState())>((Integer) plantState.getStartingGreenValueState())
-                    || ((Integer)plantState.getValueState())<((Integer) plantState.getEndingGreenValueState())){
-
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
-
-            }else if ((((Integer)plantState.getValueState())>((Integer) plantState.getStartingYellowValueState())
-                    && ((Integer)plantState.getValueState())<((Integer) plantState.getStartingGreenValueState()))
-                    || (((Integer)plantState.getValueState())>((Integer) plantState.getEndingGreenValueState())
-                    && ((Integer)plantState.getValueState())<((Integer) plantState.getEndingYellowValueState()))){
-
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
-
-            }else {
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
-            }
         }
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {

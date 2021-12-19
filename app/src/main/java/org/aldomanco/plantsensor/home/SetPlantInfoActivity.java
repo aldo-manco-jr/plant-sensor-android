@@ -10,17 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.aldomanco.plantsensor.R;
-import org.aldomanco.plantsensor.plant_state.PlantModel;
-import org.aldomanco.plantsensor.plant_state.PlantStateModel;
+import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.weather_state.ManualMapsActivity;
 import org.aldomanco.plantsensor.weather_state.MapsActivity;
-
-import java.util.List;
 
 public class SetPlantInfoActivity extends AppCompatActivity implements View.OnClickListener {
 

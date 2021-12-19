@@ -1,4 +1,4 @@
-package org.aldomanco.plantsensor.plant_state;
+package org.aldomanco.plantsensor.models;
 
 public class PlantModel {
 
@@ -17,12 +17,10 @@ public class PlantModel {
 
     private String forecastWeatherState;
     private double forecastPrecipitationAmount;
-    private int forecastPrecipitationProbability;
     private int forecastHumidityAir;
     private double forecastTemperatureAir;
-    private int forecastWindSpeed;
+    private double forecastWindSpeed;
     private int forecastPressureAir;
-    private int forecastIndexPollution;
 
     public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity) {
         this.plantId = plantId;
@@ -38,7 +36,7 @@ public class PlantModel {
         this.lightIntensity = lightIntensity;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, int forecastPrecipitationProbability, int forecastHumidityAir, double forecastTemperatureAir, int forecastWindSpeed, int forecastPressureAir, int forecastIndexPollution) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, int forecastHumidityAir, double forecastTemperatureAir, int forecastWindSpeed, int forecastPressureAir) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
@@ -52,12 +50,10 @@ public class PlantModel {
         this.lightIntensity = lightIntensity;
         this.forecastWeatherState = forecastWeatherState;
         this.forecastPrecipitationAmount = forecastPrecipitationAmount;
-        this.forecastPrecipitationProbability = forecastPrecipitationProbability;
         this.forecastHumidityAir = forecastHumidityAir;
         this.forecastTemperatureAir = forecastTemperatureAir;
         this.forecastWindSpeed = forecastWindSpeed;
         this.forecastPressureAir = forecastPressureAir;
-        this.forecastIndexPollution = forecastIndexPollution;
     }
 
     public int getPlantId() {
@@ -164,14 +160,6 @@ public class PlantModel {
         this.forecastPrecipitationAmount = forecastPrecipitationAmount;
     }
 
-    public int getForecastPrecipitationProbability() {
-        return forecastPrecipitationProbability;
-    }
-
-    public void setForecastPrecipitationProbability(int forecastPrecipitationProbability) {
-        this.forecastPrecipitationProbability = forecastPrecipitationProbability;
-    }
-
     public int getForecastHumidityAir() {
         return forecastHumidityAir;
     }
@@ -188,11 +176,11 @@ public class PlantModel {
         this.forecastTemperatureAir = forecastTemperatureAir;
     }
 
-    public int getForecastWindSpeed() {
+    public double getForecastWindSpeed() {
         return forecastWindSpeed;
     }
 
-    public void setForecastWindSpeed(int forecastWindSpeed) {
+    public void setForecastWindSpeed(double forecastWindSpeed) {
         this.forecastWindSpeed = forecastWindSpeed;
     }
 
@@ -202,13 +190,5 @@ public class PlantModel {
 
     public void setForecastPressureAir(int forecastPressureAir) {
         this.forecastPressureAir = forecastPressureAir;
-    }
-
-    public int getForecastIndexPollution() {
-        return forecastIndexPollution;
-    }
-
-    public void setForecastIndexPollution(int forecastIndexPollution) {
-        this.forecastIndexPollution = forecastIndexPollution;
     }
 }
