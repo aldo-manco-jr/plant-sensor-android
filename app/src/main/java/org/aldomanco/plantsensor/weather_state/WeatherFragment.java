@@ -73,6 +73,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private SharedPreferences sharedPreferences;
 
+    public static double INFINITE = 2_147_483_647;
+
     public WeatherFragment() {
     }
 
@@ -145,9 +147,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     LoggedUserActivity.getPlant().setPlantLocationCity(city);
                     LoggedUserActivity.getPlant().setPlantLocationCountry(country);
 
-                    Toast.makeText(getActivity(), LoggedUserActivity.getPlant().getPlantLocationCity() + "", Toast.LENGTH_LONG).show();
-                    Toast.makeText(getActivity(), LoggedUserActivity.getPlant().getPlantLocationCountry() + "", Toast.LENGTH_LONG).show();
-
                     getOpenWeatherMapData(city);
                 }
 
@@ -184,20 +183,21 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         city = sharedPreferences.getString("city", null);
 
         if (city != null) {
+
             spinnerPlantLocation.setText(city);
             getOpenWeatherMapData(city);
+
+            listWeatherState = new ArrayList<>();
+
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
+            listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
+
+            initializeRecyclerView(listWeatherState);
         }
-
-        listWeatherState = new ArrayList<>();
-
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
-        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-
-        initializeRecyclerView(listWeatherState);
     }
 
     private void initializeRecyclerView(List<PlantStateModel> listPlantState) {
@@ -261,7 +261,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                             .setMessage("Please enter an existing city name, the one entered not exists.")
                             .setPositiveButton("OK", null).show();
 
-                }else if(response.code()==500){
+                }else {
                     new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                             .setIcon(android.R.drawable.stat_notify_error)
                             .setTitle("Server Error")
@@ -274,21 +274,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
             public void onFailure(Call<OpenWeatherMapJSON> call, Throwable t) {
                 // errore a livello di rete
 
-                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
-                LoggedUserActivity.getPlant().setForecastPressureAir(0);
-                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
-                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
-                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
-                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
-
                 listWeatherState = new ArrayList<>();
-
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
-                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
                 initializeRecyclerView(listWeatherState);
 

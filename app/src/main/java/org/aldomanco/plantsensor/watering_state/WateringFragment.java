@@ -25,6 +25,7 @@ import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
 import org.aldomanco.plantsensor.services.StateServices;
+import org.aldomanco.plantsensor.weather_state.WeatherFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,8 @@ public class WateringFragment extends Fragment {
 
         if (city != null) {
             getOpenWeatherMapData(city);
+        }else {
+            initializeRecyclerView(listSmallPlantState);
         }
     }
 
@@ -189,14 +192,10 @@ public class WateringFragment extends Fragment {
 
                     initializeRecyclerView(listSmallPlantState);
 
-                } else if(response.code()==404){
-                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                            .setIcon(android.R.drawable.stat_notify_error)
-                            .setTitle("Invalid Location")
-                            .setMessage("Please enter an existing city name, the one entered not exists.")
-                            .setPositiveButton("OK", null).show();
+                }else {
 
-                }else if(response.code()==500){
+                    initializeRecyclerView(listSmallPlantState);
+
                     new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                             .setIcon(android.R.drawable.stat_notify_error)
                             .setTitle("Server Error")
@@ -209,28 +208,7 @@ public class WateringFragment extends Fragment {
             public void onFailure(Call<OpenWeatherMapJSON> call, Throwable t) {
                 // errore a livello di rete
 
-                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
-                LoggedUserActivity.getPlant().setForecastPressureAir(0);
-                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
-                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
-                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
-                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
-
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-
                 initializeRecyclerView(listSmallPlantState);
-
-                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                        .setIcon(android.R.drawable.stat_notify_error)
-                        .setTitle("Server Error")
-                        .setMessage(t.getMessage())
-                        .setPositiveButton("OK", null)
-                        .show();
             }
         });
     }

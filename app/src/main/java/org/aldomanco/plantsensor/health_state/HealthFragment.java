@@ -153,6 +153,10 @@ public class HealthFragment extends Fragment {
 
         if (city != null) {
             getOpenWeatherMapData(city);
+        }else {
+            getNormalSmallPlantStateList();
+            getDangerSmallPlantStateList();
+            getWarningSmallPlantStateList();
         }
     }
 
@@ -280,14 +284,12 @@ public class HealthFragment extends Fragment {
                     getDangerSmallPlantStateList();
                     getWarningSmallPlantStateList();
 
-                } else if(response.code()==404){
-                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                            .setIcon(android.R.drawable.stat_notify_error)
-                            .setTitle("Invalid Location")
-                            .setMessage("Please enter an existing city name, the one entered not exists.")
-                            .setPositiveButton("OK", null).show();
+                }else {
 
-                }else if(response.code()==500){
+                    getNormalSmallPlantStateList();
+                    getDangerSmallPlantStateList();
+                    getWarningSmallPlantStateList();
+
                     new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                             .setIcon(android.R.drawable.stat_notify_error)
                             .setTitle("Server Error")
@@ -300,30 +302,9 @@ public class HealthFragment extends Fragment {
             public void onFailure(Call<OpenWeatherMapJSON> call, Throwable t) {
                 // errore a livello di rete
 
-                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
-                LoggedUserActivity.getPlant().setForecastPressureAir(0);
-                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
-                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
-                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
-                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
-
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
-                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
-
                 getNormalSmallPlantStateList();
                 getDangerSmallPlantStateList();
                 getWarningSmallPlantStateList();
-
-                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                        .setIcon(android.R.drawable.stat_notify_error)
-                        .setTitle("Server Error")
-                        .setMessage(t.getMessage())
-                        .setPositiveButton("OK", null)
-                        .show();
             }
         });
     }
