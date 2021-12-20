@@ -1,9 +1,16 @@
 package org.aldomanco.plantsensor.home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,12 +18,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.weather_state.ManualMapsActivity;
-import org.aldomanco.plantsensor.weather_state.MapsActivity;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class SetPlantInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,6 +59,9 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
     String[] arrayPlantTypes;
     ArrayAdapter<String> adapterPlantTypes;
 
+    private String currentLocationLabel;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,18 +88,15 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         adapterPlantLocations = new ArrayAdapter<>(this, R.layout.menu_plant_location, arrayPlantLocations);
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(LoggedUserActivity.getLoggedUserActivity());
+
         plant = new PlantModel(
                 1,
                 "Plant Name",
                 "D",
                 "Isernia",
                 "Italy",
-                "Aldo",
-                2,
-                30,
-                2.3,
-                4.3,
-                5
+                "Aldo"
         );
 
         if (plant.getPlantName()==null || plant.getPlantName().isEmpty()){
@@ -174,8 +188,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
                 plant.setPlantLocationCountry(spinnerPlantLocation.getText().toString().trim().split(" ")[1]);
                 break;
             case R.id.button_drawable_right_gps_initial:
-                intentOpenMap = new Intent(this, MapsActivity.class);
-                startActivityForResult(intentOpenMap, 1);
+                getCurrentLocation();
                 break;
             case R.id.button_drawable_right_maps_initial:
                 intentOpenMap = new Intent(this, ManualMapsActivity.class);
@@ -183,6 +196,43 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
                 break;
             default:
                 break;
+        }
+    }
+
+    private void getCurrentLocation() {
+
+        if (ActivityCompat.checkSelfPermission(LoggedUserActivity.getLoggedUserActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location currentLocation = task.getResult();
+
+                    if (currentLocation != null) {
+
+                        Geocoder geocoder = new Geocoder(LoggedUserActivity.getLoggedUserActivity(), Locale.getDefault());
+
+                        List<Address> listAddresses = null;
+
+                        try {
+
+                            listAddresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+
+                            city = listAddresses.get(0).getLocality();
+                            country = listAddresses.get(0).getCountryName();
+                            currentLocationLabel = city + ", " + country;
+
+                            spinnerPlantLocation.setText(currentLocationLabel);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+        } else {
+            ActivityCompat.requestPermissions(LoggedUserActivity.getLoggedUserActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
 

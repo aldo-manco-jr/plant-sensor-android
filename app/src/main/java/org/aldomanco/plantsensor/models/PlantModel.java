@@ -23,6 +23,15 @@ public class PlantModel {
     private double forecastSnowAmount;
     private double forecastPressureAir;
 
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername) {
+        this.plantId = plantId;
+        this.plantName = plantName;
+        this.plantType = plantType;
+        this.plantLocationCity = plantLocationCity;
+        this.plantLocationCountry = plantLocationCountry;
+        this.plantOwnerUsername = plantOwnerUsername;
+    }
+
     public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity) {
         this.plantId = plantId;
         this.plantName = plantName;

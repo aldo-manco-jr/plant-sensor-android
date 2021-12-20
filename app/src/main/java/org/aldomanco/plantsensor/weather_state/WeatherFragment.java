@@ -1,14 +1,21 @@
 package org.aldomanco.plantsensor.weather_state;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +28,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.aldomanco.plantsensor.R;
@@ -32,8 +43,10 @@ import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
 import org.aldomanco.plantsensor.services.StateServices;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +87,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences sharedPreferences;
 
     public static double INFINITE = 2_147_483_647;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private String currentLocationLabel;
 
     public WeatherFragment() {
     }
@@ -116,6 +133,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         adapterPlantLocations = new ArrayAdapter<>(LoggedUserActivity.getLoggedUserActivity(), R.layout.menu_plant_location, arrayPlantLocations);
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(LoggedUserActivity.getLoggedUserActivity());
+
         getWeatherStateList();
     }
 
@@ -124,8 +143,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.button_automatic_selection_location:
-                intentOpenMap = new Intent(getActivity(), MapsActivity.class);
-                startActivityForResult(intentOpenMap, 1);
+                getCurrentLocation();
                 break;
             case R.id.button_manual_selection_location:
                 intentOpenMap = new Intent(getActivity(), ManualMapsActivity.class);
@@ -137,10 +155,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
                     String editTextCity = spinnerPlantLocation.getText().toString().trim();
 
-                    if (editTextCity.contains(",")){
+                    if (editTextCity.contains(",")) {
                         city = editTextCity.split(",")[0];
                         country = editTextCity.split(",")[1].replace(" ", "");
-                    }else {
+                    } else {
                         city = editTextCity;
                     }
 
@@ -153,6 +171,43 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void getCurrentLocation() {
+
+        if (ActivityCompat.checkSelfPermission(LoggedUserActivity.getLoggedUserActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location currentLocation = task.getResult();
+
+                    if (currentLocation != null) {
+
+                        Geocoder geocoder = new Geocoder(LoggedUserActivity.getLoggedUserActivity(), Locale.getDefault());
+
+                        List<Address> listAddresses = null;
+
+                        try {
+
+                            listAddresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+
+                            city = listAddresses.get(0).getLocality();
+                            country = listAddresses.get(0).getCountryName();
+                            currentLocationLabel = city + ", " + country;
+
+                            spinnerPlantLocation.setText(currentLocationLabel);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+        } else {
+            ActivityCompat.requestPermissions(LoggedUserActivity.getLoggedUserActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
 
@@ -169,9 +224,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
                     spinnerPlantLocation.setText(city + ", " + country);
                 }
-                break;
-            default:
-                break;
+
         }
     }
 
