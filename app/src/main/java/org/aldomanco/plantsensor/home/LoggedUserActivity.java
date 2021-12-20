@@ -3,6 +3,7 @@ package org.aldomanco.plantsensor.home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.aldomanco.plantsensor.R;
+import org.aldomanco.plantsensor.authentication.ConnectionProblemsActivity;
 import org.aldomanco.plantsensor.health_state.HealthFragment;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
@@ -71,6 +73,8 @@ public class LoggedUserActivity extends AppCompatActivity {
     private PlantStateModel forecastPressureAir;
 
     private static StateServices stateServices;
+
+    private Intent intentFirstActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -867,19 +871,15 @@ public class LoggedUserActivity extends AppCompatActivity {
                     changeFragment(plantStateFragment);
                     navbarLoggedUser.setSelectedItemId(0);
 
-                } else if(response.code()==404){
-                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                            .setIcon(android.R.drawable.stat_notify_error)
-                            .setTitle("Invalid Location")
-                            .setMessage("Please enter an existing city name, the one entered not exists.")
-                            .setPositiveButton("OK", null).show();
+                } else {
+                    intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
+                    intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intentFirstActivity);
 
-                }else if(response.code()==500){
-                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                            .setIcon(android.R.drawable.stat_notify_error)
-                            .setTitle("Server Error")
-                            .setMessage("Internal server error.")
-                            .setPositiveButton("OK", null).show();
+                    Intent intent = new Intent(LoggedUserActivity.getLoggedUserActivity(), LoggedUserActivity.class);
+                    stopService(intent);
+
+                    ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
                 }
             }
 
@@ -887,61 +887,14 @@ public class LoggedUserActivity extends AppCompatActivity {
             public void onFailure(Call<ThingSpeakJSON> call, Throwable t) {
                 // errore a livello di rete
 
-                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
-                LoggedUserActivity.getPlant().setForecastPressureAir(0);
-                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
-                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
-                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
-                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
+                intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
+                intentFirstActivity.putExtra("is_logged", true);
+                startActivity(intentFirstActivity);
 
-                plant = new PlantModel(
-                        1,
-                        "Plant Name",
-                        "Fiori Primaverili",
-                        "Isernia",
-                        "Italy",
-                        "Federica",
-                        20,
-                        0,
-                        -21,
-                        0,
-                        50,
-                        "",
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                );
+                Intent intent = new Intent(LoggedUserActivity.getLoggedUserActivity(), LoggedUserActivity.class);
+                stopService(intent);
 
-                initializeTemperatureAir(plant.getPlantType());
-                initializeTemperatureSoil(plant.getPlantType());
-                initializeRelativeMoistureAir(plant.getPlantType());
-                initializeRelativeMoistureSoil(plant.getPlantType());
-                initializeLightIntensity(plant.getPlantType());
-
-                initializeForecastPrecipitationAmount(plant.getPlantType());
-                initializeForecastRelativeMoistureAir(plant.getPlantType());
-                initializeForecastPressureAir(plant.getPlantType());
-                initializeForecastTemperatureAir(plant.getPlantType());
-                initializeForecastWindSpeed(plant.getPlantType());
-                initializeForecastSnowAmount(plant.getPlantType());
-
-                BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
-
-                navbarLoggedUser.setOnNavigationItemSelectedListener(navbarListener);
-
-                plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
-                changeFragment(plantStateFragment);
-                navbarLoggedUser.setSelectedItemId(0);
-
-                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
-                        .setIcon(android.R.drawable.stat_notify_error)
-                        .setTitle("Server Error")
-                        .setMessage(t.getMessage())
-                        .setPositiveButton("OK", null)
-                        .show();
+                ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
             }
         });
     }
