@@ -1,8 +1,6 @@
-package org.aldomanco.plantsensor.models;
+package org.aldomanco.plantsensor.models.http_response_weather;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class OpenWeatherMapJSON {
 
@@ -15,14 +13,17 @@ public class OpenWeatherMapJSON {
     @SerializedName("wind")
     private WindDocument sectionWind;
 
-    //@SerializedName("rain")
-    //private PrecipitationDocument sectionPrecipitation;
+    @SerializedName("rain")
+    private PrecipitationDocument sectionPrecipitation;
 
-    public OpenWeatherMapJSON(WeatherStateDocument sectionWeatherState, MixedWeatherDataDocument sectionMixedWeatherData, WindDocument sectionWind, PrecipitationDocument sectionPrecipitation) {
-      //  this.sectionWeatherState = sectionWeatherState;
+    @SerializedName("snow")
+    private SnowDocument sectionSnow;
+
+    public OpenWeatherMapJSON(MixedWeatherDataDocument sectionMixedWeatherData, WindDocument sectionWind, PrecipitationDocument sectionPrecipitation, SnowDocument sectionSnow) {
         this.sectionMixedWeatherData = sectionMixedWeatherData;
         this.sectionWind = sectionWind;
-        //this.sectionPrecipitation = sectionPrecipitation;
+        this.sectionPrecipitation = sectionPrecipitation;
+        this.sectionSnow = sectionSnow;
     }
 
     /*public WeatherStateDocument getSectionWeatherState() {
@@ -49,11 +50,29 @@ public class OpenWeatherMapJSON {
         this.sectionWind = sectionWind;
     }
 
-    /*public PrecipitationDocument getSectionPrecipitation() {
-        return sectionPrecipitation;
+    public double getSectionPrecipitation() {
+
+        if (sectionPrecipitation==null){
+            return 0.0;
+        }
+
+        return sectionPrecipitation.getForecastPrecipitationAmount();
     }
 
     public void setSectionPrecipitation(PrecipitationDocument sectionPrecipitation) {
         this.sectionPrecipitation = sectionPrecipitation;
-    }*/
+    }
+
+    public double getSectionSnow() {
+
+        if (sectionSnow==null){
+            return 0.0;
+        }
+
+        return sectionSnow.getForecastSnowAmount();
+    }
+
+    public void setSectionSnow(SnowDocument sectionSnow) {
+        this.sectionSnow = sectionSnow;
+    }
 }

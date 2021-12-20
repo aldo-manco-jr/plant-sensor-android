@@ -9,20 +9,21 @@ public class PlantModel {
     private String plantLocationCountry;
     private String plantOwnerUsername;
 
-    private int relativeMoistureSoil;
-    private int relativeMoistureAir;
+    private double relativeMoistureSoil;
+    private double relativeMoistureAir;
     private double temperatureSoil;
     private double temperatureAir;
-    private int lightIntensity;
+    private double lightIntensity;
 
     private String forecastWeatherState;
     private double forecastPrecipitationAmount;
-    private int forecastHumidityAir;
+    private double forecastHumidityAir;
     private double forecastTemperatureAir;
     private double forecastWindSpeed;
-    private int forecastPressureAir;
+    private double forecastSnowAmount;
+    private double forecastPressureAir;
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
@@ -36,7 +37,7 @@ public class PlantModel {
         this.lightIntensity = lightIntensity;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, int relativeMoistureSoil, int relativeMoistureAir, double temperatureSoil, double temperatureAir, int lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, int forecastHumidityAir, double forecastTemperatureAir, int forecastWindSpeed, int forecastPressureAir) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, double forecastHumidityAir, double forecastTemperatureAir, double forecastWindSpeed, double forecastSnowAmount, double forecastPressureAir) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
@@ -53,6 +54,7 @@ public class PlantModel {
         this.forecastHumidityAir = forecastHumidityAir;
         this.forecastTemperatureAir = forecastTemperatureAir;
         this.forecastWindSpeed = forecastWindSpeed;
+        this.forecastSnowAmount = forecastSnowAmount;
         this.forecastPressureAir = forecastPressureAir;
     }
 
@@ -104,19 +106,19 @@ public class PlantModel {
         this.plantOwnerUsername = plantOwnerUsername;
     }
 
-    public int getRelativeMoistureSoil() {
+    public double getRelativeMoistureSoil() {
         return relativeMoistureSoil;
     }
 
-    public void setRelativeMoistureSoil(int relativeMoistureSoil) {
+    public void setRelativeMoistureSoil(double relativeMoistureSoil) {
         this.relativeMoistureSoil = relativeMoistureSoil;
     }
 
-    public int getRelativeMoistureAir() {
+    public double getRelativeMoistureAir() {
         return relativeMoistureAir;
     }
 
-    public void setRelativeMoistureAir(int relativeMoistureAir) {
+    public void setRelativeMoistureAir(double relativeMoistureAir) {
         this.relativeMoistureAir = relativeMoistureAir;
     }
 
@@ -136,11 +138,11 @@ public class PlantModel {
         this.temperatureAir = temperatureAir;
     }
 
-    public int getLightIntensity() {
+    public double getLightIntensity() {
         return lightIntensity;
     }
 
-    public void setLightIntensity(int lightIntensity) {
+    public void setLightIntensity(double lightIntensity) {
         this.lightIntensity = lightIntensity;
     }
 
@@ -160,11 +162,11 @@ public class PlantModel {
         this.forecastPrecipitationAmount = forecastPrecipitationAmount;
     }
 
-    public int getForecastHumidityAir() {
+    public double getForecastHumidityAir() {
         return forecastHumidityAir;
     }
 
-    public void setForecastHumidityAir(int forecastHumidityAir) {
+    public void setForecastHumidityAir(double forecastHumidityAir) {
         this.forecastHumidityAir = forecastHumidityAir;
     }
 
@@ -184,11 +186,19 @@ public class PlantModel {
         this.forecastWindSpeed = forecastWindSpeed;
     }
 
-    public int getForecastPressureAir() {
+    public double getForecastPressureAir() {
         return forecastPressureAir;
     }
 
-    public void setForecastPressureAir(int forecastPressureAir) {
+    public void setForecastPressureAir(double forecastPressureAir) {
         this.forecastPressureAir = forecastPressureAir;
+    }
+
+    public double getForecastSnowAmount() {
+        return forecastSnowAmount;
+    }
+
+    public void setForecastSnowAmount(double forecastSnowAmount) {
+        this.forecastSnowAmount = forecastSnowAmount;
     }
 }

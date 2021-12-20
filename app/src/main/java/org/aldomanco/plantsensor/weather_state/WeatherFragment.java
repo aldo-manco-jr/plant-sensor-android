@@ -1,20 +1,14 @@
 package org.aldomanco.plantsensor.weather_state;
 
 import android.app.Activity;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,19 +21,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
-import org.aldomanco.plantsensor.models.OpenWeatherMapJSON;
+import org.aldomanco.plantsensor.models.http_response_weather.OpenWeatherMapJSON;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.plant_state.PlantStateAdapter;
 import org.aldomanco.plantsensor.models.PlantStateModel;
-import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
-import org.aldomanco.plantsensor.services.WeatherService;
-import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
+import org.aldomanco.plantsensor.services.StateServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +38,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,7 +69,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     String[] arrayPlantLocations;
     ArrayAdapter<String> adapterPlantLocations;
 
-    private static WeatherService weatherService;
+    private static StateServices stateServices;
 
     private SharedPreferences sharedPreferences;
 
@@ -205,6 +194,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
         listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
         listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+        listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
         listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
         initializeRecyclerView(listWeatherState);
@@ -224,7 +214,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private void getOpenWeatherMapData(String locationCity) {
 
-        Call<OpenWeatherMapJSON> httpRequest = getWeatherService().getWeatherData(locationCity);
+        Call<OpenWeatherMapJSON> httpRequest = getStateServices().getWeatherData(locationCity);
 
         httpRequest.enqueue(new Callback<OpenWeatherMapJSON>() {
             @Override
@@ -238,13 +228,15 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     LoggedUserActivity.getPlant().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
                     LoggedUserActivity.getPlant().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
                     LoggedUserActivity.getPlant().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
-                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation());
+                    LoggedUserActivity.getPlant().setForecastSnowAmount(openWeatherMapJSON.getSectionSnow());
                     LoggedUserActivity.getPlant().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
 
                     LoggedUserActivity.getLoggedUserActivity().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
                     LoggedUserActivity.getLoggedUserActivity().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
                     LoggedUserActivity.getLoggedUserActivity().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
-                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastSnowAmount(openWeatherMapJSON.getSectionSnow());
                     LoggedUserActivity.getLoggedUserActivity().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
 
                     listWeatherState = new ArrayList<>();
@@ -253,6 +245,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
                     listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
                     listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                    listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
                     listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -286,6 +279,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 LoggedUserActivity.getPlant().setForecastWindSpeed(0);
                 LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
                 LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
+                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
 
                 listWeatherState = new ArrayList<>();
 
@@ -293,6 +287,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
                 listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
                 listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
                 listWeatherState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
                 initializeRecyclerView(listWeatherState);
@@ -307,13 +302,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public static WeatherService getWeatherService() {
+    public static StateServices getStateServices() {
 
-        if (weatherService == null) {
-            weatherService = ServiceGenerator.createService(WeatherService.class);
+        if (stateServices == null) {
+            stateServices = ServiceGenerator.createService(StateServices.class);
         }
 
-        return weatherService;
+        return stateServices;
     }
 
     @Override

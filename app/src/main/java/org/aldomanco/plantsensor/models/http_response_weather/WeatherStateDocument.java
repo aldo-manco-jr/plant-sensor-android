@@ -1,4 +1,4 @@
-package org.aldomanco.plantsensor.models;
+package org.aldomanco.plantsensor.models.http_response_weather;
 
 import com.google.gson.annotations.SerializedName;
 

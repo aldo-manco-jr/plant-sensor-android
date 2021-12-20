@@ -4,128 +4,108 @@ public class PlantStateModel {
 
     private String nameState;
     private int iconStatePath;
-    private Object valueState;
+    private double valueState;
     private String infoState;
 
-    private Object minValueState;
-    private Object maxValueState;
+    private double minValueState;
+    private double maxValueState;
 
-    private Object startingYellowValueState;
-    private Object endingYellowValueState;
+    private double startingYellowValueState;
+    private double endingYellowValueState;
 
-    private Object startingGreenValueState;
-    private Object endingGreenValueState;
+    private double startingGreenValueState;
+    private double endingGreenValueState;
 
-    public PlantStateModel(String nameState, int iconStatePath, int valueState, String infoState, int minValueState, Object maxValueState, Object startingYellowValueState, int endingYellowValueState, int startingGreenValueState, int endingGreenValueState) {
+    public PlantStateModel(String nameState, int iconStatePath, double valueState, String infoState, double minValueState, double maxValueState, double startingYellowValueState, double endingYellowValueState, double startingGreenValueState, double endingGreenValueState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
-        this.valueState = (int) valueState;
+        this.valueState = valueState;
         this.infoState = infoState;
-        this.minValueState = (int) minValueState;
-        this.maxValueState = (int) maxValueState;
-        this.startingYellowValueState = (int) startingYellowValueState;
-        this.endingYellowValueState = (int) endingYellowValueState;
-        this.startingGreenValueState = (int) startingGreenValueState;
-        this.endingGreenValueState = (int) endingGreenValueState;
-    }
-
-    public PlantStateModel(String nameState, int iconStatePath, double valueState, String infoState, double minValueState, double maxValueState, double startingYellowValueState, double endingYellowValueState, Object startingGreenValueState, Object endingGreenValueState) {
-        this.nameState = nameState;
-        this.iconStatePath = iconStatePath;
-        this.valueState = (double) valueState;
-        this.infoState = infoState;
-        this.minValueState = (double) minValueState;
-        this.maxValueState = (double) maxValueState;
-        this.startingYellowValueState = (double) startingYellowValueState;
-        this.endingYellowValueState = (double) endingYellowValueState;
-        this.startingGreenValueState = (double) startingGreenValueState;
-        this.endingGreenValueState = (double) endingGreenValueState;
-    }
-
-    public PlantStateModel(String nameState, int iconStatePath, String valueState, String infoState) {
-        this.nameState = nameState;
-        this.iconStatePath = iconStatePath;
-        this.valueState = (String) valueState;
-        this.infoState = infoState;
+        this.minValueState = minValueState;
+        this.maxValueState = maxValueState;
+        this.startingYellowValueState = startingYellowValueState;
+        this.endingYellowValueState = endingYellowValueState;
+        this.startingGreenValueState = startingGreenValueState;
+        this.endingGreenValueState = endingGreenValueState;
     }
 
     public String getNameState() {
         return nameState;
     }
 
+    public void setNameState(String nameState) {
+        this.nameState = nameState;
+    }
+
     public int getIconStatePath() {
         return iconStatePath;
-    }
-
-    public String getInfoState() {
-        return infoState;
-    }
-
-    public Object getValueState() {
-        return valueState;
-    }
-
-    public void setValueState(int valueState) {
-        this.valueState = valueState;
-    }
-
-    public void setValueState(double valueState) {
-        this.valueState = valueState;
-    }
-
-    public void setValueState(String valueState) {
-        this.valueState = valueState;
     }
 
     public void setIconStatePath(int iconStatePath) {
         this.iconStatePath = iconStatePath;
     }
 
-    public Object getMinValueState() {
+    public double getValueState() {
+        return valueState;
+    }
+
+    public void setValueState(double valueState) {
+        this.valueState = valueState;
+    }
+
+    public String getInfoState() {
+        return infoState;
+    }
+
+    public void setInfoState(String infoState) {
+        this.infoState = infoState;
+    }
+
+    public double getMinValueState() {
         return minValueState;
     }
 
-    public void setMinValueState(Object minValueState) {
+    public void setMinValueState(double minValueState) {
         this.minValueState = minValueState;
     }
 
-    public Object getMaxValueState() {
+    public double getMaxValueState() {
         return maxValueState;
     }
 
-    public void setMaxValueState(Object maxValueState) {
+    public void setMaxValueState(double maxValueState) {
         this.maxValueState = maxValueState;
     }
 
-    public Object getStartingYellowValueState() {
+    public double getStartingYellowValueState() {
         return startingYellowValueState;
     }
 
-    public void setStartingYellowValueState(Object startingYellowValueState) {
+    public void setStartingYellowValueState(double startingYellowValueState) {
         this.startingYellowValueState = startingYellowValueState;
     }
 
-    public Object getEndingYellowValueState() {
+    public double getEndingYellowValueState() {
         return endingYellowValueState;
     }
 
-    public void setEndingYellowValueState(Object endingYellowValueState) {
+    public void setEndingYellowValueState(double endingYellowValueState) {
         this.endingYellowValueState = endingYellowValueState;
     }
 
-    public Object getStartingGreenValueState() {
+    public double getStartingGreenValueState() {
         return startingGreenValueState;
     }
 
-    public void setStartingGreenValueState(Object startingGreenValueState) {
+    public void setStartingGreenValueState(double startingGreenValueState) {
         this.startingGreenValueState = startingGreenValueState;
     }
 
-    public Object getEndingGreenValueState() {
+    public double getEndingGreenValueState() {
         return endingGreenValueState;
     }
 
-    public void setEndingGreenValueState(Object endingGreenValueState) {
+    public void setEndingGreenValueState(double endingGreenValueState) {
         this.endingGreenValueState = endingGreenValueState;
     }
 }

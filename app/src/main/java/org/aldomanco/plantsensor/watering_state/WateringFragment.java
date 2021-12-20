@@ -2,7 +2,6 @@ package org.aldomanco.plantsensor.watering_state;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Shader;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,11 +20,11 @@ import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
-import org.aldomanco.plantsensor.models.OpenWeatherMapJSON;
+import org.aldomanco.plantsensor.models.http_response_weather.OpenWeatherMapJSON;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
-import org.aldomanco.plantsensor.services.WeatherService;
+import org.aldomanco.plantsensor.services.StateServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class WateringFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String city;
 
-    private static WeatherService weatherService;
+    private static StateServices stateServices;
 
     public WateringFragment() { }
 
@@ -170,19 +169,22 @@ public class WateringFragment extends Fragment {
                     LoggedUserActivity.getPlant().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
                     LoggedUserActivity.getPlant().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
                     LoggedUserActivity.getPlant().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
-                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation());
+                    LoggedUserActivity.getPlant().setForecastSnowAmount(openWeatherMapJSON.getSectionSnow());
                     LoggedUserActivity.getPlant().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
 
                     LoggedUserActivity.getLoggedUserActivity().setForecastHumidityAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastRelativeMoistureAir());
                     LoggedUserActivity.getLoggedUserActivity().setForecastPressureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastPressureAir());
                     LoggedUserActivity.getLoggedUserActivity().setForecastWindSpeed(openWeatherMapJSON.getSectionWind().getForecastWindSpeed());
-                    //LoggedUserActivity.getPlant().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation().getForecastPrecipitationAmount());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastPrecipitationAmount(openWeatherMapJSON.getSectionPrecipitation());
+                    LoggedUserActivity.getLoggedUserActivity().setForecastSnowAmount(openWeatherMapJSON.getSectionSnow());
                     LoggedUserActivity.getLoggedUserActivity().setForecastTemperatureAir(openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir());
 
                     listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
                     listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
                     listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
                     listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                    listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
                     listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
                     initializeRecyclerView(listSmallPlantState);
@@ -212,11 +214,13 @@ public class WateringFragment extends Fragment {
                 LoggedUserActivity.getPlant().setForecastWindSpeed(0);
                 LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
                 LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
+                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
 
                 listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount());
                 listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir());
                 listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir());
                 listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed());
+                listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount());
                 listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir());
 
                 initializeRecyclerView(listSmallPlantState);
@@ -231,12 +235,12 @@ public class WateringFragment extends Fragment {
         });
     }
 
-    public static WeatherService getWeatherService() {
+    public static StateServices getWeatherService() {
 
-        if (weatherService == null) {
-            weatherService = ServiceGenerator.createService(WeatherService.class);
+        if (stateServices == null) {
+            stateServices = ServiceGenerator.createService(StateServices.class);
         }
 
-        return weatherService;
+        return stateServices;
     }
 }

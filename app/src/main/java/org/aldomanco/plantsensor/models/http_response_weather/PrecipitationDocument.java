@@ -1,4 +1,4 @@
-package org.aldomanco.plantsensor.models;
+package org.aldomanco.plantsensor.models.http_response_weather;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +11,12 @@ public class PrecipitationDocument {
         this.forecastPrecipitationAmount = String.valueOf(forecastPrecipitationAmount);
     }
 
-    public double getForecastPrecipitationAmount() {
+    public Double getForecastPrecipitationAmount() {
+
+        if (forecastPrecipitationAmount==null){
+            return 0.0;
+        }
+
         return Double.parseDouble(forecastPrecipitationAmount);
     }
 

@@ -60,33 +60,29 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
         holder.namePlantState.setText(plantState.getNameState());
         holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
 
-        if (plantState.getValueState() instanceof Double) {
-            //holder.progressBarPlantState.setMin(((Double) plantState.getMinValueState()).intValue());
-            //holder.progressBarPlantState.setMax(((Double) plantState.getMaxValueState()).intValue());
-            //holder.progressBarPlantState.setProgress(((Double) plantState.getValueState()).intValue());
+        //holder.progressBarPlantState.setMin(((Double) plantState.getMinValueState()).intValue());
+        //holder.progressBarPlantState.setMax(((Double) plantState.getMaxValueState()).intValue());
+        //holder.progressBarPlantState.setProgress(((Double) plantState.getValueState()).intValue());
 
-            if (((Double)plantState.getValueState())>((Double) plantState.getStartingGreenValueState())
-                    && ((Double)plantState.getValueState())<((Double) plantState.getEndingGreenValueState())){
+        if (plantState.getValueState() >= plantState.getStartingGreenValueState()
+                && plantState.getValueState() <= plantState.getEndingGreenValueState()) {
 
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
+            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+            holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
 
-            }else if ((((Double)plantState.getValueState())>((Double) plantState.getStartingYellowValueState())
-                    && ((Double)plantState.getValueState())<((Double) plantState.getStartingGreenValueState()))
-                    || (((Double)plantState.getValueState())>((Double) plantState.getEndingGreenValueState())
-                    && ((Double)plantState.getValueState())<((Double) plantState.getEndingYellowValueState()))){
+        } else if ((plantState.getValueState() >= plantState.getStartingYellowValueState()
+                && plantState.getValueState() < plantState.getStartingGreenValueState())
+                || (plantState.getValueState() > plantState.getEndingGreenValueState()
+                && plantState.getValueState() <= plantState.getEndingYellowValueState())) {
 
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
+            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+            holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
 
-            }else {
-                //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
-                holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
-            }
-
-        } else if (plantState.getValueState() instanceof String) {
-            //holder.progressBarPlantState.setVisibility(View.INVISIBLE);
+        } else {
+            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+            holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
         }
+
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override

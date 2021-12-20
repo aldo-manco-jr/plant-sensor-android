@@ -1,22 +1,17 @@
 package org.aldomanco.plantsensor.home;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -26,15 +21,18 @@ import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.health_state.HealthFragment;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
+import org.aldomanco.plantsensor.models.http_response_plantsensor.ThingSpeakJSON;
 import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
 import org.aldomanco.plantsensor.receivers.ConnectionLostReceiver;
+import org.aldomanco.plantsensor.services.ServiceGenerator;
+import org.aldomanco.plantsensor.services.StateServices;
 import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
 import org.aldomanco.plantsensor.watering_state.WateringFragment;
 import org.aldomanco.plantsensor.weather_state.WeatherFragment;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoggedUserActivity extends AppCompatActivity {
 
@@ -69,7 +67,10 @@ public class LoggedUserActivity extends AppCompatActivity {
     private PlantStateModel forecastHumidityAir;
     private PlantStateModel forecastTemperatureAir;
     private PlantStateModel forecastWindSpeed;
+    private PlantStateModel forecastSnowAmount;
     private PlantStateModel forecastPressureAir;
+
+    private static StateServices stateServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,47 +80,9 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         loggedUserActivity = this;
 
-        plant = new PlantModel(
-                1,
-                "Plant Name",
-                "Fiori Primaverili",
-                "Isernia",
-                "Italy",
-                "Federica",
-                20,
-                5,
-                -21,
-                4.3,
-                50,
-                "",
-                0,
-                0,
-                0,
-                0,
-                0
-        );
+        getThingSpeakData();
 
-        initializeTemperatureAir(plant.getPlantType());
-        initializeTemperatureSoil(plant.getPlantType());
-        initializeRelativeMoistureAir(plant.getPlantType());
-        initializeRelativeMoistureSoil(plant.getPlantType());
-        initializeLightIntensity(plant.getPlantType());
-
-        initializeForecastPrecipitationAmount(plant.getPlantType());
-        initializeForecastRelativeMoistureAir(plant.getPlantType());
-        initializeForecastPressureAir(plant.getPlantType());
-        initializeForecastTemperatureAir(plant.getPlantType());
-        initializeForecastWindSpeed(plant.getPlantType());
-
-        BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
-
-        navbarLoggedUser.setOnNavigationItemSelectedListener(navbarListener);
-
-        plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
-        changeFragment(plantStateFragment);
-        navbarLoggedUser.setSelectedItemId(0);
-
-        try {
+        /*try {
             token = getIntent().getExtras().getString("authToken");
             usernameLoggedUser = getIntent().getExtras().getString("username");
 
@@ -147,7 +110,7 @@ public class LoggedUserActivity extends AppCompatActivity {
 
             sharedPreferences = getSharedPreferences(getString(R.string.sharedpreferences_authentication), Context.MODE_PRIVATE);
 
-        } catch (Exception e) { }
+        } catch (Exception e) { }*/
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navbarListener =
@@ -261,8 +224,16 @@ public class LoggedUserActivity extends AppCompatActivity {
         this.forecastWindSpeed.setValueState(forecastWindSpeed);
     }
 
-    public void setForecastPressureAir(int forecastPressureAir) {
+    public void setForecastPressureAir(double forecastPressureAir) {
         this.forecastPressureAir.setValueState(forecastPressureAir);
+    }
+
+    public void setForecastSnowAmount(double forecastSnowAmount) {
+        this.forecastSnowAmount.setValueState(forecastSnowAmount);
+    }
+
+    public PlantStateModel getForecastSnowAmount() {
+        return forecastSnowAmount;
     }
 
     public PlantStateModel getRelativeMoistureSoil() {
@@ -761,6 +732,46 @@ public class LoggedUserActivity extends AppCompatActivity {
         forecastWindSpeed = new PlantStateModel("Wind Speed", R.drawable.vento, plant.getForecastWindSpeed(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
     }
 
+    private void initializeForecastSnowAmount(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "A":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "B":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "C":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "D":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            default:
+                break;
+        }
+
+        forecastSnowAmount = new PlantStateModel("Snow Amount", R.drawable.neve, plant.getForecastSnowAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
     private void initializeForecastPressureAir(String plantType) {
 
         double startingYellowValueState = 0;
@@ -799,5 +810,148 @@ public class LoggedUserActivity extends AppCompatActivity {
         }
 
         forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.pressione, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+    }
+
+    private void getThingSpeakData() {
+
+        Call<ThingSpeakJSON> httpRequest = getStateServices().getPlantStateData();
+
+        httpRequest.enqueue(new Callback<ThingSpeakJSON>() {
+            @Override
+            public void onResponse(Call<ThingSpeakJSON> call, final Response<ThingSpeakJSON> response) {
+
+                if (response.isSuccessful()) {
+                    assert response.body() != null : "body() non doveva essere null";
+
+                    ThingSpeakJSON thingSpeakJSON = response.body();
+
+                    plant = new PlantModel(
+                            1,
+                            "Plant Name",
+                            "Fiori Primaverili",
+                            "Isernia",
+                            "Italy",
+                            "Federica",
+                            thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureSoil(),
+                            thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureAir(),
+                            -21,
+                            thingSpeakJSON.getListPlantSensorValues().get(0).getTemperatureAir(),
+                            50,
+                            "",
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                    );
+
+                    initializeTemperatureAir(plant.getPlantType());
+                    initializeTemperatureSoil(plant.getPlantType());
+                    initializeRelativeMoistureAir(plant.getPlantType());
+                    initializeRelativeMoistureSoil(plant.getPlantType());
+                    initializeLightIntensity(plant.getPlantType());
+
+                    initializeForecastPrecipitationAmount(plant.getPlantType());
+                    initializeForecastRelativeMoistureAir(plant.getPlantType());
+                    initializeForecastPressureAir(plant.getPlantType());
+                    initializeForecastTemperatureAir(plant.getPlantType());
+                    initializeForecastWindSpeed(plant.getPlantType());
+                    initializeForecastSnowAmount(plant.getPlantType());
+
+                    BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
+
+                    navbarLoggedUser.setOnNavigationItemSelectedListener(navbarListener);
+
+                    plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
+                    changeFragment(plantStateFragment);
+                    navbarLoggedUser.setSelectedItemId(0);
+
+                } else if(response.code()==404){
+                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                            .setIcon(android.R.drawable.stat_notify_error)
+                            .setTitle("Invalid Location")
+                            .setMessage("Please enter an existing city name, the one entered not exists.")
+                            .setPositiveButton("OK", null).show();
+
+                }else if(response.code()==500){
+                    new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                            .setIcon(android.R.drawable.stat_notify_error)
+                            .setTitle("Server Error")
+                            .setMessage("Internal server error.")
+                            .setPositiveButton("OK", null).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ThingSpeakJSON> call, Throwable t) {
+                // errore a livello di rete
+
+                LoggedUserActivity.getPlant().setForecastHumidityAir(0);
+                LoggedUserActivity.getPlant().setForecastPressureAir(0);
+                LoggedUserActivity.getPlant().setForecastWindSpeed(0);
+                LoggedUserActivity.getPlant().setForecastPrecipitationAmount(0.0);
+                LoggedUserActivity.getPlant().setForecastTemperatureAir(0.0);
+                LoggedUserActivity.getPlant().setForecastSnowAmount(0.0);
+
+                plant = new PlantModel(
+                        1,
+                        "Plant Name",
+                        "Fiori Primaverili",
+                        "Isernia",
+                        "Italy",
+                        "Federica",
+                        20,
+                        0,
+                        -21,
+                        0,
+                        50,
+                        "",
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                );
+
+                initializeTemperatureAir(plant.getPlantType());
+                initializeTemperatureSoil(plant.getPlantType());
+                initializeRelativeMoistureAir(plant.getPlantType());
+                initializeRelativeMoistureSoil(plant.getPlantType());
+                initializeLightIntensity(plant.getPlantType());
+
+                initializeForecastPrecipitationAmount(plant.getPlantType());
+                initializeForecastRelativeMoistureAir(plant.getPlantType());
+                initializeForecastPressureAir(plant.getPlantType());
+                initializeForecastTemperatureAir(plant.getPlantType());
+                initializeForecastWindSpeed(plant.getPlantType());
+                initializeForecastSnowAmount(plant.getPlantType());
+
+                BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
+
+                navbarLoggedUser.setOnNavigationItemSelectedListener(navbarListener);
+
+                plantStateFragment = (PlantStateFragment) createNewInstanceIfNecessary(plantStateFragment, SubsystemEnumeration.plantState);
+                changeFragment(plantStateFragment);
+                navbarLoggedUser.setSelectedItemId(0);
+
+                new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
+                        .setIcon(android.R.drawable.stat_notify_error)
+                        .setTitle("Server Error")
+                        .setMessage(t.getMessage())
+                        .setPositiveButton("OK", null)
+                        .show();
+            }
+        });
+    }
+
+    public static StateServices getStateServices() {
+
+        if (stateServices == null) {
+            stateServices = ServiceGenerator.createService(StateServices.class);
+        }
+
+        return stateServices;
     }
 }
