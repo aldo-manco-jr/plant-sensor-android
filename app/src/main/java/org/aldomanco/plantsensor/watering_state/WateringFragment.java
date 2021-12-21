@@ -248,7 +248,7 @@ public class WateringFragment extends Fragment {
     public void stopService(View view){
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("automatic_water", false);
+        editor.putBoolean("automatic_watering", false);
         editor.apply();
 
         Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);

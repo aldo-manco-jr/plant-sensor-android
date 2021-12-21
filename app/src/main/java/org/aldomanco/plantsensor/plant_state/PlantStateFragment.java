@@ -1,5 +1,7 @@
 package org.aldomanco.plantsensor.plant_state;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,12 +10,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
@@ -28,7 +34,7 @@ import java.util.List;
  * Use the {@link PlantStateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlantStateFragment extends Fragment {
+public class PlantStateFragment extends Fragment implements View.OnTouchListener {
 
     private PlantStateAdapter adapter;
 
@@ -47,6 +53,8 @@ public class PlantStateFragment extends Fragment {
 
     //private final String basicUrlImage = "http://res.cloudinary.com/dfn8llckr/image/upload/v";
     private final String basicUrlImage = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Lol_circle.png";
+
+    private SharedPreferences sharedPreferences;
 
     public static PlantStateFragment getPlantStateFragment() {
         return plantStateFragment;
@@ -75,11 +83,50 @@ public class PlantStateFragment extends Fragment {
         this.view = view;
         plantStateFragment = this;
 
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
+
         editTextPlantName = view.findViewById(R.id.edittext_plant_name_id);
+        editTextPlantName.setOnTouchListener(this);
         spinnerPlantType = view.findViewById(R.id.spinner_plant_type_id);
         arrayPlantTypes = getResources().getStringArray(R.array.plantTypes);
         adapterPlantTypes = new ArrayAdapter<>(requireContext(), R.layout.menu_plant_types, arrayPlantTypes);
         spinnerPlantType.setAdapter(adapterPlantTypes);
+
+        spinnerPlantType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                switch (i) {
+                    case 0:
+                        editor.putString("plant_type", "Fiori Primaverili");
+                        break;
+                    case 1:
+                        editor.putString("plant_type", "Fiori Autunnali");
+                        break;
+                    case 2:
+                        editor.putString("plant_type", "Pianta Alimurgica");
+                        break;
+                    case 3:
+                        editor.putString("plant_type", "Pianta Grassa");
+                        break;
+                    case 4:
+                        editor.putString("plant_type", "Pianta Rampicante");
+                        break;
+                    case 5:
+                        editor.putString("plant_type", "Pianta Sempreverde");
+                        break;
+                    case 6:
+                        editor.putString("plant_type", "Pianta Tropicale");
+                        break;
+                    default:
+                        break;
+                }
+
+                editor.apply();
+            }
+        });
 
         getPlantStateList();
     }
@@ -98,25 +145,6 @@ public class PlantStateFragment extends Fragment {
         listPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
         initializeRecyclerView(listPlantState);
-
-            /*Call<GetAllUsersResponse> httpRequest = LoggedUserActivity.getUsersService().getAllUsers();
-
-            httpRequest.enqueue(new Callback<GetAllUsersResponse>() {
-                @Override
-                public void onResponse(Call<GetAllUsersResponse> call, Response<GetAllUsersResponse> response) {
-                    if (response.isSuccessful()) {
-                        assert response.body() != null : "body() non doveva essere null";
-
-                        initializeRecyclerView(response.body().getAllUsers());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<GetAllUsersResponse> call, Throwable t) {
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-        }*/
     }
 
     private void initializePlantInfo(String plantName, String plantType) {
@@ -173,5 +201,29 @@ public class PlantStateFragment extends Fragment {
         arrayPlantTypes = getResources().getStringArray(R.array.plantTypes);
         adapterPlantTypes = new ArrayAdapter<>(requireContext(), R.layout.menu_plant_types, arrayPlantTypes);
         spinnerPlantType.setAdapter(adapterPlantTypes);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        boolean isTouched = event.getAction() == MotionEvent.ACTION_DOWN;
+        EditText editText = (EditText) v;
+
+        if (isTouched) {
+            final int eyeIconSize = 24;
+            final int passwordFieldWidth = editText.getWidth();
+            final int eyeWidthSize = passwordFieldWidth - eyeIconSize;
+
+            if (event.getRawX() >= eyeWidthSize) {
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("plant_name", editText.getText().toString().trim());
+                editor.apply();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

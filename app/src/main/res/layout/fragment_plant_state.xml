@@ -58,8 +58,8 @@
                     android:minHeight="48dp"
                     android:text="Name"
                     android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"/>
-
+                    android:layout_marginLeft="5dp"
+                    android:drawableRight="@drawable/ic_baseline_save_24" />
 
             </LinearLayout>
 
