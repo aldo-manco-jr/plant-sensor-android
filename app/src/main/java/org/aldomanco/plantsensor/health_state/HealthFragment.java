@@ -148,7 +148,7 @@ public class HealthFragment extends Fragment {
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
-        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("city", Context.MODE_PRIVATE);
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
         city = sharedPreferences.getString("city", null);
 
         if (city != null) {

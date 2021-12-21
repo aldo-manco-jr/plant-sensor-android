@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -41,7 +43,6 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
     String plantName;
     String plantType;
     String plantLocationCity;
-    String plantLocationCountry;
 
     Button buttonSetPlantInfo;
     ImageView buttonSetAutomaticLocation;
@@ -51,8 +52,6 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
     String city;
     String country;
 
-    PlantModel plant;
-
     String[] arrayPlantLocations;
     ArrayAdapter<String> adapterPlantLocations;
 
@@ -61,6 +60,8 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
     private String currentLocationLabel;
     private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,62 +89,43 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         adapterPlantLocations = new ArrayAdapter<>(this, R.layout.menu_plant_location, arrayPlantLocations);
         spinnerPlantLocation.setAdapter(adapterPlantLocations);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(LoggedUserActivity.getLoggedUserActivity());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        plant = new PlantModel(
-                1,
-                "Plant Name",
-                "D",
-                "Isernia",
-                "Italy",
-                "Aldo"
-        );
+        sharedPreferences = getSharedPreferences("plant_data", Context.MODE_PRIVATE);
+        plantName = sharedPreferences.getString("plant_name", "");
+        plantType = sharedPreferences.getString("plant_type", "");
+        plantLocationCity = sharedPreferences.getString("city", "");
 
-        if (plant.getPlantName()==null || plant.getPlantName().isEmpty()){
-            plantName="";
-        }else {
-            plantName=plant.getPlantName();
-        }
-
-        if (plant.getPlantType()==null || plant.getPlantType().isEmpty()){
-            plantType="";
-        }else {
-            plantType=plant.getPlantType();
-        }
-
-        if (plant.getPlantLocationCity()==null || plant.getPlantName().isEmpty()){
-            plantLocationCity="";
-        }else {
-            plantLocationCity = plant.getPlantLocationCity();
-        }
-
-        if(plant.getPlantLocationCountry()==null || plant.getPlantLocationCountry().isEmpty()){
-            plantLocationCountry="";
-        }else {
-            plantLocationCountry = plant.getPlantLocationCountry();
-        }
-
-        initializePlantInfo(plantName, plantType, plantLocationCity, plantLocationCountry);
+        initializePlantInfo(plantName, plantType, plantLocationCity);
     }
 
-    private void initializePlantInfo(String plantName, String plantType, String plantCity, String plantCountry){
+    private void initializePlantInfo(String plantName, String plantType, String plantCity){
 
         editTextPlantName.setText(plantName);
 
         int indexPlantType = -1;
 
         switch (plantType){
-            case "A":
+            case "Fiori Primaverili":
                 indexPlantType = 0;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 indexPlantType = 1;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 indexPlantType = 2;
                 break;
-            case "D":
+            case "Pianta Grassa":
                 indexPlantType = 3;
+                break;
+            case "Pianta Rampicante":
+                indexPlantType = 4;
+                break;
+            case "Pianta Sempreverde":
+                indexPlantType = 5;
+                break;
+            case "Pianta Tropicale":
+                indexPlantType = 6;
                 break;
             default:
                 break;
@@ -154,19 +136,17 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
         int indexPlantLocation = -1;
 
-        String plantLocation = plantCity + ", " + plantCountry;
-
-        switch (plantLocation){
-            case "Isernia, Italy":
+        switch (plantCity){
+            case "Isernia":
                 indexPlantLocation = 0;
                 break;
-            case "Roma, Italy":
+            case "Roma":
                 indexPlantLocation = 1;
                 break;
-            case "Milano, Italy":
+            case "Milano":
                 indexPlantLocation = 2;
                 break;
-            case "Torino, Italy":
+            case "Torino":
                 indexPlantLocation = 3;
                 break;
             default:
@@ -174,7 +154,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         }
 
         spinnerPlantLocation.setListSelection(indexPlantLocation);
-        spinnerPlantLocation.setText(plantLocation);
+        spinnerPlantLocation.setText(plantCity);
     }
 
     @Override
@@ -182,10 +162,13 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
         switch (view.getId()){
             case R.id.button_set_plant_info_initial:
-                plant.setPlantName(editTextPlantName.getText().toString().trim());
-                plant.setPlantType(spinnerPlantType.getText().toString().trim());
-                plant.setPlantLocationCity(spinnerPlantLocation.getText().toString().trim().split(",")[0]);
-                plant.setPlantLocationCountry(spinnerPlantLocation.getText().toString().trim().split(" ")[1]);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("plant_name", editTextPlantName.getText().toString().trim());
+                editor.putString("plant_type", spinnerPlantType.getText().toString().trim());
+                editor.putString("city", spinnerPlantLocation.getText().toString().trim().split(",")[0]);
+                editor.apply();
+
                 break;
             case R.id.button_drawable_right_gps_initial:
                 getCurrentLocation();
@@ -201,7 +184,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
     private void getCurrentLocation() {
 
-        if (ActivityCompat.checkSelfPermission(LoggedUserActivity.getLoggedUserActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
@@ -210,7 +193,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
 
                     if (currentLocation != null) {
 
-                        Geocoder geocoder = new Geocoder(LoggedUserActivity.getLoggedUserActivity(), Locale.getDefault());
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                         List<Address> listAddresses = null;
 
@@ -232,7 +215,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
             });
 
         } else {
-            ActivityCompat.requestPermissions(LoggedUserActivity.getLoggedUserActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
 

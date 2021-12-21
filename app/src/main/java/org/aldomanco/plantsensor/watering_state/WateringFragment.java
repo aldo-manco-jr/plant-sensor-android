@@ -1,16 +1,21 @@
 package org.aldomanco.plantsensor.watering_state;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +64,8 @@ public class WateringFragment extends Fragment {
 
     private static StateServices stateServices;
 
+    private Intent intentServiceAutomaticWatering;
+
     public WateringFragment() { }
 
     public static WateringFragment newInstance() {
@@ -84,12 +91,20 @@ public class WateringFragment extends Fragment {
         this.view = view;
         wateringFragment = this;
 
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
+
         switchAutomaticWatering = view.findViewById(R.id.switch_automatic_watering);
         switchManualWatering = view.findViewById(R.id.switch_manual_watering);
 
-        switchAutomaticWatering.setOnCheckedChangeListener(onActivationAutomaticWatering);
+        boolean automaticWatering = sharedPreferences.getBoolean("automatic_watering", false);
 
+        switchAutomaticWatering.setChecked(automaticWatering);
+        switchManualWatering.setChecked(false);
+
+        switchAutomaticWatering.setOnCheckedChangeListener(onActivationAutomaticWatering);
         switchManualWatering.setOnCheckedChangeListener(onActivationManualWatering);
+
+        intentServiceAutomaticWatering = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
 
         getSmallPlantStateList();
     }
@@ -100,24 +115,23 @@ public class WateringFragment extends Fragment {
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
             if (isChecked){
-                Toast.makeText(getActivity(), "ON manual", Toast.LENGTH_LONG).show();
                 switchAutomaticWatering.setChecked(false);
-            }else {
-                Toast.makeText(getActivity(), "OFF manual", Toast.LENGTH_LONG).show();
+                stopService(null);
             }
         }
     };
 
     CompoundButton.OnCheckedChangeListener onActivationAutomaticWatering = new CompoundButton.OnCheckedChangeListener() {
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
             if (isChecked){
-                Toast.makeText(getActivity(), "ON auto", Toast.LENGTH_LONG).show();
                 switchManualWatering.setChecked(false);
+                startService(null);
             }else {
-                Toast.makeText(getActivity(), "OFF auto", Toast.LENGTH_LONG).show();
+                stopService(null);
             }
         }
     };
@@ -134,7 +148,6 @@ public class WateringFragment extends Fragment {
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil());
         listSmallPlantState.add(LoggedUserActivity.getLoggedUserActivity().getLightIntensity());
 
-        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("city", Context.MODE_PRIVATE);
         city = sharedPreferences.getString("city", null);
 
         if (city != null) {
@@ -220,5 +233,25 @@ public class WateringFragment extends Fragment {
         }
 
         return stateServices;
+    }
+
+    public void startService(View view){
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("automatic_watering", true);
+        editor.apply();
+
+        Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
+        ContextCompat.startForegroundService(LoggedUserActivity.getLoggedUserActivity(), intentService);
+    }
+
+    public void stopService(View view){
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("automatic_water", false);
+        editor.apply();
+
+        Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
+        getActivity().stopService(intentService);
     }
 }

@@ -1,20 +1,28 @@
 package org.aldomanco.plantsensor.home;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +37,7 @@ import org.aldomanco.plantsensor.receivers.ConnectionLostReceiver;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
 import org.aldomanco.plantsensor.services.StateServices;
 import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
+import org.aldomanco.plantsensor.watering_state.AutomaticWateringService;
 import org.aldomanco.plantsensor.watering_state.WateringFragment;
 import org.aldomanco.plantsensor.weather_state.WeatherFragment;
 
@@ -38,9 +47,6 @@ import retrofit2.Response;
 
 public class LoggedUserActivity extends AppCompatActivity {
 
-    private static String token;
-    private static String usernameLoggedUser;
-
     private PlantStateFragment plantStateFragment = null;
     private WeatherFragment weatherFragment = null;
     private HealthFragment healthFragment = null;
@@ -49,10 +55,6 @@ public class LoggedUserActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private static LoggedUserActivity loggedUserActivity;
-
-    private static final String NOTIFICATION_CHANNEL_ID = "PlantSensor Notification Manager ID";
-    private static final String NOTIFICATION_CHANNEL_NAME = "PlantSensor Notification Manager Title";
-    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "PlantSensor Notification Manager Description";
 
     private ConnectionLostReceiver connectionLostReceiver = new ConnectionLostReceiver();
 
@@ -76,6 +78,11 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     private Intent intentFirstActivity;
 
+    private String plantName;
+    private String plantType;
+    private String plantLocationCity;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,37 +91,18 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         loggedUserActivity = this;
 
+        sharedPreferences = getSharedPreferences("plant_data", Context.MODE_PRIVATE);
+        plantName = sharedPreferences.getString("plant_name", "");
+        plantType = sharedPreferences.getString("plant_type", "");
+        plantLocationCity = sharedPreferences.getString("city", "");
+
+        boolean automaticWatering = sharedPreferences.getBoolean("automatic_watering", false);
+
+        if (automaticWatering){
+            startService();
+        }
+
         getThingSpeakData();
-
-        /*try {
-            token = getIntent().getExtras().getString("authToken");
-            usernameLoggedUser = getIntent().getExtras().getString("username");
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                NotificationChannel channel = new NotificationChannel(
-                        NOTIFICATION_CHANNEL_ID,
-                        NOTIFICATION_CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
-
-                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
-
-                NotificationCompat.Builder notification = new NotificationCompat.Builder(LoggedUserActivity.getLoggedUserActivity(), NOTIFICATION_CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_baseline_insert_photo_24)
-                        .setContentTitle("Login Successful")
-                        .setContentText("Welcome " + LoggedUserActivity.getUsernameLoggedUser() + "!")
-                        .setPriority(NotificationCompat.PRIORITY_LOW)
-                        .setAutoCancel(true);
-
-                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(LoggedUserActivity.getLoggedUserActivity());
-                notificationManagerCompat.notify(1, notification.build());
-            }
-
-            sharedPreferences = getSharedPreferences(getString(R.string.sharedpreferences_authentication), Context.MODE_PRIVATE);
-
-        } catch (Exception e) { }*/
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navbarListener =
@@ -172,10 +160,6 @@ public class LoggedUserActivity extends AppCompatActivity {
         return fragment;
     }
 
-    public static String getUsernameLoggedUser() {
-        return usernameLoggedUser;
-    }
-
     public void changeFragment(Fragment selectedFragment) {
 
         try {
@@ -186,10 +170,6 @@ public class LoggedUserActivity extends AppCompatActivity {
 
     public static LoggedUserActivity getLoggedUserActivity() {
         return loggedUserActivity;
-    }
-
-    public static String getNotificationChannelId() {
-        return NOTIFICATION_CHANNEL_ID;
     }
 
     @Override
@@ -585,29 +565,47 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+            case "Fiori Primaverili":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
                 break;
-            case "B":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
+            case "Fiori Autunnali":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
                 break;
-            case "C":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+            case "Pianta Alimurgica":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
                 break;
-            case "D":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
                 break;
             default:
                 break;
@@ -625,25 +623,43 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -665,25 +681,43 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -705,25 +739,43 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -745,25 +797,43 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -785,25 +855,43 @@ public class LoggedUserActivity extends AppCompatActivity {
         double endingGreenValueState = 0;
 
         switch (plantType) {
-            case "A":
+            case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "B":
+            case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "C":
+            case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
                 endingGreenValueState = 70;
                 break;
-            case "D":
+            case "Pianta Grassa":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = 10;
+                endingYellowValueState = 90;
+                startingGreenValueState = 30;
+                endingGreenValueState = 70;
+                break;
+            case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
                 startingGreenValueState = 30;
@@ -831,11 +919,9 @@ public class LoggedUserActivity extends AppCompatActivity {
 
                     plant = new PlantModel(
                             1,
-                            "Plant Name",
-                            "Fiori Primaverili",
-                            "Isernia",
-                            "Italy",
-                            "Federica",
+                            plantName,
+                            plantType,
+                            plantLocationCity,
                             thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureSoil(),
                             thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureAir(),
                             -21,
@@ -906,5 +992,10 @@ public class LoggedUserActivity extends AppCompatActivity {
         }
 
         return stateServices;
+    }
+
+    public void startService(){
+        Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
+        ContextCompat.startForegroundService(LoggedUserActivity.getLoggedUserActivity(), intentService);
     }
 }

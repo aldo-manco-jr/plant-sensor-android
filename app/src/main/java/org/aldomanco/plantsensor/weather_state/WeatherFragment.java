@@ -86,11 +86,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private SharedPreferences sharedPreferences;
 
-    public static double INFINITE = 2_147_483_647;
-
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private String currentLocationLabel;
+    private String chosenLocationLabel;
 
     public WeatherFragment() {
     }
@@ -163,7 +162,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     }
 
                     LoggedUserActivity.getPlant().setPlantLocationCity(city);
-                    LoggedUserActivity.getPlant().setPlantLocationCountry(country);
 
                     getOpenWeatherMapData(city);
                 }
@@ -222,7 +220,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     city = data.getStringExtra("city");
                     country = data.getStringExtra("country");
 
-                    spinnerPlantLocation.setText(city + ", " + country);
+                    chosenLocationLabel = city + ", " + country;
+
+                    spinnerPlantLocation.setText(chosenLocationLabel);
                 }
 
         }
@@ -232,7 +232,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
         plant = LoggedUserActivity.getPlant();
 
-        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("city", Context.MODE_PRIVATE);
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
         city = sharedPreferences.getString("city", null);
 
         if (city != null) {

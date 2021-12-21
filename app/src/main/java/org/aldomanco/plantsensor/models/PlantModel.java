@@ -6,8 +6,6 @@ public class PlantModel {
     private String plantName;
     private String plantType;
     private String plantLocationCity;
-    private String plantLocationCountry;
-    private String plantOwnerUsername;
 
     private double relativeMoistureSoil;
     private double relativeMoistureAir;
@@ -23,22 +21,18 @@ public class PlantModel {
     private double forecastSnowAmount;
     private double forecastPressureAir;
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocationCity = plantLocationCity;
-        this.plantLocationCountry = plantLocationCountry;
-        this.plantOwnerUsername = plantOwnerUsername;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocationCity = plantLocationCity;
-        this.plantLocationCountry = plantLocationCountry;
-        this.plantOwnerUsername = plantOwnerUsername;
         this.relativeMoistureSoil = relativeMoistureSoil;
         this.relativeMoistureAir = relativeMoistureAir;
         this.temperatureSoil = temperatureSoil;
@@ -46,13 +40,11 @@ public class PlantModel {
         this.lightIntensity = lightIntensity;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, String plantLocationCountry, String plantOwnerUsername, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, double forecastHumidityAir, double forecastTemperatureAir, double forecastWindSpeed, double forecastSnowAmount, double forecastPressureAir) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, double forecastHumidityAir, double forecastTemperatureAir, double forecastWindSpeed, double forecastSnowAmount, double forecastPressureAir) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocationCity = plantLocationCity;
-        this.plantLocationCountry = plantLocationCountry;
-        this.plantOwnerUsername = plantOwnerUsername;
         this.relativeMoistureSoil = relativeMoistureSoil;
         this.relativeMoistureAir = relativeMoistureAir;
         this.temperatureSoil = temperatureSoil;
@@ -97,22 +89,6 @@ public class PlantModel {
 
     public void setPlantLocationCity(String plantLocationCity) {
         this.plantLocationCity = plantLocationCity;
-    }
-
-    public String getPlantLocationCountry() {
-        return plantLocationCountry;
-    }
-
-    public void setPlantLocationCountry(String plantLocationCountry) {
-        this.plantLocationCountry = plantLocationCountry;
-    }
-
-    public String getPlantOwnerUsername() {
-        return plantOwnerUsername;
-    }
-
-    public void setPlantOwnerUsername(String plantOwnerUsername) {
-        this.plantOwnerUsername = plantOwnerUsername;
     }
 
     public double getRelativeMoistureSoil() {

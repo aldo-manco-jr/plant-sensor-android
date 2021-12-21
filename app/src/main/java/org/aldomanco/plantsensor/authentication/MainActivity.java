@@ -23,27 +23,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intentFirstActivity = null;
 
         if (isOnline()){
-            // l'utente è connesso a internet
-            /*SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreferences_authentication), Context.MODE_PRIVATE);
-            String token = sharedPreferences.getString(getString(R.string.sharedpreferences_token), null);
-
-            if (token != null) {
-                try {
-                            // il token è ancora valido
-                            *//*intentFirstActivity = new Intent(this, LoggedUserActivity.class);
-                            intentFirstActivity.putExtra("authToken", token);
-                            intentFirstActivity.putExtra("username", username);
-                            intentFirstActivity.putExtra("_id", id);*//*
-                } catch (Exception ignored) {}
-            }*/
+            intentFirstActivity = new Intent(this, LoggedUserActivity.class);
         } else {
             // esistono problemi di connessione
             intentFirstActivity = new Intent(this, ConnectionProblemsActivity.class);
-        }
-
-        if (intentFirstActivity == null){
-            // non era stata effettuata alcuna scelta, quindi l'utente non era connesso
-            intentFirstActivity = new Intent(this, LoggedUserActivity.class);
         }
 
         intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
