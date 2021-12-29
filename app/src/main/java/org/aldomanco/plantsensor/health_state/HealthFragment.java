@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
@@ -67,6 +68,12 @@ public class HealthFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String city;
 
+    private PlantStateModel phMeters;
+    private PlantStateModel indexOfHealth;
+
+    private TextView phMetersValue;
+    private TextView indexOfHealthValue;
+
     public HealthFragment() {
     }
 
@@ -101,6 +108,15 @@ public class HealthFragment extends Fragment {
 
         plant = LoggedUserActivity.getPlant();
 
+        initializePhMeters(plant.getPlantType());
+        initializeIndexOfHealth(plant.getPlantType());
+
+        phMetersValue = view.findViewById(R.id.percentual_phmeters);
+        indexOfHealthValue = view.findViewById(R.id.percentual_healt);
+
+        phMetersValue.setText(String.valueOf(phMeters.getValueState()));
+        indexOfHealthValue.setText(String.valueOf(indexOfHealth.getValueState()));
+
         getSmallPlantStateList();
     }
 
@@ -110,7 +126,7 @@ public class HealthFragment extends Fragment {
             new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                     .setIcon(R.drawable.ic_baseline_privacy_tip_24)
                     .setTitle("Index Of Health")
-                    .setMessage("L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori ")
+                    .setMessage("L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -316,5 +332,143 @@ public class HealthFragment extends Fragment {
         }
 
         return stateServices;
+    }
+
+    private void initializePhMeters(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = -25;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        phMeters = new PlantStateModel(
+                "PH Meters",
+                R.drawable.ph_sensor,
+                plant.getPhMeters(),
+                "Il sensore del PH rileva il ph presente nel terreno, ossia la concentrazione degli ioni idrogeno nel terreno",
+                0,
+                14,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
+    }
+
+    private void initializeIndexOfHealth(String plantType) {
+
+        double startingYellowValueState = 0;
+        double endingYellowValueState = 0;
+
+        double startingGreenValueState = 0;
+        double endingGreenValueState = 0;
+
+        switch (plantType) {
+            case "Fiori Primaverili":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Fiori Autunnali":
+                startingYellowValueState = -30;
+                endingYellowValueState = 30;
+                startingGreenValueState = -10;
+                endingGreenValueState = 15;
+                break;
+            case "Pianta Alimurgica":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Grassa":
+                startingYellowValueState = -25;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Rampicante":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Sempreverde":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            case "Pianta Tropicale":
+                startingYellowValueState = -20;
+                endingYellowValueState = 40;
+                startingGreenValueState = 0;
+                endingGreenValueState = 25;
+                break;
+            default:
+                break;
+        }
+
+        double index = 94;
+
+        indexOfHealth = new PlantStateModel(
+                "Index Of Health",
+                R.drawable.plant_healt,
+                index,
+                "L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori",
+                -40,
+                50,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 }

@@ -21,6 +21,9 @@ public class PlantModel {
     private double forecastSnowAmount;
     private double forecastPressureAir;
 
+    private double phMeters;
+    private double indexOfHealth;
+
     public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity) {
         this.plantId = plantId;
         this.plantName = plantName;
@@ -28,7 +31,7 @@ public class PlantModel {
         this.plantLocationCity = plantLocationCity;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, double phMeters) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
@@ -38,9 +41,10 @@ public class PlantModel {
         this.temperatureSoil = temperatureSoil;
         this.temperatureAir = temperatureAir;
         this.lightIntensity = lightIntensity;
+        this.phMeters = phMeters;
     }
 
-    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, String forecastWeatherState, double forecastPrecipitationAmount, double forecastHumidityAir, double forecastTemperatureAir, double forecastWindSpeed, double forecastSnowAmount, double forecastPressureAir) {
+    public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity, double relativeMoistureSoil, double relativeMoistureAir, double temperatureSoil, double temperatureAir, double lightIntensity, double phMeters, String forecastWeatherState, double forecastPrecipitationAmount, double forecastHumidityAir, double forecastTemperatureAir, double forecastWindSpeed, double forecastSnowAmount, double forecastPressureAir) {
         this.plantId = plantId;
         this.plantName = plantName;
         this.plantType = plantType;
@@ -50,6 +54,7 @@ public class PlantModel {
         this.temperatureSoil = temperatureSoil;
         this.temperatureAir = temperatureAir;
         this.lightIntensity = lightIntensity;
+        this.phMeters = phMeters;
         this.forecastWeatherState = forecastWeatherState;
         this.forecastPrecipitationAmount = forecastPrecipitationAmount;
         this.forecastHumidityAir = forecastHumidityAir;
@@ -185,5 +190,13 @@ public class PlantModel {
 
     public void setForecastSnowAmount(double forecastSnowAmount) {
         this.forecastSnowAmount = forecastSnowAmount;
+    }
+
+    public double getPhMeters() {
+        return phMeters;
+    }
+
+    public double getIndexOfHealth() {
+        return indexOfHealth;
     }
 }
