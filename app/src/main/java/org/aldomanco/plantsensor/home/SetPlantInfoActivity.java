@@ -1,12 +1,14 @@
 package org.aldomanco.plantsensor.home;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -48,6 +50,7 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
     ImageView buttonSetAutomaticLocation;
     ImageView buttonSetManualLocation;
     Intent intentOpenMap;
+    Intent intentLoggedUserActivity;
 
     String city;
     String country;
@@ -163,11 +166,23 @@ public class SetPlantInfoActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()){
             case R.id.button_set_plant_info_initial:
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("plant_name", editTextPlantName.getText().toString().trim());
-                editor.putString("plant_type", spinnerPlantType.getText().toString().trim());
-                editor.putString("city", spinnerPlantLocation.getText().toString().trim().split(",")[0]);
-                editor.apply();
+                if (!editTextPlantName.getText().toString().isEmpty() && !spinnerPlantType.getText().toString().isEmpty()){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("plant_name", editTextPlantName.getText().toString().trim());
+                    editor.putString("plant_type", spinnerPlantType.getText().toString().trim());
+                    editor.putString("city", spinnerPlantLocation.getText().toString().trim().split(",")[0]);
+                    editor.apply();
+
+                    intentLoggedUserActivity = new Intent(this, LoggedUserActivity.class);
+                    startActivity(intentLoggedUserActivity);
+                }else {
+                    new AlertDialog.Builder(this)
+                            .setIcon(R.drawable.ic_baseline_privacy_tip_24)
+                            .setTitle("Dati Non Inseriti")
+                            .setMessage("I dati obbligatori per il corretto funzionamento dell'app sono:\n- Plant Name\n- Plant Type")
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
 
                 break;
             case R.id.button_drawable_right_gps_initial:
