@@ -319,7 +319,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        temperatureAir = new PlantStateModel("Air Temperature", R.drawable.temperatura, plant.getTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        temperatureAir = new PlantStateModel(
+                "Air Temperature",
+                R.drawable.temperatura,
+                plant.getTemperatureAir(),
+                "Il sensore rileva la temperatura esterna nella giornata corrente espressa in gradi centigrati",
+                -40,
+                50,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     private void initializeTemperatureSoil(String plantType) {
@@ -377,7 +387,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        temperatureSoil = new PlantStateModel("Soil Temperature", R.drawable.temperatura_suolo, plant.getTemperatureSoil(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        temperatureSoil = new PlantStateModel(
+                "Soil Temperature",
+                R.drawable.temperatura_suolo,
+                plant.getTemperatureSoil(),
+                "Il sensore rileva la temperatura del suolo espressa in gradi centigrati",
+                -40,
+                50,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     private void initializeRelativeMoistureAir(String plantType) {
@@ -435,7 +455,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        relativeMoistureAir = new PlantStateModel("Air Moisture", R.drawable.umidita, plant.getRelativeMoistureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        relativeMoistureAir = new PlantStateModel(
+                "Air Moisture",
+                R.drawable.umidita,
+                plant.getRelativeMoistureAir(),
+                "Il sensore rileva l'umidità esterna nella giornata corrente espressa in percentuale",
+                0,
+                100,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     private void initializeRelativeMoistureSoil(String plantType) {
@@ -493,7 +523,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        relativeMoistureSoil = new PlantStateModel("Soil Moisture", R.drawable.umidita_suolo, plant.getRelativeMoistureSoil(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        relativeMoistureSoil = new PlantStateModel(
+                "Soil Moisture",
+                R.drawable.umidita_suolo,
+                plant.getRelativeMoistureSoil(),
+                "Il sensore rileva l'umidità del suolo espressa in volume",
+                0,
+                100,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     private void initializeLightIntensity(String plantType) {
@@ -551,7 +591,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        lightIntensity = new PlantStateModel("Light Intensity", R.drawable.luminosita, plant.getLightIntensity(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        lightIntensity = new PlantStateModel(
+                "Light Intensity",
+                R.drawable.luminosita,
+                plant.getLightIntensity(),
+                "Il sensore rileva il livello di illuminazione dell'ambiente circostante",
+                0,
+                100,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     // -----------------
@@ -611,7 +661,18 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastPrecipitationAmount = new PlantStateModel("Precipitation Amount", R.drawable.pioggia, plant.getForecastPrecipitationAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastPrecipitationAmount = new PlantStateModel(
+                "Precipitation Amount",
+                R.drawable.pioggia,
+                plant.getForecastPrecipitationAmount(),
+                "Indica la quantità di precipitazioni nella giornata corrente espressa in millimetri.",
+                0,
+                100,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState
+        );
     }
 
     private void initializeForecastRelativeMoistureAir(String plantType) {
@@ -669,7 +730,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastHumidityAir = new PlantStateModel("Humidity Air", R.drawable.umidita, plant.getForecastHumidityAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastHumidityAir = new PlantStateModel
+                ("Humidity Air",
+                        R.drawable.umidita,
+                        plant.getForecastHumidityAir(),
+                        "Indica l'umidità presente nell'aria nella giornata corrente espressa in percentuale.",
+                        0,
+                        100,
+                        startingYellowValueState,
+                        endingYellowValueState,
+                        startingGreenValueState,
+                        endingGreenValueState);
     }
 
     private void initializeForecastTemperatureAir(String plantType) {
@@ -727,7 +798,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastTemperatureAir = new PlantStateModel("Temperature Air", R.drawable.temperatura_2, plant.getForecastTemperatureAir(), "desc", -40, 50, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastTemperatureAir = new PlantStateModel
+                ("Temperature Air",
+                        R.drawable.temperatura_2,
+                        plant.getForecastTemperatureAir(),
+                        "Indica la temperatura esterna nella giornata corrente espressa in gradi centigrati.",
+                        -40,
+                        50,
+                        startingYellowValueState,
+                        endingYellowValueState,
+                        startingGreenValueState,
+                        endingGreenValueState);
     }
 
     private void initializeForecastWindSpeed(String plantType) {
@@ -785,7 +866,18 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastWindSpeed = new PlantStateModel("Wind Speed", R.drawable.vento, plant.getForecastWindSpeed(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastWindSpeed = new PlantStateModel
+                ("Wind Speed",
+                        R.drawable.vento,
+                        plant.getForecastWindSpeed(),
+                        "Indica la velocità del vento nella giornata corrente espressa in km/h (chilometri orari).",
+                        0,
+                        100,
+                        startingYellowValueState,
+                        endingYellowValueState,
+                        startingGreenValueState,
+                        endingGreenValueState
+                );
     }
 
     private void initializeForecastSnowAmount(String plantType) {
@@ -843,7 +935,17 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastSnowAmount = new PlantStateModel("Snow Amount", R.drawable.neve, plant.getForecastSnowAmount(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastSnowAmount = new PlantStateModel(
+                "Snow Amount",
+                R.drawable.neve,
+                plant.getForecastSnowAmount(),
+                "Indica la quantità di neve nella giornata corrente espressa in millimetri.",
+                0,
+                100,
+                startingYellowValueState,
+                endingYellowValueState,
+                startingGreenValueState,
+                endingGreenValueState);
     }
 
     private void initializeForecastPressureAir(String plantType) {
@@ -901,7 +1003,19 @@ public class LoggedUserActivity extends AppCompatActivity {
                 break;
         }
 
-        forecastPressureAir = new PlantStateModel("Pressure Air", R.drawable.pressione, plant.getForecastPressureAir(), "desc", 0, 100, startingYellowValueState, endingYellowValueState, startingGreenValueState, endingGreenValueState);
+        forecastPressureAir = new PlantStateModel
+                ("Pressure Air",
+                        R.drawable.pressione,
+                        plant.getForecastPressureAir(),
+                        "Indica la pressione atmosferica espressa in hPa (ettoPascal).",
+                        0,
+                        100,
+                        startingYellowValueState,
+                        endingYellowValueState,
+                        startingGreenValueState,
+                        endingGreenValueState
+                );
+
     }
 
     private void getThingSpeakData() {

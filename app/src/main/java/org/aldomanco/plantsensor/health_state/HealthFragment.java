@@ -110,7 +110,7 @@ public class HealthFragment extends Fragment {
             new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                     .setIcon(R.drawable.ic_baseline_privacy_tip_24)
                     .setTitle("Index Of Health")
-                    .setMessage("index of health")
+                    .setMessage("L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori ")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -127,7 +127,7 @@ public class HealthFragment extends Fragment {
             new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
                     .setIcon(R.drawable.ic_baseline_privacy_tip_24)
                     .setTitle("PH Meters")
-                    .setMessage("ph meters")
+                    .setMessage("Il sensore del PH rileva il ph presente nel terreno, ossia la concentrazione degli ioni idrogeno nel terreno")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
