@@ -158,10 +158,12 @@ public class AutomaticWateringService extends Service {
                     temperatureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getTemperatureAir();
                     relativeMoistureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getRelativeMoistureAir();
                     relativeMoistureSoil = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getRelativeMoistureSoil();
+                    lightIntensity = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getLightIntensity();
 
                     temperatureAirState.setValueState(temperatureAir);
                     relativeMoistureAirState.setValueState(relativeMoistureAir);
                     relativeMoistureSoilState.setValueState(relativeMoistureSoil);
+                    lightIntensityState.setValueState(lightIntensity);
 
                     if (createNotification) {
                         Intent notificationIntent = new Intent(automaticWateringService, LoggedUserActivity.class);

@@ -16,11 +16,15 @@ public class ListPlantSensorValuesDocument {
     @SerializedName("field3")
     private String relativeMoistureSoil;
 
-    public ListPlantSensorValuesDocument(String createdAt, String temperatureAir, String relativeMoistureAir, String relativeMoistureSoil) {
+    @SerializedName("field5")
+    private String lightIntensity;
+
+    public ListPlantSensorValuesDocument(String createdAt, String temperatureAir, String relativeMoistureAir, String relativeMoistureSoil, String lightIntensity) {
         this.createdAt = createdAt;
         this.temperatureAir = temperatureAir;
         this.relativeMoistureAir = relativeMoistureAir;
         this.relativeMoistureSoil = relativeMoistureSoil;
+        this.lightIntensity = lightIntensity;
     }
 
     public double getTemperatureAir() {
@@ -45,5 +49,13 @@ public class ListPlantSensorValuesDocument {
 
     public void setRelativeMoistureSoil(String relativeMoistureSoil) {
         this.relativeMoistureSoil = String.valueOf(relativeMoistureSoil);
+    }
+
+    public double getLightIntensity() {
+        return Double.parseDouble(lightIntensity);
+    }
+
+    public void setLightIntensity(String lightIntensity) {
+        this.lightIntensity = String.valueOf(lightIntensity);
     }
 }
