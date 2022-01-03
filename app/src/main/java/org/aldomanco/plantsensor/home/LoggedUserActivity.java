@@ -274,45 +274,45 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             default:
@@ -324,8 +324,8 @@ public class LoggedUserActivity extends AppCompatActivity {
                 R.drawable.temperatura,
                 plant.getTemperatureAir(),
                 "Il sensore rileva la temperatura esterna nella giornata corrente espressa in gradi centigrati",
-                -40,
-                50,
+                -60,
+                60,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
@@ -342,45 +342,45 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = -25;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
                 endingGreenValueState = 25;
                 break;
             default:
@@ -392,8 +392,8 @@ public class LoggedUserActivity extends AppCompatActivity {
                 R.drawable.temperatura_suolo,
                 plant.getTemperatureSoil(),
                 "Il sensore rileva la temperatura del suolo espressa in gradi centigrati",
-                -40,
-                50,
+                -60,
+                60,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
@@ -597,7 +597,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 plant.getLightIntensity(),
                 "Il sensore rileva il livello di illuminazione dell'ambiente circostante",
                 0,
-                100,
+                5000,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
@@ -616,46 +616,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 5;
+                startingGreenValueState = 0.1;
+                endingGreenValueState = 3;
                 break;
             default:
                 break;
@@ -667,7 +667,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 plant.getForecastPrecipitationAmount(),
                 "Indica la quantità di precipitazioni nella giornata corrente espressa in millimetri.",
                 0,
-                100,
+                15,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
@@ -753,46 +753,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 0;
+                endingYellowValueState = 35;
+                startingGreenValueState = 15;
+                endingGreenValueState = 25;
                 break;
             default:
                 break;
@@ -803,8 +803,8 @@ public class LoggedUserActivity extends AppCompatActivity {
                         R.drawable.temperatura_2,
                         plant.getForecastTemperatureAir(),
                         "Indica la temperatura esterna nella giornata corrente espressa in gradi centigrati.",
-                        -40,
-                        50,
+                        -60,
+                        60,
                         startingYellowValueState,
                         endingYellowValueState,
                         startingGreenValueState,
@@ -821,46 +821,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 30;
+                startingGreenValueState = 0;
+                endingGreenValueState = 10;
                 break;
             default:
                 break;
@@ -872,7 +872,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                         plant.getForecastWindSpeed(),
                         "Indica la velocità del vento nella giornata corrente espressa in km/h (chilometri orari).",
                         0,
-                        100,
+                        150,
                         startingYellowValueState,
                         endingYellowValueState,
                         startingGreenValueState,
@@ -890,46 +890,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = -1;
+                endingYellowValueState = 4;
+                startingGreenValueState = 0;
+                endingGreenValueState = 2;
                 break;
             default:
                 break;
@@ -941,7 +941,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 plant.getForecastSnowAmount(),
                 "Indica la quantità di neve nella giornata corrente espressa in millimetri.",
                 0,
-                100,
+                10,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
@@ -958,46 +958,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 10;
-                endingYellowValueState = 90;
-                startingGreenValueState = 30;
-                endingGreenValueState = 70;
+                startingYellowValueState = 1010;
+                endingYellowValueState = 1030;
+                startingGreenValueState = 1020;
+                endingGreenValueState = 1025;
                 break;
             default:
                 break;
@@ -1008,8 +1008,8 @@ public class LoggedUserActivity extends AppCompatActivity {
                         R.drawable.pressione,
                         plant.getForecastPressureAir(),
                         "Indica la pressione atmosferica espressa in hPa (ettoPascal).",
-                        0,
-                        100,
+                        1000,
+                        1100,
                         startingYellowValueState,
                         endingYellowValueState,
                         startingGreenValueState,
@@ -1036,12 +1036,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                             plantName,
                             plantType,
                             plantLocationCity,
-                            thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureSoil(),
-                            thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureAir(),
-                            -21,
-                            thingSpeakJSON.getListPlantSensorValues().get(0).getTemperatureAir(),
+                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil(),
+                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureAir(),
+                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil(),
+                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir(),
                             50,
-                            7,
+                            8,
                             "",
                             0,
                             0,

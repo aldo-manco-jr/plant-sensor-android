@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/drawable/ic_baseline_photo_library_white_24.xml" value="0.2203125" />
-        <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/drawable/ic_baseline_privacy_tip_24.xml" value="0.2203125" />
-        <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/adapter_plant_state.xml" value="0.12228260869565218" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_health.xml" value="0.15715579710144928" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_watering.xml" value="0.1" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_weather.xml" value="0.17889492753623187" />
@@ -30,6 +27,7 @@
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/activity_set_plant_info.xml" value="0.264" />
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/adapter_plant_state.xml" value="0.264" />
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/adapter_small_plant_state.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/fragment_health.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/fragment_plant_state.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/fragment_watering.xml" value="0.16" />
         <entry key="..\:/Users/unieuro/Desktop/Development/Android Apps/PlantSensor/app/src/main/res/layout/fragment_weather.xml" value="0.2" />

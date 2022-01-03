@@ -32,7 +32,7 @@ public class ListPlantSensorValuesDocument {
     }
 
     public double getRelativeMoistureAir() {
-        return 6.9;
+        return Double.parseDouble(relativeMoistureAir);
     }
 
     public void setRelativeMoistureAir(double relativeMoistureAir) {
@@ -40,10 +40,10 @@ public class ListPlantSensorValuesDocument {
     }
 
     public double getRelativeMoistureSoil() {
-        return 6.9;
+        return Double.parseDouble(relativeMoistureSoil);
     }
 
     public void setRelativeMoistureSoil(String relativeMoistureSoil) {
-        this.relativeMoistureSoil = relativeMoistureSoil;
+        this.relativeMoistureSoil = String.valueOf(relativeMoistureSoil);
     }
 }

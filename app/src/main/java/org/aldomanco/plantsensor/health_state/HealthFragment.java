@@ -3,10 +3,12 @@ package org.aldomanco.plantsensor.health_state;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +77,9 @@ public class HealthFragment extends Fragment {
     private TextView phMetersValue;
     private TextView indexOfHealthValue;
 
+    private ProgressBar progressBarPhMeters;
+    private ProgressBar progressBarIndexOfHealth;
+
     public HealthFragment() {
     }
 
@@ -93,6 +99,7 @@ public class HealthFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_health, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -116,6 +123,50 @@ public class HealthFragment extends Fragment {
 
         phMetersValue.setText(String.valueOf(phMeters.getValueState()));
         indexOfHealthValue.setText(String.valueOf(indexOfHealth.getValueState()));
+
+        progressBarIndexOfHealth = view.findViewById(R.id.progress_bar_healt);
+
+        progressBarIndexOfHealth.setMin(((Double) indexOfHealth.getMinValueState()).intValue());
+        progressBarIndexOfHealth.setMax(((Double) indexOfHealth.getMaxValueState()).intValue());
+        progressBarIndexOfHealth.setProgress(((Double) indexOfHealth.getValueState()).intValue());
+
+        if (indexOfHealth.getValueState() >= indexOfHealth.getStartingGreenValueState()
+                && indexOfHealth.getValueState() <= indexOfHealth.getEndingGreenValueState()) {
+
+            progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+
+        } else if ((indexOfHealth.getValueState() >= indexOfHealth.getStartingYellowValueState()
+                && indexOfHealth.getValueState() < indexOfHealth.getStartingGreenValueState())
+                || (indexOfHealth.getValueState() > indexOfHealth.getEndingGreenValueState()
+                && indexOfHealth.getValueState() <= indexOfHealth.getEndingYellowValueState())) {
+
+            progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+
+        } else {
+            progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+        }
+
+        progressBarPhMeters = view.findViewById(R.id.progress_bar_phmeters);
+
+        progressBarPhMeters.setMin(((Double) phMeters.getMinValueState()).intValue());
+        progressBarPhMeters.setMax(((Double) phMeters.getMaxValueState()).intValue());
+        progressBarPhMeters.setProgress(((Double) phMeters.getValueState()).intValue());
+
+        if (phMeters.getValueState() >= phMeters.getStartingGreenValueState()
+                && phMeters.getValueState() <= phMeters.getEndingGreenValueState()) {
+
+            progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+
+        } else if ((phMeters.getValueState() >= phMeters.getStartingYellowValueState()
+                && phMeters.getValueState() < phMeters.getStartingGreenValueState())
+                || (phMeters.getValueState() > phMeters.getEndingGreenValueState()
+                && phMeters.getValueState() <= phMeters.getEndingYellowValueState())) {
+
+            progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+
+        } else {
+            progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+        }
 
         getSmallPlantStateList();
     }
@@ -344,46 +395,46 @@ public class HealthFragment extends Fragment {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = -25;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 3;
+                endingYellowValueState = 9;
+                startingGreenValueState = 5;
+                endingGreenValueState = 7;
                 break;
             default:
                 break;
@@ -412,46 +463,46 @@ public class HealthFragment extends Fragment {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = -30;
-                endingYellowValueState = 30;
-                startingGreenValueState = -10;
-                endingGreenValueState = 15;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = -25;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = -20;
-                endingYellowValueState = 40;
-                startingGreenValueState = 0;
-                endingGreenValueState = 25;
+                startingYellowValueState = 60;
+                endingYellowValueState = 102;
+                startingGreenValueState = 80;
+                endingGreenValueState = 101;
                 break;
             default:
                 break;
@@ -464,8 +515,8 @@ public class HealthFragment extends Fragment {
                 R.drawable.plant_healt,
                 index,
                 "L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori",
-                -40,
-                50,
+                0,
+                100,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,

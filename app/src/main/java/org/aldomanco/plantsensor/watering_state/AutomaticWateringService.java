@@ -79,7 +79,7 @@ public class AutomaticWateringService extends Service {
             }
         };
 
-        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("city", Context.MODE_PRIVATE);
+        sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
         city = sharedPreferences.getString("city", null);
     }
 
@@ -125,8 +125,9 @@ public class AutomaticWateringService extends Service {
 
                     ThingSpeakJSON thingSpeakJSON = response.body();
 
-                    temperatureAir = thingSpeakJSON.getListPlantSensorValues().get(0).getTemperatureAir();
-                    relativeMoistureAir = thingSpeakJSON.getListPlantSensorValues().get(0).getRelativeMoistureAir();
+                    temperatureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir();
+                    relativeMoistureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureAir();
+                    relativeMoistureSoil = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil();
 
                     if (createNotification){
                         Intent notificationIntent = new Intent(automaticWateringService, LoggedUserActivity.class);
@@ -203,13 +204,13 @@ public class AutomaticWateringService extends Service {
                     forecastTemperatureAir = openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir();
 
                     if (shouldWater(true)){
-                        Toast.makeText(getApplicationContext(), forecastTemperatureAir+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), forecastTemperatureAir+" "+temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
                     }
 
                 } else {
 
                     if (shouldWater(false)){
-                        Toast.makeText(getApplicationContext(), temperatureAir+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -220,7 +221,7 @@ public class AutomaticWateringService extends Service {
                 // errore a livello di rete
 
                 if (shouldWater(false)){
-                    Toast.makeText(getApplicationContext(), temperatureAir+"", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -239,7 +240,7 @@ public class AutomaticWateringService extends Service {
 
         if (weatherIncluded){
 
-            if (temperatureAir>0 && forecastTemperatureAir>0){
+            if (temperatureAir>0 && forecastTemperatureAir>=0){
                 return true;
             }else {
                 return false;

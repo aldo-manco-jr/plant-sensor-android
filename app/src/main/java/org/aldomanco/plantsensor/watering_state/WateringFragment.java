@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,9 @@ public class WateringFragment extends Fragment {
 
     private static StateServices stateServices;
 
+    private Handler handler;
+    private Runnable runnableCode;
+
     private Intent intentServiceAutomaticWatering;
 
     public WateringFragment() { }
@@ -104,6 +108,15 @@ public class WateringFragment extends Fragment {
         switchAutomaticWatering.setOnCheckedChangeListener(onActivationAutomaticWatering);
         switchManualWatering.setOnCheckedChangeListener(onActivationManualWatering);
 
+        handler = new Handler();
+
+        runnableCode = new Runnable() {
+            @Override
+            public void run() {
+                switchManualWatering.setChecked(false);
+            }
+        };
+
         intentServiceAutomaticWatering = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
 
         getSmallPlantStateList();
@@ -117,6 +130,7 @@ public class WateringFragment extends Fragment {
             if (isChecked){
                 switchAutomaticWatering.setChecked(false);
                 stopService(null);
+                handler.postDelayed(runnableCode, 5000);
             }
         }
     };
