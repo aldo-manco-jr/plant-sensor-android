@@ -14,6 +14,7 @@ import com.bumptech.glide.request.target.Target;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.models.Color;
 import org.aldomanco.plantsensor.models.PlantStateModel;
 
 import java.util.List;
@@ -60,29 +61,15 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
         holder.namePlantState.setText(plantState.getNameState());
         holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
 
-        //holder.progressBarPlantState.setMin(((Double) plantState.getMinValueState()).intValue());
-        //holder.progressBarPlantState.setMax(((Double) plantState.getMaxValueState()).intValue());
-        //holder.progressBarPlantState.setProgress(((Double) plantState.getValueState()).intValue());
+        plantState.setColorPlantState();
 
-        if (plantState.getValueState() >= plantState.getStartingGreenValueState()
-                && plantState.getValueState() <= plantState.getEndingGreenValueState()) {
-
-            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
+        if (plantState.getColorPlantState()== Color.GREEN){
             holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.green));
-
-        } else if ((plantState.getValueState() >= plantState.getStartingYellowValueState()
-                && plantState.getValueState() < plantState.getStartingGreenValueState())
-                || (plantState.getValueState() > plantState.getEndingGreenValueState()
-                && plantState.getValueState() <= plantState.getEndingYellowValueState())) {
-
-            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
+        }else if (plantState.getColorPlantState()==Color.YELLOW_NEGATIVE || plantState.getColorPlantState()==Color.YELLOW_POSITIVE){
             holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.yellow));
-
-        } else {
-            //holder.progressBarPlantState.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
+        }else if (plantState.getColorPlantState()==Color.RED_NEGATIVE || plantState.getColorPlantState()==Color.RED_POSITIVE){
             holder.valuePlantState.setTextColor(LoggedUserActivity.getLoggedUserActivity().getColor(R.color.red));
         }
-
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override

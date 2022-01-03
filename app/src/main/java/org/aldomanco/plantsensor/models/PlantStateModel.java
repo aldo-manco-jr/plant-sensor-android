@@ -1,5 +1,8 @@
 package org.aldomanco.plantsensor.models;
 
+import org.aldomanco.plantsensor.R;
+import org.aldomanco.plantsensor.home.LoggedUserActivity;
+
 public class PlantStateModel {
 
     private String nameState;
@@ -16,6 +19,8 @@ public class PlantStateModel {
     private double startingGreenValueState;
     private double endingGreenValueState;
 
+    private Color colorPlantState;
+
     public PlantStateModel(String nameState, int iconStatePath, double valueState, String infoState, double minValueState, double maxValueState, double startingYellowValueState, double endingYellowValueState, double startingGreenValueState, double endingGreenValueState) {
         this.nameState = nameState;
         this.iconStatePath = iconStatePath;
@@ -27,6 +32,8 @@ public class PlantStateModel {
         this.endingYellowValueState = endingYellowValueState;
         this.startingGreenValueState = startingGreenValueState;
         this.endingGreenValueState = endingGreenValueState;
+        this.colorPlantState = Color.NO_COLOR;
+        setColorPlantState();
     }
 
     public String getNameState() {
@@ -107,5 +114,37 @@ public class PlantStateModel {
 
     public void setEndingGreenValueState(double endingGreenValueState) {
         this.endingGreenValueState = endingGreenValueState;
+    }
+
+    public Color getColorPlantState() {
+        return colorPlantState;
+    }
+
+    public void setColorPlantState() {
+
+        if (valueState >= startingGreenValueState
+                && valueState <= endingGreenValueState) {
+
+            this.colorPlantState = Color.GREEN;
+
+        } else if (valueState >= startingYellowValueState
+                && valueState < startingGreenValueState) {
+
+            this.colorPlantState = Color.YELLOW_NEGATIVE;
+
+        } else if (valueState > endingGreenValueState
+                && valueState <= endingYellowValueState) {
+
+            this.colorPlantState = Color.YELLOW_POSITIVE;
+
+        } else if (valueState > endingYellowValueState) {
+
+            this.colorPlantState = Color.RED_POSITIVE;
+
+        } else if (valueState < startingYellowValueState) {
+
+            this.colorPlantState = Color.RED_NEGATIVE;
+
+        }
     }
 }

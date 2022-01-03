@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -95,12 +96,6 @@ public class LoggedUserActivity extends AppCompatActivity {
         plantName = sharedPreferences.getString("plant_name", "");
         plantType = sharedPreferences.getString("plant_type", "");
         plantLocationCity = sharedPreferences.getString("city", "");
-
-        boolean automaticWatering = sharedPreferences.getBoolean("automatic_watering", false);
-
-        if (automaticWatering){
-            startService();
-        }
 
         getThingSpeakData();
     }
@@ -616,45 +611,45 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 0;
+                startingYellowValueState = -1;
                 endingYellowValueState = 5;
-                startingGreenValueState = 0.1;
+                startingGreenValueState = 0;
                 endingGreenValueState = 3;
                 break;
             default:
@@ -1008,7 +1003,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                         R.drawable.pressione,
                         plant.getForecastPressureAir(),
                         "Indica la pressione atmosferica espressa in hPa (ettoPascal).",
-                        1000,
+                        950,
                         1100,
                         startingYellowValueState,
                         endingYellowValueState,
@@ -1036,9 +1031,9 @@ public class LoggedUserActivity extends AppCompatActivity {
                             plantName,
                             plantType,
                             plantLocationCity,
-                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil(),
+                            20,
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureAir(),
-                            thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil(),
+                            25,
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir(),
                             50,
                             8,
@@ -1063,6 +1058,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                     initializeForecastTemperatureAir(plant.getPlantType());
                     initializeForecastWindSpeed(plant.getPlantType());
                     initializeForecastSnowAmount(plant.getPlantType());
+
+                    boolean automaticWatering = sharedPreferences.getBoolean("automatic_watering", false);
+
+                    if (automaticWatering){
+                        startService();
+                    }
 
                     BottomNavigationView navbarLoggedUser = findViewById(R.id.logged_user_navbar);
 

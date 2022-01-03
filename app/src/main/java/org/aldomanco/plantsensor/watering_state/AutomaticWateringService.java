@@ -23,7 +23,9 @@ import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.authentication.ConnectionProblemsActivity;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
 import org.aldomanco.plantsensor.home.PlantSensorApp;
+import org.aldomanco.plantsensor.models.Color;
 import org.aldomanco.plantsensor.models.PlantModel;
+import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.models.http_response_plantsensor.ThingSpeakJSON;
 import org.aldomanco.plantsensor.models.http_response_weather.OpenWeatherMapJSON;
 import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
@@ -59,12 +61,26 @@ public class AutomaticWateringService extends Service {
 
     private SharedPreferences sharedPreferences;
     private String city;
+    private String plantType;
+
+    private PlantStateModel relativeMoistureSoilState;
+    private PlantStateModel relativeMoistureAirState;
+    private PlantStateModel temperatureSoilState;
+    private PlantStateModel temperatureAirState;
+    private PlantStateModel lightIntensityState;
+
+    private PlantStateModel forecastPrecipitationAmountState;
+    private PlantStateModel forecastHumidityAirState;
+    private PlantStateModel forecastTemperatureAirState;
+    private PlantStateModel forecastWindSpeedState;
+    private PlantStateModel forecastSnowAmountState;
+    private PlantStateModel forecastPressureAirState;
 
     public AutomaticWateringService() {
     }
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         handler = new Handler();
@@ -79,12 +95,26 @@ public class AutomaticWateringService extends Service {
             }
         };
 
+        relativeMoistureSoilState = LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil();
+        relativeMoistureAirState = LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir();
+        temperatureSoilState = LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil();
+        temperatureAirState = LoggedUserActivity.getLoggedUserActivity().getTemperatureAir();
+        lightIntensityState = LoggedUserActivity.getLoggedUserActivity().getLightIntensity();
+
+        forecastPrecipitationAmountState = LoggedUserActivity.getLoggedUserActivity().getForecastPrecipitationAmount();
+        forecastHumidityAirState = LoggedUserActivity.getLoggedUserActivity().getForecastHumidityAir();
+        forecastTemperatureAirState = LoggedUserActivity.getLoggedUserActivity().getForecastTemperatureAir();
+        forecastWindSpeedState = LoggedUserActivity.getLoggedUserActivity().getForecastWindSpeed();
+        forecastSnowAmountState = LoggedUserActivity.getLoggedUserActivity().getForecastSnowAmount();
+        forecastPressureAirState = LoggedUserActivity.getLoggedUserActivity().getForecastPressureAir();
+
         sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
         city = sharedPreferences.getString("city", null);
+        plantType = sharedPreferences.getString("plant_type", null);
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnableCode);
     }
@@ -125,11 +155,15 @@ public class AutomaticWateringService extends Service {
 
                     ThingSpeakJSON thingSpeakJSON = response.body();
 
-                    temperatureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir();
-                    relativeMoistureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureAir();
-                    relativeMoistureSoil = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getRelativeMoistureSoil();
+                    temperatureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getTemperatureAir();
+                    relativeMoistureAir = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getRelativeMoistureAir();
+                    relativeMoistureSoil = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getRelativeMoistureSoil();
 
-                    if (createNotification){
+                    temperatureAirState.setValueState(temperatureAir);
+                    relativeMoistureAirState.setValueState(relativeMoistureAir);
+                    relativeMoistureSoilState.setValueState(relativeMoistureSoil);
+
+                    if (createNotification) {
                         Intent notificationIntent = new Intent(automaticWateringService, LoggedUserActivity.class);
                         PendingIntent pendingIntent = PendingIntent.getActivity(automaticWateringService, 0, notificationIntent, 0);
 
@@ -159,7 +193,7 @@ public class AutomaticWateringService extends Service {
         });
     }
 
-    private Notification setContentForegroundNotification(String notificationContent){
+    private Notification setContentForegroundNotification(String notificationContent) {
 
         Intent notificationIntent = new Intent(this, LoggedUserActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -203,14 +237,21 @@ public class AutomaticWateringService extends Service {
                     forecastWindSpeed = openWeatherMapJSON.getSectionWind().getForecastWindSpeed();
                     forecastTemperatureAir = openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir();
 
-                    if (shouldWater(true)){
-                        Toast.makeText(getApplicationContext(), forecastTemperatureAir+" "+temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                    forecastHumidityAirState.setValueState(forecastRelativeMoistureAir);
+                    forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmount);
+                    forecastSnowAmountState.setValueState(forecastSnowAmount);
+                    forecastPressureAirState.setValueState(forecastPressureAir);
+                    forecastWindSpeedState.setValueState(forecastWindSpeed);
+                    forecastTemperatureAirState.setValueState(forecastTemperatureAir);
+
+                    if (shouldWater(true)) {
+                        Toast.makeText(getApplicationContext(), forecastTemperatureAir + " " + temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
                     }
 
                 } else {
 
-                    if (shouldWater(false)){
-                        Toast.makeText(getApplicationContext(), temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                    if (shouldWater(false)) {
+                        Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -220,8 +261,8 @@ public class AutomaticWateringService extends Service {
             public void onFailure(Call<OpenWeatherMapJSON> call, Throwable t) {
                 // errore a livello di rete
 
-                if (shouldWater(false)){
-                    Toast.makeText(getApplicationContext(), temperatureAir+" "+relativeMoistureAir+" "+relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                if (shouldWater(false)) {
+                    Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -236,24 +277,88 @@ public class AutomaticWateringService extends Service {
         return stateServices;
     }
 
-    public boolean shouldWater(boolean weatherIncluded){
+    public boolean shouldWater(boolean weatherIncluded) {
 
-        if (weatherIncluded){
+        if (weatherIncluded) {
 
-            if (temperatureAir>0 && forecastTemperatureAir>=0){
-                return true;
-            }else {
+            if (relativeMoistureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                    || relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE
+                    || relativeMoistureSoilState.getColorPlantState() == Color.GREEN) {
+
                 return false;
+
+            } else if (relativeMoistureSoilState.getColorPlantState() == Color.RED_NEGATIVE) {
+
+                return true;
+
+            } else if (relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+                if (forecastPrecipitationAmountState.getColorPlantState() == Color.RED_POSITIVE
+                        || forecastPrecipitationAmountState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+                    return false;
+                }
+
+                if (forecastSnowAmountState.getColorPlantState() == Color.RED_POSITIVE) {
+
+                    return false;
+                }
+
+                if (temperatureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                        || temperatureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+                    return false;
+                }
+
+                if (temperatureAirState.getColorPlantState() == Color.RED_POSITIVE
+                        || temperatureAirState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+                    return false;
+                }
+
+                if (relativeMoistureAirState.getColorPlantState() == Color.RED_POSITIVE) {
+
+                    return false;
+                }
+
+                return true;
             }
 
-        }else {
+        } else {
 
-            if (temperatureAir>0){
-                return true;
-            }else {
+            if (relativeMoistureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                    || relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE
+                    || relativeMoistureSoilState.getColorPlantState() == Color.GREEN) {
+
                 return false;
+
+            } else if (relativeMoistureSoilState.getColorPlantState() == Color.RED_NEGATIVE) {
+
+                return true;
+
+            } else if (relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+                if (temperatureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                        || temperatureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+                    return false;
+                }
+
+                if (temperatureAirState.getColorPlantState() == Color.RED_POSITIVE
+                        || temperatureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+                    return false;
+                }
+
+                if (relativeMoistureAirState.getColorPlantState() == Color.RED_POSITIVE) {
+
+                    return false;
+                }
+
+                return true;
             }
 
         }
+        return true;
     }
 }

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import org.aldomanco.plantsensor.R;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.models.Color;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
 import org.aldomanco.plantsensor.models.http_response_weather.OpenWeatherMapJSON;
@@ -130,19 +131,13 @@ public class HealthFragment extends Fragment {
         progressBarIndexOfHealth.setMax(((Double) indexOfHealth.getMaxValueState()).intValue());
         progressBarIndexOfHealth.setProgress(((Double) indexOfHealth.getValueState()).intValue());
 
-        if (indexOfHealth.getValueState() >= indexOfHealth.getStartingGreenValueState()
-                && indexOfHealth.getValueState() <= indexOfHealth.getEndingGreenValueState()) {
+        indexOfHealth.setColorPlantState();
 
+        if (indexOfHealth.getColorPlantState()== Color.GREEN){
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-
-        } else if ((indexOfHealth.getValueState() >= indexOfHealth.getStartingYellowValueState()
-                && indexOfHealth.getValueState() < indexOfHealth.getStartingGreenValueState())
-                || (indexOfHealth.getValueState() > indexOfHealth.getEndingGreenValueState()
-                && indexOfHealth.getValueState() <= indexOfHealth.getEndingYellowValueState())) {
-
+        }else if (indexOfHealth.getColorPlantState()==Color.YELLOW_NEGATIVE || indexOfHealth.getColorPlantState()==Color.YELLOW_POSITIVE){
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-
-        } else {
+        }else if (indexOfHealth.getColorPlantState()==Color.RED_NEGATIVE || indexOfHealth.getColorPlantState()==Color.RED_POSITIVE){
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
         }
 
@@ -152,19 +147,13 @@ public class HealthFragment extends Fragment {
         progressBarPhMeters.setMax(((Double) phMeters.getMaxValueState()).intValue());
         progressBarPhMeters.setProgress(((Double) phMeters.getValueState()).intValue());
 
-        if (phMeters.getValueState() >= phMeters.getStartingGreenValueState()
-                && phMeters.getValueState() <= phMeters.getEndingGreenValueState()) {
+        phMeters.setColorPlantState();
 
+        if (phMeters.getColorPlantState()== Color.GREEN){
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-
-        } else if ((phMeters.getValueState() >= phMeters.getStartingYellowValueState()
-                && phMeters.getValueState() < phMeters.getStartingGreenValueState())
-                || (phMeters.getValueState() > phMeters.getEndingGreenValueState()
-                && phMeters.getValueState() <= phMeters.getEndingYellowValueState())) {
-
+        }else if (phMeters.getColorPlantState()==Color.YELLOW_NEGATIVE || phMeters.getColorPlantState()==Color.YELLOW_POSITIVE){
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-
-        } else {
+        }else if (phMeters.getColorPlantState()==Color.RED_NEGATIVE || phMeters.getColorPlantState()==Color.RED_POSITIVE){
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
         }
 
