@@ -3,6 +3,7 @@ package org.aldomanco.plantsensor.watering_state;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.IpSecManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,13 +26,19 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import org.aldomanco.plantsensor.R;
+import org.aldomanco.plantsensor.authentication.ConnectionProblemsActivity;
 import org.aldomanco.plantsensor.home.LoggedUserActivity;
+import org.aldomanco.plantsensor.models.http_response_plantsensor.ThingSpeakJSON;
 import org.aldomanco.plantsensor.models.http_response_weather.OpenWeatherMapJSON;
 import org.aldomanco.plantsensor.models.PlantModel;
 import org.aldomanco.plantsensor.models.PlantStateModel;
+import org.aldomanco.plantsensor.plant_state.PlantStateFragment;
 import org.aldomanco.plantsensor.services.ServiceGenerator;
 import org.aldomanco.plantsensor.services.StateServices;
+import org.aldomanco.plantsensor.utils.SubsystemEnumeration;
 import org.aldomanco.plantsensor.weather_state.WeatherFragment;
 
 import java.util.ArrayList;
@@ -66,7 +74,8 @@ public class WateringFragment extends Fragment {
     private static StateServices stateServices;
 
     private Handler handler;
-    private Runnable runnableCode;
+    private Runnable runnableUnableSwitch;
+    private Runnable runnableUnableWatering;
 
     private Intent intentServiceAutomaticWatering;
 
@@ -110,10 +119,23 @@ public class WateringFragment extends Fragment {
 
         handler = new Handler();
 
-        runnableCode = new Runnable() {
+        runnableUnableSwitch = new Runnable() {
             @Override
             public void run() {
                 switchManualWatering.setChecked(false);
+            }
+        };
+
+        runnableUnableWatering = new Runnable() {
+            @Override
+            public void run() {
+                setShouldWaterValue(0,
+                        LoggedUserActivity.getPlant().getTemperatureAir(),
+                        LoggedUserActivity.getPlant().getRelativeMoistureAir(),
+                        20,
+                        LoggedUserActivity.getPlant().getRelativeMoistureSoil(),
+                        LoggedUserActivity.getPlant().getLightIntensity()
+                );
             }
         };
 
@@ -130,7 +152,15 @@ public class WateringFragment extends Fragment {
             if (isChecked){
                 switchAutomaticWatering.setChecked(false);
                 stopService(null);
-                handler.postDelayed(runnableCode, 5000);
+                setShouldWaterValue(1,
+                        LoggedUserActivity.getLoggedUserActivity().getTemperatureAir().getValueState(),
+                        LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir().getValueState(),
+                        20,
+                        LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil().getValueState(),
+                        LoggedUserActivity.getLoggedUserActivity().getLightIntensity().getValueState()
+                );
+                handler.postDelayed(runnableUnableSwitch, 5000);
+                handler.postDelayed(runnableUnableWatering, 55000);
             }
         }
     };
@@ -185,7 +215,7 @@ public class WateringFragment extends Fragment {
 
     private void getOpenWeatherMapData(String locationCity) {
 
-        Call<OpenWeatherMapJSON> httpRequest = getWeatherService().getWeatherData(locationCity);
+        Call<OpenWeatherMapJSON> httpRequest = getStateServices().getWeatherData(locationCity);
 
         httpRequest.enqueue(new Callback<OpenWeatherMapJSON>() {
             @Override
@@ -240,13 +270,38 @@ public class WateringFragment extends Fragment {
         });
     }
 
-    public static StateServices getWeatherService() {
+    public static StateServices getStateServices() {
 
         if (stateServices == null) {
             stateServices = ServiceGenerator.createService(StateServices.class);
         }
 
         return stateServices;
+    }
+
+    private void setShouldWaterValue(int shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
+
+        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, lightIntensity);
+
+        httpRequest.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, final Response<Object> response) {
+
+                if (!response.isSuccessful()) {
+                    assert response.body() != null : "body() non doveva essere null";
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                // errore a livello di rete
+
+
+            }
+        });
     }
 
     public void startService(View view){

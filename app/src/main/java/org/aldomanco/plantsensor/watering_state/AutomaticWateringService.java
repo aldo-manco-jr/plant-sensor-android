@@ -76,12 +76,16 @@ public class AutomaticWateringService extends Service {
     private PlantStateModel forecastSnowAmountState;
     private PlantStateModel forecastPressureAirState;
 
+    private boolean isWatering;
+
     public AutomaticWateringService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        isWatering=false;
 
         handler = new Handler();
 
@@ -208,6 +212,31 @@ public class AutomaticWateringService extends Service {
                 .build();
     }
 
+    private void setShouldWaterValue(int shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
+
+        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, lightIntensity);
+
+        httpRequest.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, final Response<Object> response) {
+
+                if (!response.isSuccessful()) {
+                    assert response.body() != null : "body() non doveva essere null";
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                // errore a livello di rete
+
+
+            }
+        });
+    }
+
     /**
      * This is the method that can be called to update the Notification
      */
@@ -247,13 +276,23 @@ public class AutomaticWateringService extends Service {
                     forecastTemperatureAirState.setValueState(forecastTemperatureAir);
 
                     if (shouldWater(true)) {
+                        setShouldWaterValue(1, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                        isWatering=true;
                         Toast.makeText(getApplicationContext(), forecastTemperatureAir + " " + temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                    }else if (!shouldWater(true) && isWatering){
+                        setShouldWaterValue(0, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                        isWatering=false;
                     }
 
                 } else {
 
                     if (shouldWater(false)) {
+                        setShouldWaterValue(1, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                        isWatering=true;
                         Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                    }else if (!shouldWater(false) && isWatering){
+                        setShouldWaterValue(0, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                        isWatering=false;
                     }
 
                 }
@@ -264,7 +303,12 @@ public class AutomaticWateringService extends Service {
                 // errore a livello di rete
 
                 if (shouldWater(false)) {
+                    setShouldWaterValue(1, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                    isWatering=true;
                     Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                }else if (!shouldWater(false) && isWatering){
+                    setShouldWaterValue(0, temperatureAir, relativeMoistureAir, 20, relativeMoistureSoil, lightIntensity);
+                    isWatering=false;
                 }
             }
         });
