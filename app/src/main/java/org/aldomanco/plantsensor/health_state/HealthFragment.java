@@ -122,8 +122,27 @@ public class HealthFragment extends Fragment {
         phMetersValue = view.findViewById(R.id.percentual_phmeters);
         indexOfHealthValue = view.findViewById(R.id.percentual_healt);
 
-        phMetersValue.setText(String.valueOf(phMeters.getValueState()));
-        indexOfHealthValue.setText(String.valueOf(indexOfHealth.getValueState()));
+        if (phMeters.getValueState() == Double.MIN_VALUE
+                || phMeters.getValueState() == Double.MAX_VALUE) {
+
+            phMetersValue.setText("Not Available");
+
+        } else {
+
+            phMetersValue.setText(String.valueOf(phMeters.getValueState()));
+
+        }
+
+        if (indexOfHealth.getValueState() == Double.NEGATIVE_INFINITY
+                || indexOfHealth.getValueState() == Double.POSITIVE_INFINITY) {
+
+            indexOfHealthValue.setText("Not Available");
+
+        } else {
+
+            indexOfHealthValue.setText(String.format("%.1f", indexOfHealth.getValueState())+"%");
+
+        }
 
         progressBarIndexOfHealth = view.findViewById(R.id.progress_bar_healt);
 
@@ -133,11 +152,11 @@ public class HealthFragment extends Fragment {
 
         indexOfHealth.setColorPlantState();
 
-        if (indexOfHealth.getColorPlantState()== Color.GREEN){
+        if (indexOfHealth.getColorPlantState() == Color.GREEN) {
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-        }else if (indexOfHealth.getColorPlantState()==Color.YELLOW_NEGATIVE || indexOfHealth.getColorPlantState()==Color.YELLOW_POSITIVE){
+        } else if (indexOfHealth.getColorPlantState() == Color.YELLOW_NEGATIVE || indexOfHealth.getColorPlantState() == Color.YELLOW_POSITIVE) {
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-        }else if (indexOfHealth.getColorPlantState()==Color.RED_NEGATIVE || indexOfHealth.getColorPlantState()==Color.RED_POSITIVE){
+        } else if (indexOfHealth.getColorPlantState() == Color.RED_NEGATIVE || indexOfHealth.getColorPlantState() == Color.RED_POSITIVE) {
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
         }
 
@@ -149,11 +168,11 @@ public class HealthFragment extends Fragment {
 
         phMeters.setColorPlantState();
 
-        if (phMeters.getColorPlantState()== Color.GREEN){
+        if (phMeters.getColorPlantState() == Color.GREEN) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
-        }else if (phMeters.getColorPlantState()==Color.YELLOW_NEGATIVE || phMeters.getColorPlantState()==Color.YELLOW_POSITIVE){
+        } else if (phMeters.getColorPlantState() == Color.YELLOW_NEGATIVE || phMeters.getColorPlantState() == Color.YELLOW_POSITIVE) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
-        }else if (phMeters.getColorPlantState()==Color.RED_NEGATIVE || phMeters.getColorPlantState()==Color.RED_POSITIVE){
+        } else if (phMeters.getColorPlantState() == Color.RED_NEGATIVE || phMeters.getColorPlantState() == Color.RED_POSITIVE) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
         }
 
@@ -209,7 +228,7 @@ public class HealthFragment extends Fragment {
 
         if (city != null) {
             getOpenWeatherMapData(city);
-        }else {
+        } else {
             getNormalSmallPlantStateList();
             getDangerSmallPlantStateList();
             getWarningSmallPlantStateList();
@@ -340,7 +359,7 @@ public class HealthFragment extends Fragment {
                     getDangerSmallPlantStateList();
                     getWarningSmallPlantStateList();
 
-                }else {
+                } else {
 
                     getNormalSmallPlantStateList();
                     getDangerSmallPlantStateList();
@@ -497,12 +516,10 @@ public class HealthFragment extends Fragment {
                 break;
         }
 
-        double index = 94;
-
         indexOfHealth = new PlantStateModel(
                 "Index Of Health",
                 R.drawable.plant_healt,
-                index,
+                indexOfHealthCalculator(),
                 "L'indice di salute rappresenta il monitoraggio della salute generale della pianta calcolato in funzione dei dati rilevati dai sensori",
                 0,
                 100,
@@ -510,5 +527,136 @@ public class HealthFragment extends Fragment {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+    }
+
+    private double indexOfHealthCalculator() {
+
+        PlantStateModel temperatureAirState = LoggedUserActivity.getLoggedUserActivity().getTemperatureAir();
+        PlantStateModel relativeMoistureAirState = LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir();
+        PlantStateModel temperatureSoilState = LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil();
+        PlantStateModel relativeMoistureSoilState = LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil();
+        PlantStateModel lightIntensity = LoggedUserActivity.getLoggedUserActivity().getLightIntensity();
+
+        double indexTemperatureAir = 0;
+        double indexRelativeMoistureAir = 0;
+        double indexTemperatureSoil = 0;
+        double indexRelativeMoistureSoil = 0;
+        double indexLightIntensity = 0;
+        double indexPhMeters = 0;
+
+        temperatureAirState.setColorPlantState();
+
+        if (temperatureAirState.getColorPlantState() == Color.RED_NEGATIVE
+                || temperatureAirState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexTemperatureAir = 100 - ((absoluteValue((temperatureAirState.getStartingGreenValueState() - temperatureAirState.getValueState()) / (temperatureAirState.getStartingGreenValueState() - temperatureAirState.getMinValueState()))) * 100);
+
+        } else if (temperatureAirState.getColorPlantState() == Color.RED_POSITIVE
+                || temperatureAirState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexTemperatureAir = 100 - ((absoluteValue((temperatureAirState.getEndingGreenValueState() - temperatureAirState.getValueState()) / (temperatureAirState.getEndingGreenValueState() - temperatureAirState.getMaxValueState()))) * 100);
+
+        }else if (temperatureAirState.getColorPlantState()==Color.GREEN){
+
+            indexTemperatureAir = 100;
+
+        }
+
+        relativeMoistureAirState.setColorPlantState();
+
+        if (relativeMoistureAirState.getColorPlantState() == Color.RED_NEGATIVE
+                || relativeMoistureAirState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexRelativeMoistureAir = 100 - ((absoluteValue((relativeMoistureAirState.getStartingGreenValueState() - relativeMoistureAirState.getValueState()) / (relativeMoistureAirState.getStartingGreenValueState() - relativeMoistureAirState.getMinValueState()))) * 100);
+
+        } else if (relativeMoistureAirState.getColorPlantState() == Color.RED_POSITIVE
+                || relativeMoistureAirState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexRelativeMoistureAir = 100 - ((absoluteValue((relativeMoistureAirState.getEndingGreenValueState() - relativeMoistureAirState.getValueState()) / (relativeMoistureAirState.getEndingGreenValueState() - relativeMoistureAirState.getMaxValueState()))) * 100);
+
+        }else if (relativeMoistureAirState.getColorPlantState()==Color.GREEN){
+
+            indexRelativeMoistureAir = 100;
+
+        }
+
+        temperatureSoilState.setColorPlantState();
+
+        if (temperatureSoilState.getColorPlantState() == Color.RED_NEGATIVE
+                || temperatureSoilState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexTemperatureSoil = 100 - ((absoluteValue((temperatureSoilState.getStartingGreenValueState() - temperatureSoilState.getValueState()) / (temperatureSoilState.getStartingGreenValueState() - temperatureSoilState.getMinValueState()))) * 100);
+
+        } else if (temperatureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                || temperatureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexTemperatureSoil = 100 - ((absoluteValue((temperatureSoilState.getEndingGreenValueState() - temperatureSoilState.getValueState()) / (temperatureSoilState.getEndingGreenValueState() - temperatureSoilState.getMaxValueState()))) * 100);
+
+        }else if (temperatureSoilState.getColorPlantState()==Color.GREEN){
+
+            indexTemperatureSoil = 100;
+
+        }
+
+        relativeMoistureSoilState.setColorPlantState();
+
+        if (relativeMoistureSoilState.getColorPlantState() == Color.RED_NEGATIVE
+                || relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexRelativeMoistureSoil = 100 - ((absoluteValue((relativeMoistureSoilState.getStartingGreenValueState() - relativeMoistureSoilState.getValueState()) / (relativeMoistureSoilState.getStartingGreenValueState() - relativeMoistureSoilState.getMinValueState()))) * 100);
+
+        } else if (relativeMoistureSoilState.getColorPlantState() == Color.RED_POSITIVE
+                || relativeMoistureSoilState.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexRelativeMoistureSoil = 100 - ((absoluteValue((relativeMoistureSoilState.getEndingGreenValueState() - relativeMoistureSoilState.getValueState()) / (relativeMoistureSoilState.getEndingGreenValueState() - relativeMoistureSoilState.getMaxValueState()))) * 100);
+
+        }else if (relativeMoistureSoilState.getColorPlantState()==Color.GREEN){
+
+            indexRelativeMoistureSoil = 100;
+
+        }
+
+        lightIntensity.setColorPlantState();
+
+        if (lightIntensity.getColorPlantState() == Color.RED_NEGATIVE
+                || lightIntensity.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexLightIntensity = 100 - ((absoluteValue((lightIntensity.getStartingGreenValueState() - lightIntensity.getValueState()) / (lightIntensity.getStartingGreenValueState() - lightIntensity.getMinValueState()))) * 100);
+
+        } else if (lightIntensity.getColorPlantState() == Color.RED_POSITIVE
+                || lightIntensity.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexLightIntensity = 100 - ((absoluteValue((lightIntensity.getEndingGreenValueState() - lightIntensity.getValueState()) / (lightIntensity.getEndingGreenValueState() - lightIntensity.getMaxValueState()))) * 100);
+
+        }else if (lightIntensity.getColorPlantState()==Color.GREEN){
+
+            indexLightIntensity = 100;
+
+        }
+
+        phMeters.setColorPlantState();
+
+        if (phMeters.getColorPlantState() == Color.RED_NEGATIVE
+                || phMeters.getColorPlantState() == Color.YELLOW_NEGATIVE) {
+
+            indexPhMeters = 100 - ((absoluteValue((phMeters.getStartingGreenValueState() - phMeters.getValueState()) / (phMeters.getStartingGreenValueState() - phMeters.getMinValueState()))) * 100);
+
+        } else if (phMeters.getColorPlantState() == Color.RED_POSITIVE
+                || phMeters.getColorPlantState() == Color.YELLOW_POSITIVE) {
+
+            indexPhMeters = 100 - ((absoluteValue((phMeters.getEndingGreenValueState() - phMeters.getValueState()) / (phMeters.getEndingGreenValueState() - phMeters.getMaxValueState()))) * 100);
+
+        }else if (phMeters.getColorPlantState()==Color.GREEN){
+
+            indexPhMeters = 100;
+
+        }
+
+        double indexOfHealth = (indexTemperatureAir + indexRelativeMoistureAir + indexTemperatureSoil + indexRelativeMoistureSoil + indexPhMeters) / 5;
+        return indexOfHealth;
+    }
+
+    private double absoluteValue(double number) {
+        return number>=0 ? number : -number;
     }
 }

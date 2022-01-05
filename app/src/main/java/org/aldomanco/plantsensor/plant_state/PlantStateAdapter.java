@@ -66,7 +66,12 @@ public class PlantStateAdapter extends RecyclerView.Adapter<PlantStateAdapter.Pl
                 .into(holder.iconPlantState);
 
         holder.namePlantState.setText(plantState.getNameState());
-        holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
+
+        if (plantState.getValueState()==Double.MAX_VALUE){
+            holder.valuePlantState.setText("Not Available");
+        }else {
+            holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
+        }
 
         holder.progressBarPlantState.setMin(((Double) plantState.getMinValueState()).intValue());
         holder.progressBarPlantState.setMax(((Double) plantState.getMaxValueState()).intValue());

@@ -23,6 +23,9 @@ public class ListPlantSensorValuesDocument {
     @SerializedName("field3")
     private String relativeMoistureSoil;
 
+    @SerializedName("field4")
+    private String temperatureSoil;
+
     @SerializedName("field5")
     private String lightIntensity;
 
@@ -39,11 +42,7 @@ public class ListPlantSensorValuesDocument {
     public double getTemperatureAir() {
 
         if (temperatureAir==null){
-            intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
-            intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            LoggedUserActivity.getLoggedUserActivity().startActivity(intentFirstActivity);
-            ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
-            return 0.0;
+            return Double.MAX_VALUE;
         }
 
         return Double.parseDouble(temperatureAir);
@@ -56,11 +55,7 @@ public class ListPlantSensorValuesDocument {
     public double getRelativeMoistureAir() {
 
         if (relativeMoistureAir==null){
-            intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
-            intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            LoggedUserActivity.getLoggedUserActivity().startActivity(intentFirstActivity);
-            ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
-            return 0.0;
+            return Double.MAX_VALUE;
         }
 
         return Double.parseDouble(relativeMoistureAir);
@@ -90,11 +85,7 @@ public class ListPlantSensorValuesDocument {
     public double getLightIntensity() {
 
         if (lightIntensity==null){
-            intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
-            intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            LoggedUserActivity.getLoggedUserActivity().startActivity(intentFirstActivity);
-            ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
-            return 0.0;
+            return Double.MAX_VALUE;
         }
 
         return Double.parseDouble(lightIntensity);

@@ -59,7 +59,12 @@ public class SmallPlantStateAdapter extends RecyclerView.Adapter<SmallPlantState
                 .into(holder.iconPlantState);
 
         holder.namePlantState.setText(plantState.getNameState());
-        holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
+
+        if (plantState.getValueState()==Double.MAX_VALUE){
+            holder.valuePlantState.setText("Not Available");
+        }else {
+            holder.valuePlantState.setText(String.valueOf(plantState.getValueState()));
+        }
 
         plantState.setColorPlantState();
 

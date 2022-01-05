@@ -541,46 +541,46 @@ public class LoggedUserActivity extends AppCompatActivity {
 
         switch (plantType) {
             case "Fiori Primaverili":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Fiori Autunnali":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Pianta Alimurgica":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Pianta Grassa":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Pianta Rampicante":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Pianta Sempreverde":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             case "Pianta Tropicale":
-                startingYellowValueState = 500;
-                endingYellowValueState = 5000;
-                startingGreenValueState = 1000;
-                endingGreenValueState = 3000;
+                startingYellowValueState = 100;
+                endingYellowValueState = 2001;
+                startingGreenValueState = 500;
+                endingGreenValueState = 2001;
                 break;
             default:
                 break;
@@ -592,7 +592,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                 plant.getLightIntensity(),
                 "Il sensore rileva il livello di illuminazione dell'ambiente circostante",
                 0,
-                5000,
+                2000,
                 startingYellowValueState,
                 endingYellowValueState,
                 startingGreenValueState,
