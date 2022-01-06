@@ -94,4 +94,21 @@ public class ListPlantSensorValuesDocument {
     public void setLightIntensity(String lightIntensity) {
         this.lightIntensity = String.valueOf(lightIntensity);
     }
+
+    public double getTemperatureSoil() {
+
+        if (temperatureSoil==null){
+            intentFirstActivity = new Intent(LoggedUserActivity.getLoggedUserActivity(), ConnectionProblemsActivity.class);
+            intentFirstActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            LoggedUserActivity.getLoggedUserActivity().startActivity(intentFirstActivity);
+            ActivityCompat.finishAffinity(LoggedUserActivity.getLoggedUserActivity());
+            return 0.0;
+        }
+
+        return Double.parseDouble(temperatureSoil);
+    }
+
+    public void setTemperatureSoil(String temperatureSoil) {
+        this.temperatureSoil = String.valueOf(temperatureSoil);
+    }
 }
