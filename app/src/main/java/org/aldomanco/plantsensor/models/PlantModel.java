@@ -22,7 +22,6 @@ public class PlantModel {
     private double forecastPressureAir;
 
     private double phMeters;
-    private double indexOfHealth;
 
     public PlantModel(int plantId, String plantName, String plantType, String plantLocationCity) {
         this.plantId = plantId;
@@ -194,9 +193,5 @@ public class PlantModel {
 
     public double getPhMeters() {
         return phMeters;
-    }
-
-    public double getIndexOfHealth() {
-        return indexOfHealth;
     }
 }
