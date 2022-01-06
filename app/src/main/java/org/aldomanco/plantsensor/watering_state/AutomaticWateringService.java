@@ -162,10 +162,44 @@ public class AutomaticWateringService extends Service {
                     lightIntensity = thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size() - 1).getLightIntensity();
 
                     temperatureAirState.setValueState(temperatureAir);
+
+                    if (temperatureAirState.getMinValueState()>temperatureAirState.getValueState()){
+                        temperatureAirState.setValueState(temperatureAirState.getMinValueState());
+                    }else if (temperatureAirState.getMaxValueState()<temperatureAirState.getValueState()){
+                        temperatureAirState.setValueState(temperatureAirState.getMaxValueState());
+                    }
+
                     relativeMoistureAirState.setValueState(relativeMoistureAir);
+
+                    if (relativeMoistureAirState.getMinValueState()>relativeMoistureAirState.getValueState()){
+                        relativeMoistureAirState.setValueState(relativeMoistureAirState.getMinValueState());
+                    }else if (relativeMoistureAirState.getMaxValueState()<relativeMoistureAirState.getValueState()){
+                        relativeMoistureAirState.setValueState(relativeMoistureAirState.getMaxValueState());
+                    }
+
                     relativeMoistureSoilState.setValueState(relativeMoistureSoil);
+
+                    if (relativeMoistureSoilState.getMinValueState()>relativeMoistureSoilState.getValueState()){
+                        relativeMoistureSoilState.setValueState(relativeMoistureSoilState.getMinValueState());
+                    }else if (relativeMoistureSoilState.getMaxValueState()<relativeMoistureSoilState.getValueState()){
+                        relativeMoistureSoilState.setValueState(relativeMoistureSoilState.getMaxValueState());
+                    }
+
                     temperatureSoilState.setValueState(temperatureSoil);
+
+                    if (temperatureSoilState.getMinValueState()>temperatureSoilState.getValueState()){
+                        temperatureSoilState.setValueState(temperatureSoilState.getMinValueState());
+                    }else if (temperatureSoilState.getMaxValueState()<temperatureSoilState.getValueState()){
+                        temperatureSoilState.setValueState(temperatureSoilState.getMaxValueState());
+                    }
+
                     lightIntensityState.setValueState(lightIntensity);
+
+                    if (lightIntensityState.getMinValueState()>lightIntensityState.getValueState()){
+                        lightIntensityState.setValueState(lightIntensityState.getMinValueState());
+                    }else if (lightIntensityState.getMaxValueState()<lightIntensityState.getValueState()){
+                        lightIntensityState.setValueState(lightIntensityState.getMaxValueState());
+                    }
 
                     if (createNotification) {
                         Intent notificationIntent = new Intent(automaticWateringService, LoggedUserActivity.class);
@@ -191,8 +225,6 @@ public class AutomaticWateringService extends Service {
             @Override
             public void onFailure(Call<ThingSpeakJSON> call, Throwable t) {
                 // errore a livello di rete
-
-
             }
         });
     }
@@ -220,17 +252,12 @@ public class AutomaticWateringService extends Service {
 
                 if (!response.isSuccessful()) {
                     assert response.body() != null : "body() non doveva essere null";
-
-
-
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 // errore a livello di rete
-
-
             }
         });
     }
@@ -267,15 +294,56 @@ public class AutomaticWateringService extends Service {
                     forecastTemperatureAir = openWeatherMapJSON.getSectionMixedWeatherData().getForecastTemperatureAir();
 
                     forecastHumidityAirState.setValueState(forecastRelativeMoistureAir);
+
+                    if (forecastHumidityAirState.getMinValueState()>forecastHumidityAirState.getValueState()){
+                        forecastHumidityAirState.setValueState(forecastHumidityAirState.getMinValueState());
+                    }else if (forecastHumidityAirState.getMaxValueState()<forecastHumidityAirState.getValueState()){
+                        forecastHumidityAirState.setValueState(forecastHumidityAirState.getMaxValueState());
+                    }
+
                     forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmount);
+
+                    if (forecastPrecipitationAmountState.getMinValueState()>forecastPrecipitationAmountState.getValueState()){
+                        forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmountState.getMinValueState());
+                    }else if (forecastPrecipitationAmountState.getMaxValueState()<forecastPrecipitationAmountState.getValueState()){
+                        forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmountState.getMaxValueState());
+                    }
+
                     forecastSnowAmountState.setValueState(forecastSnowAmount);
+
+                    if (forecastSnowAmountState.getMinValueState()>forecastSnowAmountState.getValueState()){
+                        forecastSnowAmountState.setValueState(forecastSnowAmountState.getMinValueState());
+                    }else if (forecastSnowAmountState.getMaxValueState()<forecastSnowAmountState.getValueState()){
+                        forecastSnowAmountState.setValueState(forecastSnowAmountState.getMaxValueState());
+                    }
+
                     forecastPressureAirState.setValueState(forecastPressureAir);
+
+                    if (forecastPressureAirState.getMinValueState()>forecastPressureAirState.getValueState()){
+                        forecastPressureAirState.setValueState(forecastPressureAirState.getMinValueState());
+                    }else if (forecastPressureAirState.getMaxValueState()<forecastPressureAirState.getValueState()){
+                        forecastPressureAirState.setValueState(forecastPressureAirState.getMaxValueState());
+                    }
+
                     forecastWindSpeedState.setValueState(forecastWindSpeed);
+
+                    if (forecastWindSpeedState.getMinValueState()>forecastWindSpeedState.getValueState()){
+                        forecastWindSpeedState.setValueState(forecastWindSpeedState.getMinValueState());
+                    }else if (forecastWindSpeedState.getMaxValueState()<forecastWindSpeedState.getValueState()){
+                        forecastWindSpeedState.setValueState(forecastWindSpeedState.getMaxValueState());
+                    }
+
                     forecastTemperatureAirState.setValueState(forecastTemperatureAir);
+
+                    if (forecastTemperatureAirState.getMinValueState()>forecastTemperatureAirState.getValueState()){
+                        forecastTemperatureAirState.setValueState(forecastTemperatureAirState.getMinValueState());
+                    }else if (forecastTemperatureAirState.getMaxValueState()<forecastTemperatureAirState.getValueState()){
+                        forecastTemperatureAirState.setValueState(forecastTemperatureAirState.getMaxValueState());
+                    }
 
                     if (shouldWater(true)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        Toast.makeText(getApplicationContext(), forecastTemperatureAir + " " + temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
                     }else{
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                     }
@@ -284,7 +352,7 @@ public class AutomaticWateringService extends Service {
 
                     if (shouldWater(false)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
                     }else{
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                     }
@@ -298,7 +366,7 @@ public class AutomaticWateringService extends Service {
 
                 if (shouldWater(false)) {
                     setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                    Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
                 }else{
                     setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                 }

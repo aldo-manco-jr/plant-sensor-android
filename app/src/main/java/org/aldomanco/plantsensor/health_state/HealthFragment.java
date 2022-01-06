@@ -459,6 +459,12 @@ public class HealthFragment extends Fragment {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (phMeters.getMinValueState()>phMeters.getValueState()){
+            phMeters.setValueState(phMeters.getMinValueState());
+        }else if (phMeters.getMaxValueState()<phMeters.getValueState()){
+            phMeters.setValueState(phMeters.getMaxValueState());
+        }
     }
 
     private void initializeIndexOfHealth(String plantType) {

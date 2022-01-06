@@ -325,6 +325,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (temperatureAir.getMinValueState()>temperatureAir.getValueState()){
+            temperatureAir.setValueState(temperatureAir.getMinValueState());
+        }else if (temperatureAir.getMaxValueState()<temperatureAir.getValueState()){
+            temperatureAir.setValueState(temperatureAir.getMaxValueState());
+        }
     }
 
     private void initializeTemperatureSoil(String plantType) {
@@ -393,6 +399,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (temperatureSoil.getMinValueState()>temperatureSoil.getValueState()){
+            temperatureSoil.setValueState(temperatureSoil.getMinValueState());
+        }else if (temperatureSoil.getMaxValueState()<temperatureSoil.getValueState()){
+            temperatureSoil.setValueState(temperatureSoil.getMaxValueState());
+        }
     }
 
     private void initializeRelativeMoistureAir(String plantType) {
@@ -461,6 +473,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (relativeMoistureAir.getMinValueState()>relativeMoistureAir.getValueState()){
+            relativeMoistureAir.setValueState(relativeMoistureAir.getMinValueState());
+        }else if (relativeMoistureAir.getMaxValueState()<relativeMoistureAir.getValueState()){
+            relativeMoistureAir.setValueState(relativeMoistureAir.getMaxValueState());
+        }
     }
 
     private void initializeRelativeMoistureSoil(String plantType) {
@@ -529,6 +547,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (relativeMoistureSoil.getMinValueState()>relativeMoistureSoil.getValueState()){
+            relativeMoistureSoil.setValueState(relativeMoistureSoil.getMinValueState());
+        }else if (relativeMoistureSoil.getMaxValueState()<relativeMoistureSoil.getValueState()){
+            relativeMoistureSoil.setValueState(relativeMoistureSoil.getMaxValueState());
+        }
     }
 
     private void initializeLightIntensity(String plantType) {
@@ -597,6 +621,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (lightIntensity.getMinValueState()>lightIntensity.getValueState()){
+            lightIntensity.setValueState(lightIntensity.getMinValueState());
+        }else if (lightIntensity.getMaxValueState()<lightIntensity.getValueState()){
+            lightIntensity.setValueState(lightIntensity.getMaxValueState());
+        }
     }
 
     // -----------------
@@ -668,6 +698,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 startingGreenValueState,
                 endingGreenValueState
         );
+
+        if (forecastPrecipitationAmount.getMinValueState()>forecastPrecipitationAmount.getValueState()){
+            forecastPrecipitationAmount.setValueState(forecastPrecipitationAmount.getMinValueState());
+        }else if (forecastPrecipitationAmount.getMaxValueState()<forecastPrecipitationAmount.getValueState()){
+            forecastPrecipitationAmount.setValueState(forecastPrecipitationAmount.getMaxValueState());
+        }
     }
 
     private void initializeForecastRelativeMoistureAir(String plantType) {
@@ -736,6 +772,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                         endingYellowValueState,
                         startingGreenValueState,
                         endingGreenValueState);
+
+        if (forecastHumidityAir.getMinValueState()>forecastHumidityAir.getValueState()){
+            forecastHumidityAir.setValueState(forecastHumidityAir.getMinValueState());
+        }else if (forecastHumidityAir.getMaxValueState()<forecastHumidityAir.getValueState()){
+            forecastHumidityAir.setValueState(forecastHumidityAir.getMaxValueState());
+        }
     }
 
     private void initializeForecastTemperatureAir(String plantType) {
@@ -804,6 +846,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                         endingYellowValueState,
                         startingGreenValueState,
                         endingGreenValueState);
+
+        if (forecastTemperatureAir.getMinValueState()>forecastTemperatureAir.getValueState()){
+            forecastTemperatureAir.setValueState(forecastTemperatureAir.getMinValueState());
+        }else if (forecastTemperatureAir.getMaxValueState()<forecastTemperatureAir.getValueState()){
+            forecastTemperatureAir.setValueState(forecastTemperatureAir.getMaxValueState());
+        }
     }
 
     private void initializeForecastWindSpeed(String plantType) {
@@ -873,6 +921,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                         startingGreenValueState,
                         endingGreenValueState
                 );
+
+        if (forecastWindSpeed.getMinValueState()>forecastWindSpeed.getValueState()){
+            forecastWindSpeed.setValueState(forecastWindSpeed.getMinValueState());
+        }else if (forecastWindSpeed.getMaxValueState()<forecastWindSpeed.getValueState()){
+            forecastWindSpeed.setValueState(forecastWindSpeed.getMaxValueState());
+        }
     }
 
     private void initializeForecastSnowAmount(String plantType) {
@@ -941,6 +995,12 @@ public class LoggedUserActivity extends AppCompatActivity {
                 endingYellowValueState,
                 startingGreenValueState,
                 endingGreenValueState);
+
+        if (forecastSnowAmount.getMinValueState()>forecastSnowAmount.getValueState()){
+            forecastSnowAmount.setValueState(forecastSnowAmount.getMinValueState());
+        }else if (forecastSnowAmount.getMaxValueState()<forecastSnowAmount.getValueState()){
+            forecastSnowAmount.setValueState(forecastSnowAmount.getMaxValueState());
+        }
     }
 
     private void initializeForecastPressureAir(String plantType) {
@@ -1011,6 +1071,11 @@ public class LoggedUserActivity extends AppCompatActivity {
                         endingGreenValueState
                 );
 
+        if (forecastPressureAir.getMinValueState()>forecastPressureAir.getValueState()){
+            forecastPressureAir.setValueState(forecastPressureAir.getMinValueState());
+        }else if (forecastPressureAir.getMaxValueState()<forecastPressureAir.getValueState()){
+            forecastPressureAir.setValueState(forecastPressureAir.getMaxValueState());
+        }
     }
 
     private void getThingSpeakData() {
