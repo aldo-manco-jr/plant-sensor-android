@@ -76,16 +76,12 @@ public class AutomaticWateringService extends Service {
     private PlantStateModel forecastSnowAmountState;
     private PlantStateModel forecastPressureAirState;
 
-    private boolean isWatering;
-
     public AutomaticWateringService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        isWatering=false;
 
         handler = new Handler();
 
@@ -214,9 +210,9 @@ public class AutomaticWateringService extends Service {
                 .build();
     }
 
-    private void setShouldWaterValue(int shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
+    private void setShouldWaterValue(double shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
 
-        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, lightIntensity);
+        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, temperatureSoil, lightIntensity);
 
         httpRequest.enqueue(new Callback<Object>() {
             @Override
@@ -279,22 +275,18 @@ public class AutomaticWateringService extends Service {
 
                     if (shouldWater(true)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        isWatering=true;
                         Toast.makeText(getApplicationContext(), forecastTemperatureAir + " " + temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
-                    }else if (!shouldWater(true) && isWatering){
+                    }else{
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        isWatering=false;
                     }
 
                 } else {
 
                     if (shouldWater(false)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        isWatering=true;
                         Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
-                    }else if (!shouldWater(false) && isWatering){
+                    }else{
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                        isWatering=false;
                     }
 
                 }
@@ -306,11 +298,9 @@ public class AutomaticWateringService extends Service {
 
                 if (shouldWater(false)) {
                     setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                    isWatering=true;
                     Toast.makeText(getApplicationContext(), temperatureAir + " " + relativeMoistureAir + " " + relativeMoistureSoil, Toast.LENGTH_LONG).show();
-                }else if (!shouldWater(false) && isWatering){
+                }else{
                     setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
-                    isWatering=false;
                 }
             }
         });

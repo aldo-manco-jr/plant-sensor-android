@@ -22,10 +22,11 @@ public interface StateServices {
 
     @GET("https://api.thingspeak.com/update?api_key=CD4DA55EX6PGAKQU")
     Call<Object> setShouldWaterValue(
-            @Query("field8") int shouldWater,
+            @Query("field8") double shouldWater,
             @Query("field1") double temperatureAir,
             @Query("field2") double relativeMoistureAir,
             @Query("field3") double relativeMoistureSoil,
+            @Query("field4") double temperatureSoil,
             @Query("field5") double lightIntensity
     );
 }

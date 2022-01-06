@@ -132,7 +132,7 @@ public class WateringFragment extends Fragment {
                 setShouldWaterValue(0,
                         LoggedUserActivity.getPlant().getTemperatureAir(),
                         LoggedUserActivity.getPlant().getRelativeMoistureAir(),
-                        20,
+                        LoggedUserActivity.getPlant().getTemperatureSoil(),
                         LoggedUserActivity.getPlant().getRelativeMoistureSoil(),
                         LoggedUserActivity.getPlant().getLightIntensity()
                 );
@@ -155,7 +155,7 @@ public class WateringFragment extends Fragment {
                 setShouldWaterValue(1,
                         LoggedUserActivity.getLoggedUserActivity().getTemperatureAir().getValueState(),
                         LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureAir().getValueState(),
-                        20,
+                        LoggedUserActivity.getLoggedUserActivity().getTemperatureSoil().getValueState(),
                         LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil().getValueState(),
                         LoggedUserActivity.getLoggedUserActivity().getLightIntensity().getValueState()
                 );
@@ -281,7 +281,7 @@ public class WateringFragment extends Fragment {
 
     private void setShouldWaterValue(int shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
 
-        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, lightIntensity);
+        Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, temperatureSoil, lightIntensity);
 
         httpRequest.enqueue(new Callback<Object>() {
             @Override
