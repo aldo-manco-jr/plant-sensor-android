@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/activity_logged_user.xml" value="0.25" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_health.xml" value="0.15715579710144928" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_watering.xml" value="0.1" />
         <entry key="..\:/Users/feder/AndroidStudioProjects/plant-sensor-android/app/src/main/res/layout/fragment_weather.xml" value="0.17889492753623187" />

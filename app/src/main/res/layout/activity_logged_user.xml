@@ -18,7 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/color_plant"
+        android:contextClickable="true"
+        android:focusableInTouchMode="false"
+        android:longClickable="true"
         app:itemIconTint="@color/black"
+        app:itemRippleColor="#7C7A7A"
         app:itemTextColor="@color/black"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />

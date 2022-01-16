@@ -109,20 +109,20 @@ public class HealthFragment extends Fragment {
         healthFragment = this;
 
         infoIndexOfHealth = view.findViewById(R.id.info_index_of_health);
-        infoPhMeters = view.findViewById(R.id.info_ph_meters);
+        //infoPhMeters = view.findViewById(R.id.info_ph_meters);
 
         infoIndexOfHealth.setOnClickListener(listenerInfoIndexOfHealth);
-        infoPhMeters.setOnClickListener(listenerInfoPhMeters);
+        //infoPhMeters.setOnClickListener(listenerInfoPhMeters);
 
         plant = LoggedUserActivity.getPlant();
 
-        initializePhMeters(plant.getPlantType());
+        //initializePhMeters(plant.getPlantType());
         initializeIndexOfHealth(plant.getPlantType());
 
-        phMetersValue = view.findViewById(R.id.percentual_phmeters);
+        //phMetersValue = view.findViewById(R.id.percentual_phmeters);
         indexOfHealthValue = view.findViewById(R.id.percentual_healt);
 
-        if (phMeters.getValueState() == Double.MIN_VALUE
+       /* if (phMeters.getValueState() == Double.MIN_VALUE
                 || phMeters.getValueState() == Double.MAX_VALUE) {
 
             phMetersValue.setText("Not Available");
@@ -131,7 +131,7 @@ public class HealthFragment extends Fragment {
 
             phMetersValue.setText(String.valueOf(phMeters.getValueState()));
 
-        }
+        }*/
 
         if (indexOfHealth.getValueState() == Double.NEGATIVE_INFINITY
                 || indexOfHealth.getValueState() == Double.POSITIVE_INFINITY) {
@@ -160,21 +160,21 @@ public class HealthFragment extends Fragment {
             progressBarIndexOfHealth.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
         }
 
-        progressBarPhMeters = view.findViewById(R.id.progress_bar_phmeters);
+        //progressBarPhMeters = view.findViewById(R.id.progress_bar_phmeters);
 
-        progressBarPhMeters.setMin(((Double) phMeters.getMinValueState()).intValue());
-        progressBarPhMeters.setMax(((Double) phMeters.getMaxValueState()).intValue());
-        progressBarPhMeters.setProgress(((Double) phMeters.getValueState()).intValue());
+        //progressBarPhMeters.setMin(((Double) phMeters.getMinValueState()).intValue());
+        //progressBarPhMeters.setMax(((Double) phMeters.getMaxValueState()).intValue());
+        //progressBarPhMeters.setProgress(((Double) phMeters.getValueState()).intValue());
 
-        phMeters.setColorPlantState();
+        //phMeters.setColorPlantState();
 
-        if (phMeters.getColorPlantState() == Color.GREEN) {
+        /*if (phMeters.getColorPlantState() == Color.GREEN) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.green_progress_bar));
         } else if (phMeters.getColorPlantState() == Color.YELLOW_NEGATIVE || phMeters.getColorPlantState() == Color.YELLOW_POSITIVE) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.yellow_progress_bar));
         } else if (phMeters.getColorPlantState() == Color.RED_NEGATIVE || phMeters.getColorPlantState() == Color.RED_POSITIVE) {
             progressBarPhMeters.setBackgroundDrawable(LoggedUserActivity.getLoggedUserActivity().getDrawable(R.drawable.progress_bar));
-        }
+        }*/
 
         getSmallPlantStateList();
     }
@@ -196,7 +196,7 @@ public class HealthFragment extends Fragment {
         }
     };
 
-    View.OnClickListener listenerInfoPhMeters = new View.OnClickListener() {
+    /*View.OnClickListener listenerInfoPhMeters = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             new AlertDialog.Builder(LoggedUserActivity.getLoggedUserActivity())
@@ -211,7 +211,7 @@ public class HealthFragment extends Fragment {
                     })
                     .show();
         }
-    };
+    };*/
 
     public void getSmallPlantStateList() {
 
@@ -393,7 +393,7 @@ public class HealthFragment extends Fragment {
         return stateServices;
     }
 
-    private void initializePhMeters(String plantType) {
+    /*private void initializePhMeters(String plantType) {
 
         double startingYellowValueState = 0;
         double endingYellowValueState = 0;
@@ -465,7 +465,7 @@ public class HealthFragment extends Fragment {
         }else if (phMeters.getMaxValueState()<phMeters.getValueState()){
             phMeters.setValueState(phMeters.getMaxValueState());
         }
-    }
+    }*/
 
     private void initializeIndexOfHealth(String plantType) {
 
@@ -660,9 +660,9 @@ public class HealthFragment extends Fragment {
 
         }
 
-        phMeters.setColorPlantState();
+        //phMeters.setColorPlantState();
 
-        if (phMeters.getColorPlantState() == Color.RED_NEGATIVE
+        /*if (phMeters.getColorPlantState() == Color.RED_NEGATIVE
                 || phMeters.getColorPlantState() == Color.YELLOW_NEGATIVE) {
 
             indexPhMeters = 100 - (power(
@@ -680,7 +680,7 @@ public class HealthFragment extends Fragment {
 
             indexPhMeters = 100;
 
-        }
+        }*/
 
         double priorityTemperatureAir = 6;
         double priorityRelativeMoistureAir = 6;
@@ -689,15 +689,14 @@ public class HealthFragment extends Fragment {
         double priorityLightSensor = 3;
         double priorityPhMeters = 12;
 
-        double prioritySummation = priorityTemperatureAir + priorityRelativeMoistureAir + priorityTemperatureSoil + priorityRelativeMoistureSoil + priorityLightSensor + priorityPhMeters;
+        double prioritySummation = priorityTemperatureAir + priorityRelativeMoistureAir + priorityTemperatureSoil + priorityRelativeMoistureSoil + priorityLightSensor;
 
         double indexOfHealth =
                 (indexTemperatureAir * priorityTemperatureAir +
                         indexRelativeMoistureAir * priorityRelativeMoistureAir +
                         indexTemperatureSoil * priorityTemperatureSoil +
                         indexRelativeMoistureSoil * priorityRelativeMoistureSoil +
-                        indexLightIntensity * priorityLightSensor +
-                        indexPhMeters * priorityPhMeters)
+                        indexLightIntensity * priorityLightSensor)
                         / (prioritySummation);
 
         return indexOfHealth;

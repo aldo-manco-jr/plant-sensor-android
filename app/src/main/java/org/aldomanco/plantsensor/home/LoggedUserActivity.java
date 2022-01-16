@@ -1101,7 +1101,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureSoil(),
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir(),
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getLightIntensity(),
-                            8,
+                            7,
                             "",
                             0,
                             0,
