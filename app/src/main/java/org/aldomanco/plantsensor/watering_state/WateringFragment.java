@@ -158,7 +158,7 @@ public class WateringFragment extends Fragment {
                 handler.postDelayed(runnableUnableWatering, 5000);
             }*/
 
-            if (!isChecked){
+            if (isChecked){
                 switchAutomaticWatering.setChecked(false);
                 startService(null);
                 handler.postDelayed(runnableUnableWatering, 5000);
