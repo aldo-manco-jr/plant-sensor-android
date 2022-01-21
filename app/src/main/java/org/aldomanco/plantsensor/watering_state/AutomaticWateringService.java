@@ -90,8 +90,21 @@ public class AutomaticWateringService extends Service {
         runnableCode = new Runnable() {
             @Override
             public void run() {
+
+                sharedPreferences = LoggedUserActivity.getLoggedUserActivity().getSharedPreferences("plant_data", Context.MODE_PRIVATE);
+
+                boolean automaticWatering = sharedPreferences.getBoolean("automatic_watering", true);
+
+                Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), automaticWatering+"", Toast.LENGTH_LONG).show();
+
+                if (!automaticWatering) {
+                    setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
+                    Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), "Stop Watering...", Toast.LENGTH_LONG).show();
+                    stopSelf();
+                }
+
                 getThingSpeakData(automaticWateringService, false);
-                handler.postDelayed(this, 60000);
+                handler.postDelayed(this, 30000);
             }
         };
 
@@ -112,6 +125,7 @@ public class AutomaticWateringService extends Service {
         city = sharedPreferences.getString("city", null);
         plantType = sharedPreferences.getString("plant_type", null);
     }
+
 
     @Override
     public void onDestroy() {
@@ -163,41 +177,41 @@ public class AutomaticWateringService extends Service {
 
                     temperatureAirState.setValueState(temperatureAir);
 
-                    if (temperatureAirState.getMinValueState()>temperatureAirState.getValueState()){
+                    if (temperatureAirState.getMinValueState() > temperatureAirState.getValueState()) {
                         temperatureAirState.setValueState(temperatureAirState.getMinValueState());
-                    }else if (temperatureAirState.getMaxValueState()<temperatureAirState.getValueState()){
+                    } else if (temperatureAirState.getMaxValueState() < temperatureAirState.getValueState()) {
                         temperatureAirState.setValueState(temperatureAirState.getMaxValueState());
                     }
 
                     relativeMoistureAirState.setValueState(relativeMoistureAir);
 
-                    if (relativeMoistureAirState.getMinValueState()>relativeMoistureAirState.getValueState()){
+                    if (relativeMoistureAirState.getMinValueState() > relativeMoistureAirState.getValueState()) {
                         relativeMoistureAirState.setValueState(relativeMoistureAirState.getMinValueState());
-                    }else if (relativeMoistureAirState.getMaxValueState()<relativeMoistureAirState.getValueState()){
+                    } else if (relativeMoistureAirState.getMaxValueState() < relativeMoistureAirState.getValueState()) {
                         relativeMoistureAirState.setValueState(relativeMoistureAirState.getMaxValueState());
                     }
 
                     relativeMoistureSoilState.setValueState(relativeMoistureSoil);
 
-                    if (relativeMoistureSoilState.getMinValueState()>relativeMoistureSoilState.getValueState()){
+                    if (relativeMoistureSoilState.getMinValueState() > relativeMoistureSoilState.getValueState()) {
                         relativeMoistureSoilState.setValueState(relativeMoistureSoilState.getMinValueState());
-                    }else if (relativeMoistureSoilState.getMaxValueState()<relativeMoistureSoilState.getValueState()){
+                    } else if (relativeMoistureSoilState.getMaxValueState() < relativeMoistureSoilState.getValueState()) {
                         relativeMoistureSoilState.setValueState(relativeMoistureSoilState.getMaxValueState());
                     }
 
                     temperatureSoilState.setValueState(temperatureSoil);
 
-                    if (temperatureSoilState.getMinValueState()>temperatureSoilState.getValueState()){
+                    if (temperatureSoilState.getMinValueState() > temperatureSoilState.getValueState()) {
                         temperatureSoilState.setValueState(temperatureSoilState.getMinValueState());
-                    }else if (temperatureSoilState.getMaxValueState()<temperatureSoilState.getValueState()){
+                    } else if (temperatureSoilState.getMaxValueState() < temperatureSoilState.getValueState()) {
                         temperatureSoilState.setValueState(temperatureSoilState.getMaxValueState());
                     }
 
                     lightIntensityState.setValueState(lightIntensity);
 
-                    if (lightIntensityState.getMinValueState()>lightIntensityState.getValueState()){
+                    if (lightIntensityState.getMinValueState() > lightIntensityState.getValueState()) {
                         lightIntensityState.setValueState(lightIntensityState.getMinValueState());
-                    }else if (lightIntensityState.getMaxValueState()<lightIntensityState.getValueState()){
+                    } else if (lightIntensityState.getMaxValueState() < lightIntensityState.getValueState()) {
                         lightIntensityState.setValueState(lightIntensityState.getMaxValueState());
                     }
 
@@ -295,57 +309,58 @@ public class AutomaticWateringService extends Service {
 
                     forecastHumidityAirState.setValueState(forecastRelativeMoistureAir);
 
-                    if (forecastHumidityAirState.getMinValueState()>forecastHumidityAirState.getValueState()){
+                    if (forecastHumidityAirState.getMinValueState() > forecastHumidityAirState.getValueState()) {
                         forecastHumidityAirState.setValueState(forecastHumidityAirState.getMinValueState());
-                    }else if (forecastHumidityAirState.getMaxValueState()<forecastHumidityAirState.getValueState()){
+                    } else if (forecastHumidityAirState.getMaxValueState() < forecastHumidityAirState.getValueState()) {
                         forecastHumidityAirState.setValueState(forecastHumidityAirState.getMaxValueState());
                     }
 
                     forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmount);
 
-                    if (forecastPrecipitationAmountState.getMinValueState()>forecastPrecipitationAmountState.getValueState()){
+                    if (forecastPrecipitationAmountState.getMinValueState() > forecastPrecipitationAmountState.getValueState()) {
                         forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmountState.getMinValueState());
-                    }else if (forecastPrecipitationAmountState.getMaxValueState()<forecastPrecipitationAmountState.getValueState()){
+                    } else if (forecastPrecipitationAmountState.getMaxValueState() < forecastPrecipitationAmountState.getValueState()) {
                         forecastPrecipitationAmountState.setValueState(forecastPrecipitationAmountState.getMaxValueState());
                     }
 
                     forecastSnowAmountState.setValueState(forecastSnowAmount);
 
-                    if (forecastSnowAmountState.getMinValueState()>forecastSnowAmountState.getValueState()){
+                    if (forecastSnowAmountState.getMinValueState() > forecastSnowAmountState.getValueState()) {
                         forecastSnowAmountState.setValueState(forecastSnowAmountState.getMinValueState());
-                    }else if (forecastSnowAmountState.getMaxValueState()<forecastSnowAmountState.getValueState()){
+                    } else if (forecastSnowAmountState.getMaxValueState() < forecastSnowAmountState.getValueState()) {
                         forecastSnowAmountState.setValueState(forecastSnowAmountState.getMaxValueState());
                     }
 
                     forecastPressureAirState.setValueState(forecastPressureAir);
 
-                    if (forecastPressureAirState.getMinValueState()>forecastPressureAirState.getValueState()){
+                    if (forecastPressureAirState.getMinValueState() > forecastPressureAirState.getValueState()) {
                         forecastPressureAirState.setValueState(forecastPressureAirState.getMinValueState());
-                    }else if (forecastPressureAirState.getMaxValueState()<forecastPressureAirState.getValueState()){
+                    } else if (forecastPressureAirState.getMaxValueState() < forecastPressureAirState.getValueState()) {
                         forecastPressureAirState.setValueState(forecastPressureAirState.getMaxValueState());
                     }
 
                     forecastWindSpeedState.setValueState(forecastWindSpeed);
 
-                    if (forecastWindSpeedState.getMinValueState()>forecastWindSpeedState.getValueState()){
+                    if (forecastWindSpeedState.getMinValueState() > forecastWindSpeedState.getValueState()) {
                         forecastWindSpeedState.setValueState(forecastWindSpeedState.getMinValueState());
-                    }else if (forecastWindSpeedState.getMaxValueState()<forecastWindSpeedState.getValueState()){
+                    } else if (forecastWindSpeedState.getMaxValueState() < forecastWindSpeedState.getValueState()) {
                         forecastWindSpeedState.setValueState(forecastWindSpeedState.getMaxValueState());
                     }
 
                     forecastTemperatureAirState.setValueState(forecastTemperatureAir);
 
-                    if (forecastTemperatureAirState.getMinValueState()>forecastTemperatureAirState.getValueState()){
+                    if (forecastTemperatureAirState.getMinValueState() > forecastTemperatureAirState.getValueState()) {
                         forecastTemperatureAirState.setValueState(forecastTemperatureAirState.getMinValueState());
-                    }else if (forecastTemperatureAirState.getMaxValueState()<forecastTemperatureAirState.getValueState()){
+                    } else if (forecastTemperatureAirState.getMaxValueState() < forecastTemperatureAirState.getValueState()) {
                         forecastTemperatureAirState.setValueState(forecastTemperatureAirState.getMaxValueState());
                     }
 
                     if (shouldWater(true)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                         Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
-                    }else{
+                    } else {
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
+                        Toast.makeText(getApplicationContext(), "Stop Watering...", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
@@ -353,8 +368,9 @@ public class AutomaticWateringService extends Service {
                     if (shouldWater(false)) {
                         setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                         Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
-                    }else{
+                    } else {
                         setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
+                        Toast.makeText(getApplicationContext(), "Stop Watering...", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -367,8 +383,9 @@ public class AutomaticWateringService extends Service {
                 if (shouldWater(false)) {
                     setShouldWaterValue(1, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
                     Toast.makeText(getApplicationContext(), "Start Watering...", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     setShouldWaterValue(0, temperatureAir, relativeMoistureAir, temperatureSoil, relativeMoistureSoil, lightIntensity);
+                    Toast.makeText(getApplicationContext(), "Stop Watering...", Toast.LENGTH_LONG).show();
                 }
             }
         });

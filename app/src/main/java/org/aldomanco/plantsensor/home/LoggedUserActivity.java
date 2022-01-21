@@ -493,43 +493,43 @@ public class LoggedUserActivity extends AppCompatActivity {
             case "Fiori Primaverili":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Fiori Autunnali":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Pianta Alimurgica":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Pianta Grassa":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Pianta Rampicante":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Pianta Sempreverde":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             case "Pianta Tropicale":
                 startingYellowValueState = 10;
                 endingYellowValueState = 90;
-                startingGreenValueState = 30;
+                startingGreenValueState = 35;
                 endingGreenValueState = 70;
                 break;
             default:
@@ -1101,7 +1101,7 @@ public class LoggedUserActivity extends AppCompatActivity {
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureSoil(),
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getTemperatureAir(),
                             thingSpeakJSON.getListPlantSensorValues().get(thingSpeakJSON.getListPlantSensorValues().size()-1).getLightIntensity(),
-                            7,
+                            8,
                             "",
                             0,
                             0,

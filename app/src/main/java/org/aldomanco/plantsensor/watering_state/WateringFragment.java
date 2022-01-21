@@ -119,23 +119,17 @@ public class WateringFragment extends Fragment {
 
         handler = new Handler();
 
-        runnableUnableSwitch = new Runnable() {
-            @Override
-            public void run() {
-                switchManualWatering.setChecked(false);
-            }
-        };
-
         runnableUnableWatering = new Runnable() {
             @Override
             public void run() {
-                setShouldWaterValue(0,
-                        LoggedUserActivity.getPlant().getTemperatureAir(),
-                        LoggedUserActivity.getPlant().getRelativeMoistureAir(),
-                        LoggedUserActivity.getPlant().getTemperatureSoil(),
-                        LoggedUserActivity.getPlant().getRelativeMoistureSoil(),
-                        LoggedUserActivity.getPlant().getLightIntensity()
-                );
+
+                switchManualWatering.setChecked(false);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("automatic_watering", false);
+                editor.apply();
+
+                Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), "Stop Watering...", Toast.LENGTH_LONG).show();
             }
         };
 
@@ -149,7 +143,7 @@ public class WateringFragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
-            if (isChecked){
+            /*if (!isChecked){
                 switchAutomaticWatering.setChecked(false);
                 stopService(null);
                 setShouldWaterValue(1,
@@ -159,8 +153,17 @@ public class WateringFragment extends Fragment {
                         LoggedUserActivity.getLoggedUserActivity().getRelativeMoistureSoil().getValueState(),
                         LoggedUserActivity.getLoggedUserActivity().getLightIntensity().getValueState()
                 );
+                Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), "Start Watering...", Toast.LENGTH_LONG).show();
                 handler.postDelayed(runnableUnableSwitch, 5000);
-                handler.postDelayed(runnableUnableWatering, 55000);
+                handler.postDelayed(runnableUnableWatering, 5000);
+            }*/
+
+            if (!isChecked){
+                switchAutomaticWatering.setChecked(false);
+                startService(null);
+                handler.postDelayed(runnableUnableWatering, 5000);
+            }else {
+                Toast.makeText(LoggedUserActivity.getLoggedUserActivity(), "Stop Watering...", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -279,7 +282,7 @@ public class WateringFragment extends Fragment {
         return stateServices;
     }
 
-    private void setShouldWaterValue(int shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
+    private void setShouldWaterValue(double shouldWater, double temperatureAir, double relativeMoistureAir, double temperatureSoil, double relativeMoistureSoil, double lightIntensity) {
 
         Call<Object> httpRequest = getStateServices().setShouldWaterValue(shouldWater, temperatureAir, relativeMoistureAir, relativeMoistureSoil, temperatureSoil, lightIntensity);
 
@@ -289,17 +292,12 @@ public class WateringFragment extends Fragment {
 
                 if (!response.isSuccessful()) {
                     assert response.body() != null : "body() non doveva essere null";
-
-
-
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 // errore a livello di rete
-
-
             }
         });
     }
@@ -320,7 +318,7 @@ public class WateringFragment extends Fragment {
         editor.putBoolean("automatic_watering", false);
         editor.apply();
 
-        Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
-        getActivity().stopService(intentService);
+        //Intent intentService = new Intent(LoggedUserActivity.getLoggedUserActivity(), AutomaticWateringService.class);
+        //getActivity().stopService(intentService);
     }
 }
